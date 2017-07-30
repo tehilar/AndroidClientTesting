@@ -13,6 +13,7 @@ import com.kaltura.client.utils.APIConstants;
 import com.kaltura.client.utils.EncryptionUtils;
 import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.utils.response.OnCompletion;
+import com.kaltura.client.utils.response.base.Response;
 import com.kaltura.client.utils.response.base.ResponseElement;
 
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public abstract class BaseRequestBuilder<T> extends RequestBuilderData implement
     /**
      * callback for the parsed response.
      */
-    protected OnCompletion<T> onCompletion;
+    protected OnCompletion<Response<T>> onCompletion;
 
 
     private static Handler mainHandler;
@@ -198,26 +199,26 @@ public abstract class BaseRequestBuilder<T> extends RequestBuilderData implement
 			}
         }
 
-        postComplete(result, error, response.getHandler());
+        postComplete(new Response<T>(result, error), response.getHandler());
     }
 
-    private void postComplete(final Object result, final APIException error, Handler handler){
+    private void postComplete(final Response<T> response, Handler handler){
         if(handler != null){
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    complete(result, error);
+                    complete(response);
                 }
             });
         } else {
-            complete(result, error);
+            complete(response);
         }
     }
     
     @SuppressWarnings("unchecked")
-	protected void complete(Object result, APIException error) {
+	protected void complete(Response<T> response) {
         if(onCompletion != null) {
-            onCompletion.onComplete((T) result, error);
+            onCompletion.onComplete((Response<T>)response);
         }
     }
 

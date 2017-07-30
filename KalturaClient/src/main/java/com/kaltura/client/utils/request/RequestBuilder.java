@@ -3,6 +3,7 @@ package com.kaltura.client.utils.request;
 import com.kaltura.client.Files;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.response.OnCompletion;
+import com.kaltura.client.utils.response.base.Response;
 
 
 /**
@@ -79,7 +80,7 @@ public class RequestBuilder<T> extends BaseRequestBuilder<T> {
         return this;
     }
 
-    public RequestBuilder setCompletion(OnCompletion<T> onCompletion) {
+    public RequestBuilder setCompletion(OnCompletion<Response<T>> onCompletion) {
         this.onCompletion = onCompletion;
         return this;
     }

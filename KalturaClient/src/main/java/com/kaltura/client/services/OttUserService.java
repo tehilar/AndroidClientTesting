@@ -55,7 +55,7 @@ public class OttUserService {
         kparams.add("username", username);
         kparams.add("activationToken", activationToken);
 
-        return new RequestBuilder<OTTUser>(OTTUser.class, "ottuser", "activate", kparams);
+        return new RequestBuilder<OTTUser>(OTTUser.class, "ottUser", "activate", kparams);
     }
 
 	/**  Edit user details.  */
@@ -63,7 +63,7 @@ public class OttUserService {
         Params kparams = new Params();
         kparams.add("roleId", roleId);
 
-        return new RequestBuilder<Boolean>(Boolean.class, "ottuser", "addRole", kparams);
+        return new RequestBuilder<Boolean>(Boolean.class, "ottUser", "addRole", kparams);
     }
 
     public static RequestBuilder<LoginSession> anonymousLogin(int partnerId)  {
@@ -76,7 +76,7 @@ public class OttUserService {
         kparams.add("partnerId", partnerId);
         kparams.add("udid", udid);
 
-        return new RequestBuilder<LoginSession>(LoginSession.class, "ottuser", "anonymousLogin", kparams);
+        return new RequestBuilder<LoginSession>(LoginSession.class, "ottUser", "anonymousLogin", kparams);
     }
 
 	/**  Permanently delete a user. User to delete cannot be an exclusive household
@@ -84,21 +84,21 @@ public class OttUserService {
     public static RequestBuilder<Boolean> delete()  {
         Params kparams = new Params();
 
-        return new RequestBuilder<Boolean>(Boolean.class, "ottuser", "delete", kparams);
+        return new RequestBuilder<Boolean>(Boolean.class, "ottUser", "delete", kparams);
     }
 
 	/**  Retrieving users&amp;#39; data  */
     public static RequestBuilder<OTTUser> get()  {
         Params kparams = new Params();
 
-        return new RequestBuilder<OTTUser>(OTTUser.class, "ottuser", "get", kparams);
+        return new RequestBuilder<OTTUser>(OTTUser.class, "ottUser", "get", kparams);
     }
 
 	/**  Returns the identifier of the user encrypted with SHA1 using configured key  */
     public static RequestBuilder<StringValue> getEncryptedUserId()  {
         Params kparams = new Params();
 
-        return new RequestBuilder<StringValue>(StringValue.class, "ottuser", "getEncryptedUserId", kparams);
+        return new RequestBuilder<StringValue>(StringValue.class, "ottUser", "getEncryptedUserId", kparams);
     }
 
     public static RequestBuilder<ListResponse<OTTUser>> list()  {
@@ -111,7 +111,7 @@ public class OttUserService {
         Params kparams = new Params();
         kparams.add("filter", filter);
 
-        return new ListResponseRequestBuilder<OTTUser>(OTTUser.class, "ottuser", "list", kparams);
+        return new ListResponseRequestBuilder<OTTUser>(OTTUser.class, "ottUser", "list", kparams);
     }
 
     public static RequestBuilder<LoginResponse> login(int partnerId)  {
@@ -139,7 +139,7 @@ public class OttUserService {
         kparams.add("extraParams", extraParams);
         kparams.add("udid", udid);
 
-        return new RequestBuilder<LoginResponse>(LoginResponse.class, "ottuser", "login", kparams);
+        return new RequestBuilder<LoginResponse>(LoginResponse.class, "ottUser", "login", kparams);
     }
 
     public static RequestBuilder<LoginResponse> loginWithPin(int partnerId, String pin)  {
@@ -158,14 +158,14 @@ public class OttUserService {
         kparams.add("udid", udid);
         kparams.add("secret", secret);
 
-        return new RequestBuilder<LoginResponse>(LoginResponse.class, "ottuser", "loginWithPin", kparams);
+        return new RequestBuilder<LoginResponse>(LoginResponse.class, "ottUser", "loginWithPin", kparams);
     }
 
 	/**  Logout the calling user.  */
     public static RequestBuilder<Boolean> logout()  {
         Params kparams = new Params();
 
-        return new RequestBuilder<Boolean>(Boolean.class, "ottuser", "logout", kparams);
+        return new RequestBuilder<Boolean>(Boolean.class, "ottUser", "logout", kparams);
     }
 
     public static RequestBuilder<LoginSession> refreshSession(String refreshToken)  {
@@ -179,7 +179,7 @@ public class OttUserService {
         kparams.add("refreshToken", refreshToken);
         kparams.add("udid", udid);
 
-        return new RequestBuilder<LoginSession>(LoginSession.class, "ottuser", "refreshSession", kparams);
+        return new RequestBuilder<LoginSession>(LoginSession.class, "ottUser", "refreshSession", kparams);
     }
 
 	/**  Sign up a new user.  */
@@ -189,7 +189,7 @@ public class OttUserService {
         kparams.add("user", user);
         kparams.add("password", password);
 
-        return new RequestBuilder<OTTUser>(OTTUser.class, "ottuser", "register", kparams);
+        return new RequestBuilder<OTTUser>(OTTUser.class, "ottUser", "register", kparams);
     }
 
 	/**  Resend the activation token to a user  */
@@ -198,7 +198,7 @@ public class OttUserService {
         kparams.add("partnerId", partnerId);
         kparams.add("username", username);
 
-        return new RequestBuilder<Boolean>(Boolean.class, "ottuser", "resendActivationToken", kparams);
+        return new RequestBuilder<Boolean>(Boolean.class, "ottUser", "resendActivationToken", kparams);
     }
 
 	/**  Send an e-mail with URL to enable the user to set new password.  */
@@ -207,7 +207,7 @@ public class OttUserService {
         kparams.add("partnerId", partnerId);
         kparams.add("username", username);
 
-        return new RequestBuilder<Boolean>(Boolean.class, "ottuser", "resetPassword", kparams);
+        return new RequestBuilder<Boolean>(Boolean.class, "ottUser", "resetPassword", kparams);
     }
 
 	/**  Renew the user&amp;#39;s password after validating the token that sent as part
@@ -218,7 +218,7 @@ public class OttUserService {
         kparams.add("token", token);
         kparams.add("password", password);
 
-        return new RequestBuilder<OTTUser>(OTTUser.class, "ottuser", "setInitialPassword", kparams);
+        return new RequestBuilder<OTTUser>(OTTUser.class, "ottUser", "setInitialPassword", kparams);
     }
 
     public static RequestBuilder<OTTUser> update(OTTUser user)  {
@@ -231,7 +231,7 @@ public class OttUserService {
         kparams.add("user", user);
         kparams.add("id", id);
 
-        return new RequestBuilder<OTTUser>(OTTUser.class, "ottuser", "update", kparams);
+        return new RequestBuilder<OTTUser>(OTTUser.class, "ottUser", "update", kparams);
     }
 
 	/**  Given a user name and existing password, change to a new password.  */
@@ -241,7 +241,7 @@ public class OttUserService {
         kparams.add("oldPassword", oldPassword);
         kparams.add("newPassword", newPassword);
 
-        return new RequestBuilder<Boolean>(Boolean.class, "ottuser", "updateLoginData", kparams);
+        return new RequestBuilder<Boolean>(Boolean.class, "ottUser", "updateLoginData", kparams);
     }
 
 	/**  Update the user&amp;#39;s existing password.  */
@@ -250,6 +250,6 @@ public class OttUserService {
         kparams.add("userId", userId);
         kparams.add("password", password);
 
-        return new NullRequestBuilder("ottuser", "updatePassword", kparams);
+        return new NullRequestBuilder("ottUser", "updatePassword", kparams);
     }
 }

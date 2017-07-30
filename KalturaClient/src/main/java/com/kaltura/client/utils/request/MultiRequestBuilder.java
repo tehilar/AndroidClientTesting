@@ -5,6 +5,7 @@ import com.kaltura.client.Logger;
 import com.kaltura.client.types.APIException;
 import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.utils.response.OnCompletion;
+import com.kaltura.client.utils.response.base.Response;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -43,7 +44,7 @@ public class MultiRequestBuilder extends BaseRequestBuilder<Object> {
         add(requests);
     }
 
-    public MultiRequestBuilder setCompletion(OnCompletion<Object> onCompletion) {
+    public MultiRequestBuilder setCompletion(OnCompletion<Response<Object>> onCompletion) {
         this.onCompletion = onCompletion;
         return this;
     }
@@ -102,23 +103,23 @@ public class MultiRequestBuilder extends BaseRequestBuilder<Object> {
 
     @SuppressWarnings("unchecked")
 	@Override
-    protected void complete(Object result, final APIException error) {
+    protected void complete(Response response) {
     	
     	List<Object> results = null;
-    	if(result != null) {
-        	results = (List<Object>) result;
+    	if(response != null) {
+        	results = (List<Object>) response.results;
 	    	int index = 0;
 	    	for(RequestBuilder<?> request : requests.values()) {
 	    		Object item = results.get(index++);
 	    		if(item instanceof APIException) {
-	    			request.complete(null, (APIException) item);
+	    			request.complete(new Response(null, (APIException) item));
 	    		} else {
-	    			request.complete(item, null);
+	    			request.complete(new Response(item, null));
 	    		}
 	    	}
     	}
     	
-        super.complete(result, error);
+        super.complete(response);
     }
     
     @Override
