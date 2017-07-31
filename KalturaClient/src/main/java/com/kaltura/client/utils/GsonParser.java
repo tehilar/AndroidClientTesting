@@ -1,12 +1,5 @@
 package com.kaltura.client.utils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -14,11 +7,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
-import com.kaltura.client.ILogger;
-import com.kaltura.client.Logger;
 import com.kaltura.client.types.APIException;
 import com.kaltura.client.types.APIException.FailureStep;
 import com.kaltura.client.types.ListResponse;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tehilarozin on 24/07/2016.
@@ -52,45 +50,55 @@ public class GsonParser {
         	JsonObject jsonObject = jsonElement.getAsJsonObject();
         	if(jsonObject.get("result") != null && jsonObject.get("objectType") == null) {
         		jsonElement = jsonObject.get("result");
+				jsonObject = jsonElement.getAsJsonObject();
         	}
         	if(jsonObject.get("error") != null && jsonObject.get("objectType") == null) {
         		jsonElement = jsonObject.getAsJsonObject("error");
         	}
         }
-    	return parseObject(jsonElement, clz);
-    }
+		try {
+			return parseObject(jsonElement, clz);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			throw new APIException(e);
+		}
+	}
 
     @SuppressWarnings("unchecked")
 	public static <T> T parseObject(JsonElement jsonElement, Class<T> clz) throws APIException {
-        if(jsonElement.isJsonNull()) {
-        	return null;
-        }
-        
-        if(jsonElement.isJsonPrimitive()) {
-        	if(clz == String.class) {
-        		return (T)jsonElement.getAsString();
-        	}
-        	if(clz == Integer.class) {
-        		return (T)(Integer)jsonElement.getAsInt();
-        	}
-        	if(clz == Long.class) {
-        		return (T)(Long)jsonElement.getAsLong();
-        	}
-        	if(clz == Boolean.class) {
-        		return (T)(Boolean)jsonElement.getAsBoolean();
-        	}
-        	if(clz == Double.class) {
-        		return (T)(Double)jsonElement.getAsDouble();
-        	}
-        	
-        	return (T) (Object) gson.fromJson(jsonElement, Object.class);
-        }
+        try {
+			if (jsonElement.isJsonNull()) {
+				return null;
+			}
 
-        if(jsonElement.isJsonArray()) {
-        	return (T) parseArray(jsonElement.getAsJsonArray(), clz);
-        }
-        
-    	return parseObject(jsonElement.getAsJsonObject(), clz);
+			if (jsonElement.isJsonPrimitive()) {
+				if (clz == String.class) {
+					return (T) jsonElement.getAsString();
+				}
+				if (clz == Integer.class) {
+					return (T) (Integer) jsonElement.getAsInt();
+				}
+				if (clz == Long.class) {
+					return (T) (Long) jsonElement.getAsLong();
+				}
+				if (clz == Boolean.class) {
+					return (T) (Boolean) jsonElement.getAsBoolean();
+				}
+				if (clz == Double.class) {
+					return (T) (Double) jsonElement.getAsDouble();
+				}
+
+				return (T) (Object) gson.fromJson(jsonElement, Object.class);
+			}
+
+			if (jsonElement.isJsonArray()) {
+				return (T) parseArray(jsonElement.getAsJsonArray(), clz);
+			}
+
+			return parseObject(jsonElement.getAsJsonObject(), clz);
+		}catch (Exception e){
+        	throw new APIException(e);
+		}
     }
 
     public static <T> T parseObject(JsonObject jsonObject, Class<T> clz) throws APIException {
@@ -259,11 +267,16 @@ public class GsonParser {
 
     private static APIException parseException(JsonObject jsonObject) {
         String objectType = jsonObject.getAsJsonPrimitive("objectType").getAsString();
-        if(objectType.equals("KalturaAPIException")) {
-        	return gson.fromJson(jsonObject, APIException.class);
-        }
-        
-        return null;
+		try {
+			if(objectType.equals("KalturaAPIException")) {
+                return gson.fromJson(jsonObject, APIException.class);
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new APIException(e);
+		}
+
+		return null;
     }
 
     public static String parseString(JsonElement jsonElement) {

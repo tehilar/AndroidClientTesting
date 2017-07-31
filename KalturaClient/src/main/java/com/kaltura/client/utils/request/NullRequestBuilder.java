@@ -14,8 +14,8 @@ public class NullRequestBuilder extends RequestBuilder<Void> {
     }
 
     @Override
-    protected void complete(Response<Void> response) {
-        super.complete(response.results(null));
+    public void onComplete(Response<?> response) {
+        super.onComplete(response.results(null));
     }
 }
 

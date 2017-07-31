@@ -1,7 +1,5 @@
 package com.kaltura.client.utils.request;
 
-import android.os.Handler;
-
 import com.kaltura.client.utils.ErrorElement;
 import com.kaltura.client.utils.response.base.ResponseElement;
 
@@ -17,7 +15,6 @@ public class ExecutedRequest implements ResponseElement {
     String response = null;
     boolean isSuccess = false;
     ErrorElement error = null;
-    Handler handler;
 
     public ExecutedRequest requestId(String id) {
         this.requestId = id;
@@ -50,11 +47,6 @@ public class ExecutedRequest implements ResponseElement {
         return error(ErrorElement.fromException(exception));
     }
 
-    public ExecutedRequest handler(Handler handler) {
-        this.handler = handler;
-        return this;
-    }
-
     @Override
     public int getCode() {
         return code;
@@ -80,10 +72,5 @@ public class ExecutedRequest implements ResponseElement {
         return requestId;
     }
 
-
-    @Override
-    public Handler getHandler() {
-        return handler;
-    }
 }
 

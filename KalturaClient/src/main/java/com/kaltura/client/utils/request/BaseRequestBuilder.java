@@ -1,7 +1,5 @@
 package com.kaltura.client.utils.request;
 
-import android.os.Handler;
-
 import com.kaltura.client.Client;
 import com.kaltura.client.Configuration;
 import com.kaltura.client.FileHolder;
@@ -35,6 +33,9 @@ public abstract class BaseRequestBuilder<T> extends RequestBuilderData implement
      */
     protected OnCompletion<Response<T>> onCompletion;
 
+    protected BaseRequestBuilder(){
+        super(new Params());
+    }
 
     protected BaseRequestBuilder(Class<T> type, Params params, Files files) {
     	super(params);
@@ -89,7 +90,7 @@ public abstract class BaseRequestBuilder<T> extends RequestBuilderData implement
         params.putAll(objParams); // !! null params should be checked - should not appear in request body or be presented as empty string.
 	}
 
-    public BaseRequestBuilder setFile(String key, FileHolder value) {
+    public BaseRequestBuilder<T> setFile(String key, FileHolder value) {
         if (files != null) {
             files.add(key, value);
         }
@@ -110,7 +111,7 @@ public abstract class BaseRequestBuilder<T> extends RequestBuilderData implement
         this.headers = headers;
     }
 
-    public void setHeaders(String... nameValueHeaders){
+    public void setHeaders(String ... nameValueHeaders){
         for (int i = 0 ; i < nameValueHeaders.length-1 ; i+=2){
             this.headers.put(nameValueHeaders[i], nameValueHeaders[i+1]);
         }
@@ -174,40 +175,28 @@ public abstract class BaseRequestBuilder<T> extends RequestBuilderData implement
 
     @SuppressWarnings("unchecked")
 	@Override
-    final public void onComplete(ResponseElement response) {
+    final public Response<T> parseResponse(ResponseElement response) {
         T result = null;
         APIException error = null;
-        
-        if(!response.isSuccess()) {
-        	error = generateErrorResponse(response);
+
+        if (!response.isSuccess()) {
+            error = generateErrorResponse(response);
         } else {
-        	try {
-				result = (T) parse(response.getResponse());
-			} catch (APIException e) {
-	        	error = e;
-			}
+            try {
+                result = (T) parse(response.getResponse());
+            } catch (APIException e) {
+                error = e;
+            }
         }
 
-        postComplete(new Response<T>(result, error), response.getHandler());
+        return new Response<T>(result, error);
     }
 
-    private void postComplete(final Response<T> response, Handler handler){
-        if(handler != null){
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    complete(response);
-                }
-            });
-        } else {
-            complete(response);
-        }
-    }
-    
     @SuppressWarnings("unchecked")
-	protected void complete(Response<T> response) {
+    @Override
+    public void onComplete(Response<?> response) {
         if(onCompletion != null) {
-            onCompletion.onComplete((Response<T>)response);
+            onCompletion.onComplete((Response<T>) response);
         }
     }
 

@@ -1,9 +1,6 @@
 package com.kaltura.client;
 
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.kaltura.client.utils.ErrorElement;
 import com.kaltura.client.utils.request.ConnectionConfiguration;
 import com.kaltura.client.utils.request.ExecutedRequest;
@@ -133,32 +130,18 @@ public class APIOkRequestsExecutor implements RequestQueue {
     private boolean enableLogs = true;
     private static ILogger logger = Logger.getLogger(TAG);
 
-    private static APIOkRequestsExecutor self;
-    private static APIOkRequestsExecutor mainExecutor;
-    private Handler handler = null;
+    protected static APIOkRequestsExecutor self;
 
 
-    public static APIOkRequestsExecutor getBackExecutor() {
+    public static APIOkRequestsExecutor getExecutor() {
         if (self == null) {
             self = new APIOkRequestsExecutor();
         }
         return self;
     }
 
-    public static APIOkRequestsExecutor getExecutor() {
-        if (mainExecutor == null) {
-            mainExecutor = new APIOkRequestsExecutor(new Handler(Looper.getMainLooper()));
-        }
-        return mainExecutor;
-    }
-
     public APIOkRequestsExecutor() {
         mOkClient = configClient(createOkClientBuilder(), defaultConfiguration).build();
-    }
-
-    public APIOkRequestsExecutor(Handler handler){
-        this();
-        this.handler = handler;
     }
 
     public APIOkRequestsExecutor(ConnectionConfiguration defaultConfiguration) {
@@ -232,7 +215,9 @@ public class APIOkRequestsExecutor implements RequestQueue {
                         return;
                     }
                     // handle failures: create response from exception
-                    action.onComplete(new ExecutedRequest().error(e).success(false).handler(handler));
+                    //action.onComplete(new ExecutedRequest().error(e).success(false).handler(handler));
+                    ExecutedRequest responseElement = new ExecutedRequest().error(e).success(false);
+                    postCompletion(action, responseElement);
                 }
 
                 @Override
@@ -243,34 +228,41 @@ public class APIOkRequestsExecutor implements RequestQueue {
                     }
 
                     // pass parsed response to action completion block
-                    ResponseElement responseElement = onGotResponse(response, action);
-                    action.onComplete(responseElement);
+                    postCompletion(action, onGotResponse(response, action));
                 }
             });
             return (String) call.request().tag();
 
         } catch (Exception e) {
             e.printStackTrace();
-            ExecutedRequest responseElement = new ExecutedRequest().response(getErrorResponse(e)).success(false).handler(handler);
-            action.onComplete(responseElement);
+            ExecutedRequest responseElement = new ExecutedRequest().response(getErrorResponse(e)).success(false);
+            postCompletion(action, responseElement);
 
         }
         return null; // no call id to return.
     }
+
+    protected void postCompletion(final RequestElement action, ResponseElement responseElement) {
+
+        final com.kaltura.client.utils.response.base.Response<?> apiResponse = action.parseResponse(responseElement);
+        action.onComplete(apiResponse);
+    }
+
 
     private String getErrorResponse(Exception e) {
         return e.getClass().getName() + ": " + e.getMessage();
     }
 
     @Override
-    public ResponseElement execute(RequestElement request) {
+    public com.kaltura.client.utils.response.base.Response<?> execute(RequestElement request) {
         try {
             Response response = getOkClient(request.config()).newCall(buildRestRequest(request)).execute();
-            return onGotResponse(response, request);
+            return request.parseResponse(onGotResponse(response, request));
 
         } catch (IOException e) {
             // failure on request execution - create error response
-            return new ExecutedRequest().response(getErrorResponse(e)).success(false).handler(handler);
+            ResponseElement responseElement = new ExecutedRequest().response(getErrorResponse(e)).success(false);
+            return request.parseResponse(responseElement);
         }
     }
 
@@ -327,7 +319,7 @@ public class APIOkRequestsExecutor implements RequestQueue {
         String requestId = getRequestId(response);
 
         if (!response.isSuccessful()) { // in case response has failure status
-            return new ExecutedRequest().requestId(requestId).error(ErrorElement.fromCode(response.code(), response.message())).success(false).handler(handler);
+            return new ExecutedRequest().requestId(requestId).error(ErrorElement.fromCode(response.code(), response.message())).success(false);
 
         } else {
 
@@ -341,7 +333,7 @@ public class APIOkRequestsExecutor implements RequestQueue {
 
             logger.debug("response body:\n" + responseString);
 
-            return new ExecutedRequest().requestId(requestId).response(responseString).code(response.code()).success(responseString != null).handler(handler);
+            return new ExecutedRequest().requestId(requestId).response(responseString).code(response.code()).success(responseString != null);
         }
     }
 
