@@ -109,7 +109,7 @@ public class MultiRequestBuilder extends BaseRequestBuilder<Object> {
     	if(response != null) {
         	results = (List<Object>) response.results;
 	    	int index = 0;
-	    	for(RequestBuilder<?> request : requests.values()) {
+	    	for(RequestBuilder request : requests.values()) {
 	    		Object item = results.get(index++);
 	    		if(item instanceof APIException) {
 	    			request.complete(new Response(null, (APIException) item));

@@ -40,7 +40,7 @@ public class APICaller {
                         Logger.getLogger("shit").debug("here");
 
                         /*if(onCompletion != null){
-                            onCompletion.onComplete(result);
+                            onCompletion.onComplete(result.results);
                         }*/
                     }
                 }).build(client));
@@ -49,7 +49,6 @@ public class APICaller {
 
 
                 setCompletion(new OnCompletion<LoginResponse>() {
-            @Override
             public void onComplete(LoginResponse response, APIException error) {
                 if(error==null && response!=null){
                     SessionManager.get().updateSession(response.getUser().getId(),

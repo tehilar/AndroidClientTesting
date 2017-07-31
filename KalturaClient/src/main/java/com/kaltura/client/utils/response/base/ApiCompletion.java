@@ -7,6 +7,4 @@ import com.kaltura.client.utils.response.OnCompletion;
  */
 
 public interface ApiCompletion<T> extends OnCompletion<Response<T>> {
-
-
 }

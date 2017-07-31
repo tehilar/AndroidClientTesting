@@ -1,7 +1,6 @@
 package com.kaltura.client.utils.request;
 
 import android.os.Handler;
-import android.os.Looper;
 
 import com.kaltura.client.Client;
 import com.kaltura.client.Configuration;
@@ -35,16 +34,6 @@ public abstract class BaseRequestBuilder<T> extends RequestBuilderData implement
      * callback for the parsed response.
      */
     protected OnCompletion<Response<T>> onCompletion;
-
-
-    private static Handler mainHandler;
-
-    protected synchronized Handler getMainHandler(){
-        if(mainHandler == null ){
-            mainHandler = new Handler(Looper.getMainLooper());
-        }
-        return mainHandler;
-    }
 
 
     protected BaseRequestBuilder(Class<T> type, Params params, Files files) {
