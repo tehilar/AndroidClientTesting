@@ -42,6 +42,8 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class Configuration implements Serializable, ConnectionConfiguration {
 
+	private static final long serialVersionUID = 2096581946429839651L;
+	
 	public final static String EndPoint = "endpoint";
 	public final static String ConnectTimeout = "connectTimeout";
 	public final static String ReadTimeout = "readTimeout";
@@ -49,7 +51,6 @@ public class Configuration implements Serializable, ConnectionConfiguration {
 	public final static String MaxRetry = "maxRetry";
 	public final static String AcceptGzipEncoding = "acceptGzipEncoding";
 	public final static String ResponseTypeFormat = "responseTypeFormat";
-	private static final long serialVersionUID = 2096581946429839651L;
 
 	/*private String endpoint = "";
 	private int connectTimeout = 20000;

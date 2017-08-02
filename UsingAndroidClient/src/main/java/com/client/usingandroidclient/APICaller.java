@@ -20,9 +20,11 @@ import com.kaltura.client.utils.response.OnCompletion;
 import com.kaltura.client.utils.response.base.ApiCompletion;
 import com.kaltura.client.utils.response.base.Response;
 
-import org.junit.Assert;
+import junit.framework.Assert;
 
 import java.util.List;
+
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by tehila.rozin on 7/27/17.
@@ -50,7 +52,7 @@ public class APICaller {
                     public void onComplete(Response<List<Object>> result) {
                         Logger.getLogger("clientLib-testing").debug("login completion");
 
-                        Assert.assertTrue(Looper.myLooper() == Looper.getMainLooper());
+                        assertTrue(Looper.myLooper() == Looper.getMainLooper());
 
                         if(onCompletion != null){
                             OTTUser user = null;
@@ -85,17 +87,15 @@ public class APICaller {
                                 error = new APIException(APIException.FailureStep.OnResponse, e);
                             }
 
-                            AndroidAPIRequestsExecutor.getBackExecutor().queue(AssetService.get("258656", AssetReferenceType.MEDIA)
-                                    .setCompletion(new OnCompletion<Response<Asset>>() {
-                                        @Override
-                                        public void onComplete(Response<Asset> result) {
-                                            Assert.assertTrue(Looper.myLooper() != Looper.getMainLooper());
+                            getAsset(client, "258656", new OnCompletion<Asset>() {
+                                @Override
+                                public void onComplete(Asset result) {
+                                    Assert.assertTrue(Looper.myLooper() == Looper.getMainLooper());
 
-                                            Response<Asset> response = (Response<Asset>) AndroidAPIRequestsExecutor.getExecutor().execute(AssetService.get("258656", AssetReferenceType.MEDIA).build(client));
-                                            Assert.assertTrue(Looper.myLooper() != Looper.getMainLooper());
-
-                                        }
-                                    }).build(client));
+                                    Response<Asset> response = (Response<Asset>) AndroidAPIRequestsExecutor.getBackExecutor().execute(AssetService.get("258656", AssetReferenceType.MEDIA).build(client));
+                                    Assert.assertTrue(Looper.myLooper() == Looper.getMainLooper());
+                                }
+                            });
 
                             AndroidAPIRequestsExecutor.getExecutor().queue(AssetService.get("258656", AssetReferenceType.MEDIA)
                                     .setCompletion(new OnCompletion<Response<Asset>>() {
@@ -122,5 +122,19 @@ public class APICaller {
                 }
             }
         }))*/
+    }
+
+    public static void getAsset(final Client client, String assetId, final OnCompletion<Asset> completion) {
+        AndroidAPIRequestsExecutor.getExecutor().queue(AssetService.get(assetId, AssetReferenceType.MEDIA)
+                .setCompletion(new OnCompletion<Response<Asset>>() {
+                    @Override
+                    public void onComplete(Response<Asset> result) {
+
+                        if( completion != null){
+                            completion.onComplete(result.isSuccess() ? result.results : null);
+                        }
+
+                    }
+                }).build(client));
     }
 }

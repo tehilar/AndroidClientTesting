@@ -8,7 +8,7 @@
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2017  Kaltura Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -27,47 +27,38 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import java.io.Serializable;
-import java.util.Map;
-
-import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.utils.response.ResponseType;
+import com.kaltura.client.types.ObjectBase;
+import com.google.gson.JsonObject;
+
 
 /**
- * Ancestor class for all of the generated classes in the com.kaltura.client.types package.
+ * This class was generated using clients-generator\exec.php
+ * against an XML schema provided by Kaltura.
  * 
- * @author jpotts
- *
+ * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
+
+/**  Define base profile response -  optional configurations  */
 @SuppressWarnings("serial")
-public class ObjectBase implements Serializable, ResponseType {
-    @SuppressWarnings("rawtypes")
-	protected Map<String, ListResponse> relatedObjects;
+public abstract class BaseResponseProfile extends ObjectBase {
 
-    @SuppressWarnings("rawtypes")
-	public Map<String, ListResponse> getRelatedObjects() {
-        return relatedObjects;
+
+
+    public BaseResponseProfile() {
+       super();
     }
 
-    @SuppressWarnings("rawtypes")
-	public void setRelatedObjects(Map<String, ListResponse> relatedObjects) {
-        this.relatedObjects = relatedObjects;
+    public BaseResponseProfile(JsonObject jsonObject) throws APIException {
+        super(jsonObject);
     }
 
-    public ObjectBase() {
+    public Params toParams() {
+        Params kparams = super.toParams();
+        kparams.add("objectType", "KalturaBaseResponseProfile");
+        return kparams;
     }
 
-    public ObjectBase(JsonObject jsonObject) throws APIException {
-        if(jsonObject == null) return;
-
-        // set members values:
-        relatedObjects = GsonParser.parseMap(jsonObject.getAsJsonObject("relatedObjects"), ListResponse.class);
-    }
-    
-	public Params toParams() {
-		return new Params();
-	}
-	
 }
+

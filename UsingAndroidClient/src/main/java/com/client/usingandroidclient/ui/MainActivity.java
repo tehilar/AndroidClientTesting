@@ -1,5 +1,6 @@
 package com.client.usingandroidclient.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.client.usingandroidclient.APICaller;
 import com.client.usingandroidclient.R;
 import com.client.usingandroidclient.SessionManager;
+import com.kaltura.client.types.Asset;
 import com.kaltura.client.types.OTTUser;
 import com.kaltura.client.utils.response.OnCompletion;
 import com.kaltura.client.utils.response.base.Response;
@@ -42,6 +44,18 @@ public class MainActivity extends AppCompatActivity {
                                                     Toast.makeText(MainActivity.this,
                                                             "hello "+ result.results.getFirstName(),
                                                             Toast.LENGTH_LONG).show();
+
+                                                    APICaller.getAsset(SessionManager.get().getClient(), "258656", new OnCompletion<Asset>() {
+                                                        @Override
+                                                        public void onComplete(Asset result) {
+                                                            if(result != null){
+                                                                Intent anotherIntent = new Intent(getBaseContext(), anotherActivity.class);
+                                                                //anotherIntent.putExtra("passAsset", new MyMo);
+                                                                //startActivity();
+                                                            }
+                                                        }
+                                                    });
+
                                                 }
                                             }
                                         });

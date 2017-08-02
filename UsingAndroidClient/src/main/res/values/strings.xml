@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">UsingAndroidClient</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_another">anotherActivity</string>
 </resources>
