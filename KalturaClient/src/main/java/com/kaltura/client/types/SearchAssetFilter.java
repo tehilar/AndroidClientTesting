@@ -27,20 +27,20 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
 
 @SuppressWarnings("serial")
-public class SearchAssetFilter extends AssetFilter {
+public class SearchAssetFilter extends BaseSearchAssetFilter {
 
 	/**  Search assets using dynamic criteria. Provided collection of nested expressions
 	  with key, comparison operators, value, and logical conjunction.             
@@ -121,5 +121,32 @@ public class SearchAssetFilter extends AssetFilter {
         return kparams;
     }
 
+
+    public static final Creator<SearchAssetFilter> CREATOR = new Creator<SearchAssetFilter>() {
+        @Override
+        public SearchAssetFilter createFromParcel(Parcel source) {
+            return new SearchAssetFilter(source);
+        }
+
+        @Override
+        public SearchAssetFilter[] newArray(int size) {
+            return new SearchAssetFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.kSql);
+        dest.writeString(this.typeIn);
+        dest.writeString(this.idIn);
+    }
+
+    public SearchAssetFilter(Parcel in) {
+        super(in);
+        this.kSql = in.readString();
+        this.typeIn = in.readString();
+        this.idIn = in.readString();
+    }
 }
 

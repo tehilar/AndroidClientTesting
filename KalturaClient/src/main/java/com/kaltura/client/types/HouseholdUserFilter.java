@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -75,5 +75,28 @@ public class HouseholdUserFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdUserFilter> CREATOR = new Creator<HouseholdUserFilter>() {
+        @Override
+        public HouseholdUserFilter createFromParcel(Parcel source) {
+            return new HouseholdUserFilter(source);
+        }
+
+        @Override
+        public HouseholdUserFilter[] newArray(int size) {
+            return new HouseholdUserFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.householdIdEqual);
+    }
+
+    public HouseholdUserFilter(Parcel in) {
+        super(in);
+        this.householdIdEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

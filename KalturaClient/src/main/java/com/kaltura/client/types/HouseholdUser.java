@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.HouseholdUserStatus;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.HouseholdUserStatus;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -137,5 +137,39 @@ public class HouseholdUser extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdUser> CREATOR = new Creator<HouseholdUser>() {
+        @Override
+        public HouseholdUser createFromParcel(Parcel source) {
+            return new HouseholdUser(source);
+        }
+
+        @Override
+        public HouseholdUser[] newArray(int size) {
+            return new HouseholdUser[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.householdId);
+        dest.writeString(this.userId);
+        dest.writeValue(this.isMaster);
+        dest.writeString(this.householdMasterUsername);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeValue(this.isDefault);
+    }
+
+    public HouseholdUser(Parcel in) {
+        super(in);
+        this.householdId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.userId = in.readString();
+        this.isMaster = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.householdMasterUsername = in.readString();
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : HouseholdUserStatus.values()[tmpStatus];
+        this.isDefault = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

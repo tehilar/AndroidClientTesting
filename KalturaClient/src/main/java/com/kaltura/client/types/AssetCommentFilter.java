@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.AssetType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.AssetType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -88,5 +88,31 @@ public class AssetCommentFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<AssetCommentFilter> CREATOR = new Creator<AssetCommentFilter>() {
+        @Override
+        public AssetCommentFilter createFromParcel(Parcel source) {
+            return new AssetCommentFilter(source);
+        }
+
+        @Override
+        public AssetCommentFilter[] newArray(int size) {
+            return new AssetCommentFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.assetIdEqual);
+        dest.writeInt(this.assetTypeEqual == null ? -1 : this.assetTypeEqual.ordinal());
+    }
+
+    public AssetCommentFilter(Parcel in) {
+        super(in);
+        this.assetIdEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpAssetTypeEqual = in.readInt();
+        this.assetTypeEqual = tmpAssetTypeEqual == -1 ? null : AssetType.values()[tmpAssetTypeEqual];
+    }
 }
 

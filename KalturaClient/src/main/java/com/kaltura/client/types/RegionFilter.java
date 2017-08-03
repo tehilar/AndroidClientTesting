@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -75,5 +75,28 @@ public class RegionFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<RegionFilter> CREATOR = new Creator<RegionFilter>() {
+        @Override
+        public RegionFilter createFromParcel(Parcel source) {
+            return new RegionFilter(source);
+        }
+
+        @Override
+        public RegionFilter[] newArray(int size) {
+            return new RegionFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.externalIdIn);
+    }
+
+    public RegionFilter(Parcel in) {
+        super(in);
+        this.externalIdIn = in.readString();
+    }
 }
 

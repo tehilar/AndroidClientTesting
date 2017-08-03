@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.BundleType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.BundleType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -103,5 +103,33 @@ public class BundleFilter extends AssetFilter {
         return kparams;
     }
 
+
+    public static final Creator<BundleFilter> CREATOR = new Creator<BundleFilter>() {
+        @Override
+        public BundleFilter createFromParcel(Parcel source) {
+            return new BundleFilter(source);
+        }
+
+        @Override
+        public BundleFilter[] newArray(int size) {
+            return new BundleFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.idEqual);
+        dest.writeString(this.typeIn);
+        dest.writeInt(this.bundleTypeEqual == null ? -1 : this.bundleTypeEqual.ordinal());
+    }
+
+    public BundleFilter(Parcel in) {
+        super(in);
+        this.idEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.typeIn = in.readString();
+        int tmpBundleTypeEqual = in.readInt();
+        this.bundleTypeEqual = tmpBundleTypeEqual == -1 ? null : BundleType.values()[tmpBundleTypeEqual];
+    }
 }
 

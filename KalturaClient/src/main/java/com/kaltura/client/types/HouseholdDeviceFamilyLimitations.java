@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +100,32 @@ public class HouseholdDeviceFamilyLimitations extends DeviceFamilyBase {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdDeviceFamilyLimitations> CREATOR = new Creator<HouseholdDeviceFamilyLimitations>() {
+        @Override
+        public HouseholdDeviceFamilyLimitations createFromParcel(Parcel source) {
+            return new HouseholdDeviceFamilyLimitations(source);
+        }
+
+        @Override
+        public HouseholdDeviceFamilyLimitations[] newArray(int size) {
+            return new HouseholdDeviceFamilyLimitations[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.frequency);
+        dest.writeValue(this.deviceLimit);
+        dest.writeValue(this.concurrentLimit);
+    }
+
+    public HouseholdDeviceFamilyLimitations(Parcel in) {
+        super(in);
+        this.frequency = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.deviceLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.concurrentLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

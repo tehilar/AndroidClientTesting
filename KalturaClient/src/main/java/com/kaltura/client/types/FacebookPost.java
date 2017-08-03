@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -88,5 +89,39 @@ public class FacebookPost extends SocialNetworkComment {
         return kparams;
     }
 
+
+    public static final Creator<FacebookPost> CREATOR = new Creator<FacebookPost>() {
+        @Override
+        public FacebookPost createFromParcel(Parcel source) {
+            return new FacebookPost(source);
+        }
+
+        @Override
+        public FacebookPost[] newArray(int size) {
+            return new FacebookPost[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        if(this.comments != null) {
+            dest.writeInt(this.comments.size());
+            dest.writeList(this.comments);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.link);
+    }
+
+    public FacebookPost(Parcel in) {
+        super(in);
+        int commentsSize = in.readInt();
+        if( commentsSize > -1) {
+            this.comments = new ArrayList<>();
+            in.readList(this.comments, SocialNetworkComment.class.getClassLoader());
+        }
+        this.link = in.readString();
+    }
 }
 

@@ -27,17 +27,18 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.enums.ParentalRuleType;
 import com.kaltura.client.enums.RuleLevel;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -211,5 +212,70 @@ public class ParentalRule extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<ParentalRule> CREATOR = new Creator<ParentalRule>() {
+        @Override
+        public ParentalRule createFromParcel(Parcel source) {
+            return new ParentalRule(source);
+        }
+
+        @Override
+        public ParentalRule[] newArray(int size) {
+            return new ParentalRule[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeValue(this.order);
+        dest.writeValue(this.mediaTag);
+        dest.writeValue(this.epgTag);
+        dest.writeValue(this.blockAnonymousAccess);
+        dest.writeInt(this.ruleType == null ? -1 : this.ruleType.ordinal());
+        if(this.mediaTagValues != null) {
+            dest.writeInt(this.mediaTagValues.size());
+            dest.writeList(this.mediaTagValues);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.epgTagValues != null) {
+            dest.writeInt(this.epgTagValues.size());
+            dest.writeList(this.epgTagValues);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.isDefault);
+        dest.writeInt(this.origin == null ? -1 : this.origin.ordinal());
+    }
+
+    public ParentalRule(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.description = in.readString();
+        this.order = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.mediaTag = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.epgTag = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.blockAnonymousAccess = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int tmpRuleType = in.readInt();
+        this.ruleType = tmpRuleType == -1 ? null : ParentalRuleType.values()[tmpRuleType];
+        int mediaTagValuesSize = in.readInt();
+        if( mediaTagValuesSize > -1) {
+            this.mediaTagValues = new ArrayList<>();
+            in.readList(this.mediaTagValues, StringValue.class.getClassLoader());
+        }
+        int epgTagValuesSize = in.readInt();
+        if( epgTagValuesSize > -1) {
+            this.epgTagValues = new ArrayList<>();
+            in.readList(this.epgTagValues, StringValue.class.getClassLoader());
+        }
+        this.isDefault = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int tmpOrigin = in.readInt();
+        this.origin = tmpOrigin == -1 ? null : RuleLevel.values()[tmpOrigin];
+    }
 }
 

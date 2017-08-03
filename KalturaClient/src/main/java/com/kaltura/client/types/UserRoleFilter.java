@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -76,5 +76,28 @@ public class UserRoleFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<UserRoleFilter> CREATOR = new Creator<UserRoleFilter>() {
+        @Override
+        public UserRoleFilter createFromParcel(Parcel source) {
+            return new UserRoleFilter(source);
+        }
+
+        @Override
+        public UserRoleFilter[] newArray(int size) {
+            return new UserRoleFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.idIn);
+    }
+
+    public UserRoleFilter(Parcel in) {
+        super(in);
+        this.idIn = in.readString();
+    }
 }
 

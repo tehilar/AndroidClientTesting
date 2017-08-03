@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -112,5 +112,34 @@ public class SocialComment extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<SocialComment> CREATOR = new Creator<SocialComment>() {
+        @Override
+        public SocialComment createFromParcel(Parcel source) {
+            return new SocialComment(source);
+        }
+
+        @Override
+        public SocialComment[] newArray(int size) {
+            return new SocialComment[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.header);
+        dest.writeString(this.text);
+        dest.writeValue(this.createDate);
+        dest.writeString(this.writer);
+    }
+
+    public SocialComment(Parcel in) {
+        super(in);
+        this.header = in.readString();
+        this.text = in.readString();
+        this.createDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.writer = in.readString();
+    }
 }
 

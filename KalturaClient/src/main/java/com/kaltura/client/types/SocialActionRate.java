@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -75,5 +75,28 @@ public class SocialActionRate extends SocialAction {
         return kparams;
     }
 
+
+    public static final Creator<SocialActionRate> CREATOR = new Creator<SocialActionRate>() {
+        @Override
+        public SocialActionRate createFromParcel(Parcel source) {
+            return new SocialActionRate(source);
+        }
+
+        @Override
+        public SocialActionRate[] newArray(int size) {
+            return new SocialActionRate[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.rate);
+    }
+
+    public SocialActionRate(Parcel in) {
+        super(in);
+        this.rate = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

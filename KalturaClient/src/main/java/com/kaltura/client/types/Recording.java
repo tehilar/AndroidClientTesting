@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.enums.RecordingStatus;
 import com.kaltura.client.enums.RecordingType;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -158,5 +158,44 @@ public class Recording extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Recording> CREATOR = new Creator<Recording>() {
+        @Override
+        public Recording createFromParcel(Parcel source) {
+            return new Recording(source);
+        }
+
+        @Override
+        public Recording[] newArray(int size) {
+            return new Recording[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeValue(this.assetId);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeValue(this.viewableUntilDate);
+        dest.writeValue(this.isProtected);
+        dest.writeValue(this.createDate);
+        dest.writeValue(this.updateDate);
+    }
+
+    public Recording(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : RecordingStatus.values()[tmpStatus];
+        this.assetId = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : RecordingType.values()[tmpType];
+        this.viewableUntilDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.isProtected = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.createDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.updateDate = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

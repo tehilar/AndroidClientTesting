@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -160,5 +160,42 @@ public class Country extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Country> CREATOR = new Creator<Country>() {
+        @Override
+        public Country createFromParcel(Parcel source) {
+            return new Country(source);
+        }
+
+        @Override
+        public Country[] newArray(int size) {
+            return new Country[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.code);
+        dest.writeString(this.mainLanguageCode);
+        dest.writeString(this.languagesCode);
+        dest.writeString(this.currency);
+        dest.writeString(this.currencySign);
+        dest.writeValue(this.vatPercent);
+    }
+
+    public Country(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.code = in.readString();
+        this.mainLanguageCode = in.readString();
+        this.languagesCode = in.readString();
+        this.currency = in.readString();
+        this.currencySign = in.readString();
+        this.vatPercent = (Double)in.readValue(Double.class.getClassLoader());
+    }
 }
 

@@ -56,49 +56,40 @@ public class GsonParser {
         		jsonElement = jsonObject.getAsJsonObject("error");
         	}
         }
-		try {
-			return parseObject(jsonElement, clz);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			throw new APIException(e);
-		}
-	}
+    	return parseObject(jsonElement, clz);
+    }
 
     @SuppressWarnings("unchecked")
 	public static <T> T parseObject(JsonElement jsonElement, Class<T> clz) throws APIException {
-        try {
-			if (jsonElement.isJsonNull()) {
-				return null;
-			}
+        if(jsonElement.isJsonNull()) {
+        	return null;
+        }
+        
+        if(jsonElement.isJsonPrimitive()) {
+        	if(clz == String.class) {
+        		return (T)jsonElement.getAsString();
+        	}
+        	if(clz == Integer.class) {
+        		return (T)(Integer)jsonElement.getAsInt();
+        	}
+        	if(clz == Long.class) {
+        		return (T)(Long)jsonElement.getAsLong();
+        	}
+        	if(clz == Boolean.class) {
+        		return (T)(Boolean)jsonElement.getAsBoolean();
+        	}
+        	if(clz == Double.class) {
+        		return (T)(Double)jsonElement.getAsDouble();
+        	}
+        	
+        	return (T) (Object) gson.fromJson(jsonElement, Object.class);
+        }
 
-			if (jsonElement.isJsonPrimitive()) {
-				if (clz == String.class) {
-					return (T) jsonElement.getAsString();
-				}
-				if (clz == Integer.class) {
-					return (T) (Integer) jsonElement.getAsInt();
-				}
-				if (clz == Long.class) {
-					return (T) (Long) jsonElement.getAsLong();
-				}
-				if (clz == Boolean.class) {
-					return (T) (Boolean) jsonElement.getAsBoolean();
-				}
-				if (clz == Double.class) {
-					return (T) (Double) jsonElement.getAsDouble();
-				}
-
-				return (T) (Object) gson.fromJson(jsonElement, Object.class);
-			}
-
-			if (jsonElement.isJsonArray()) {
-				return (T) parseArray(jsonElement.getAsJsonArray(), clz);
-			}
-
-			return parseObject(jsonElement.getAsJsonObject(), clz);
-		}catch (Exception e){
-        	throw new APIException(e);
-		}
+        if(jsonElement.isJsonArray()) {
+        	return (T) parseArray(jsonElement.getAsJsonArray(), clz);
+        }
+        
+    	return parseObject(jsonElement.getAsJsonObject(), clz);
     }
 
     public static <T> T parseObject(JsonObject jsonObject, Class<T> clz) throws APIException {
@@ -122,8 +113,11 @@ public class GsonParser {
         try {
         	Constructor<T> constructor = clz.getConstructor(JsonObject.class);
 	        return constructor.newInstance(jsonObject);
-		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			throw new APIException(FailureStep.OnResponse, e.getMessage());
+
+        } catch (NoSuchMethodException | SecurityException | InstantiationException |
+				IllegalAccessException | IllegalArgumentException | InvocationTargetException |
+				ClassCastException | IllegalStateException e) {
+			throw new APIException(FailureStep.OnResponse, e);
 		}
     }
 
@@ -267,16 +261,11 @@ public class GsonParser {
 
     private static APIException parseException(JsonObject jsonObject) {
         String objectType = jsonObject.getAsJsonPrimitive("objectType").getAsString();
-		try {
-			if(objectType.equals("KalturaAPIException")) {
-                return gson.fromJson(jsonObject, APIException.class);
-            }
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new APIException(e);
-		}
-
-		return null;
+        if(objectType.equals("KalturaAPIException")) {
+        	return gson.fromJson(jsonObject, APIException.class);
+        }
+        
+        return null;
     }
 
     public static String parseString(JsonElement jsonElement) {

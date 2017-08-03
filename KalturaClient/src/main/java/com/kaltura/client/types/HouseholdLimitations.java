@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -187,5 +188,57 @@ public class HouseholdLimitations extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdLimitations> CREATOR = new Creator<HouseholdLimitations>() {
+        @Override
+        public HouseholdLimitations createFromParcel(Parcel source) {
+            return new HouseholdLimitations(source);
+        }
+
+        @Override
+        public HouseholdLimitations[] newArray(int size) {
+            return new HouseholdLimitations[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.concurrentLimit);
+        dest.writeValue(this.deviceLimit);
+        dest.writeValue(this.deviceFrequency);
+        dest.writeString(this.deviceFrequencyDescription);
+        dest.writeValue(this.userFrequency);
+        dest.writeString(this.userFrequencyDescription);
+        dest.writeValue(this.npvrQuotaInSeconds);
+        dest.writeValue(this.usersLimit);
+        if(this.deviceFamiliesLimitations != null) {
+            dest.writeInt(this.deviceFamiliesLimitations.size());
+            dest.writeList(this.deviceFamiliesLimitations);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public HouseholdLimitations(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.concurrentLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.deviceLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.deviceFrequency = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.deviceFrequencyDescription = in.readString();
+        this.userFrequency = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.userFrequencyDescription = in.readString();
+        this.npvrQuotaInSeconds = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.usersLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+        int deviceFamiliesLimitationsSize = in.readInt();
+        if( deviceFamiliesLimitationsSize > -1) {
+            this.deviceFamiliesLimitations = new ArrayList<>();
+            in.readList(this.deviceFamiliesLimitations, HouseholdDeviceFamilyLimitations.class.getClassLoader());
+        }
+    }
 }
 

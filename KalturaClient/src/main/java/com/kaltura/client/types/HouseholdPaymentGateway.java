@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.HouseholdPaymentGatewaySelectedBy;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.HouseholdPaymentGatewaySelectedBy;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -112,5 +112,35 @@ public class HouseholdPaymentGateway extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdPaymentGateway> CREATOR = new Creator<HouseholdPaymentGateway>() {
+        @Override
+        public HouseholdPaymentGateway createFromParcel(Parcel source) {
+            return new HouseholdPaymentGateway(source);
+        }
+
+        @Override
+        public HouseholdPaymentGateway[] newArray(int size) {
+            return new HouseholdPaymentGateway[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.isDefault);
+        dest.writeInt(this.selectedBy == null ? -1 : this.selectedBy.ordinal());
+    }
+
+    public HouseholdPaymentGateway(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.isDefault = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int tmpSelectedBy = in.readInt();
+        this.selectedBy = tmpSelectedBy == -1 ? null : HouseholdPaymentGatewaySelectedBy.values()[tmpSelectedBy];
+    }
 }
 

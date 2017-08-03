@@ -27,21 +27,21 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.types.PriceDetails;
+import com.kaltura.client.enums.SubscriptionDependencyType;
 import com.kaltura.client.types.DiscountModule;
 import com.kaltura.client.types.MultilingualString;
-import com.kaltura.client.types.MultilingualString;
+import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.PreviewModule;
-import com.kaltura.client.enums.SubscriptionDependencyType;
+import com.kaltura.client.types.PriceDetails;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -435,5 +435,141 @@ public class Subscription extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Subscription> CREATOR = new Creator<Subscription>() {
+        @Override
+        public Subscription createFromParcel(Parcel source) {
+            return new Subscription(source);
+        }
+
+        @Override
+        public Subscription[] newArray(int size) {
+            return new Subscription[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        if(this.channels != null) {
+            dest.writeInt(this.channels.size());
+            dest.writeList(this.channels);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.startDate);
+        dest.writeValue(this.endDate);
+        if(this.fileTypes != null) {
+            dest.writeInt(this.fileTypes.size());
+            dest.writeList(this.fileTypes);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.isRenewable);
+        dest.writeValue(this.renewalsNumber);
+        dest.writeValue(this.isInfiniteRenewal);
+        dest.writeParcelable(this.price, flags);
+        dest.writeParcelable(this.discountModule, flags);
+        dest.writeString(this.name);
+        dest.writeParcelable(this.multilingualName, flags);
+        dest.writeString(this.description);
+        dest.writeParcelable(this.multilingualDescription, flags);
+        dest.writeValue(this.mediaId);
+        dest.writeValue(this.prorityInOrder);
+        dest.writeString(this.pricePlanIds);
+        dest.writeParcelable(this.previewModule, flags);
+        dest.writeValue(this.householdLimitationsId);
+        dest.writeValue(this.gracePeriodMinutes);
+        if(this.premiumServices != null) {
+            dest.writeInt(this.premiumServices.size());
+            dest.writeList(this.premiumServices);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.maxViewsNumber);
+        dest.writeValue(this.viewLifeCycle);
+        dest.writeValue(this.waiverPeriod);
+        dest.writeValue(this.isWaiverEnabled);
+        if(this.userTypes != null) {
+            dest.writeInt(this.userTypes.size());
+            dest.writeList(this.userTypes);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.couponsGroups != null) {
+            dest.writeInt(this.couponsGroups.size());
+            dest.writeList(this.couponsGroups);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.productCodes != null) {
+            dest.writeInt(this.productCodes.size());
+            dest.writeList(this.productCodes);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeInt(this.dependencyType == null ? -1 : this.dependencyType.ordinal());
+        dest.writeString(this.externalId);
+    }
+
+    public Subscription(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        int channelsSize = in.readInt();
+        if( channelsSize > -1) {
+            this.channels = new ArrayList<>();
+            in.readList(this.channels, BaseChannel.class.getClassLoader());
+        }
+        this.startDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.endDate = (Long)in.readValue(Long.class.getClassLoader());
+        int fileTypesSize = in.readInt();
+        if( fileTypesSize > -1) {
+            this.fileTypes = new ArrayList<>();
+            in.readList(this.fileTypes, IntegerValue.class.getClassLoader());
+        }
+        this.isRenewable = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.renewalsNumber = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.isInfiniteRenewal = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.price = in.readParcelable(PriceDetails.class.getClassLoader());
+        this.discountModule = in.readParcelable(DiscountModule.class.getClassLoader());
+        this.name = in.readString();
+        this.multilingualName = in.readParcelable(MultilingualString.class.getClassLoader());
+        this.description = in.readString();
+        this.multilingualDescription = in.readParcelable(MultilingualString.class.getClassLoader());
+        this.mediaId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.prorityInOrder = (Long)in.readValue(Long.class.getClassLoader());
+        this.pricePlanIds = in.readString();
+        this.previewModule = in.readParcelable(PreviewModule.class.getClassLoader());
+        this.householdLimitationsId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.gracePeriodMinutes = (Integer)in.readValue(Integer.class.getClassLoader());
+        int premiumServicesSize = in.readInt();
+        if( premiumServicesSize > -1) {
+            this.premiumServices = new ArrayList<>();
+            in.readList(this.premiumServices, PremiumService.class.getClassLoader());
+        }
+        this.maxViewsNumber = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.viewLifeCycle = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.waiverPeriod = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.isWaiverEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int userTypesSize = in.readInt();
+        if( userTypesSize > -1) {
+            this.userTypes = new ArrayList<>();
+            in.readList(this.userTypes, OTTUserType.class.getClassLoader());
+        }
+        int couponsGroupsSize = in.readInt();
+        if( couponsGroupsSize > -1) {
+            this.couponsGroups = new ArrayList<>();
+            in.readList(this.couponsGroups, CouponsGroup.class.getClassLoader());
+        }
+        int productCodesSize = in.readInt();
+        if( productCodesSize > -1) {
+            this.productCodes = new ArrayList<>();
+            in.readList(this.productCodes, ProductCode.class.getClassLoader());
+        }
+        int tmpDependencyType = in.readInt();
+        this.dependencyType = tmpDependencyType == -1 ? null : SubscriptionDependencyType.values()[tmpDependencyType];
+        this.externalId = in.readString();
+    }
 }
 

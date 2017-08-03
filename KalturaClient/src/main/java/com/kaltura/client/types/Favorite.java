@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +100,32 @@ public class Favorite extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Favorite> CREATOR = new Creator<Favorite>() {
+        @Override
+        public Favorite createFromParcel(Parcel source) {
+            return new Favorite(source);
+        }
+
+        @Override
+        public Favorite[] newArray(int size) {
+            return new Favorite[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.assetId);
+        dest.writeString(this.extraData);
+        dest.writeValue(this.createDate);
+    }
+
+    public Favorite(Parcel in) {
+        super(in);
+        this.assetId = (Long)in.readValue(Long.class.getClassLoader());
+        this.extraData = in.readString();
+        this.createDate = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

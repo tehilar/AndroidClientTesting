@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +101,41 @@ public class UserRole extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<UserRole> CREATOR = new Creator<UserRole>() {
+        @Override
+        public UserRole createFromParcel(Parcel source) {
+            return new UserRole(source);
+        }
+
+        @Override
+        public UserRole[] newArray(int size) {
+            return new UserRole[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        if(this.permissions != null) {
+            dest.writeInt(this.permissions.size());
+            dest.writeList(this.permissions);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public UserRole(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        int permissionsSize = in.readInt();
+        if( permissionsSize > -1) {
+            this.permissions = new ArrayList<>();
+            in.readList(this.permissions, Permission.class.getClassLoader());
+        }
+    }
 }
 

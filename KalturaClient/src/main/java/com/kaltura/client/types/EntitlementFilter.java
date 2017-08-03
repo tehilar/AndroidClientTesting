@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.TransactionType;
-import com.kaltura.client.enums.EntityReferenceBy;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.EntityReferenceBy;
+import com.kaltura.client.enums.TransactionType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -102,5 +102,34 @@ public class EntitlementFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<EntitlementFilter> CREATOR = new Creator<EntitlementFilter>() {
+        @Override
+        public EntitlementFilter createFromParcel(Parcel source) {
+            return new EntitlementFilter(source);
+        }
+
+        @Override
+        public EntitlementFilter[] newArray(int size) {
+            return new EntitlementFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.entitlementTypeEqual == null ? -1 : this.entitlementTypeEqual.ordinal());
+        dest.writeInt(this.entityReferenceEqual == null ? -1 : this.entityReferenceEqual.ordinal());
+        dest.writeValue(this.isExpiredEqual);
+    }
+
+    public EntitlementFilter(Parcel in) {
+        super(in);
+        int tmpEntitlementTypeEqual = in.readInt();
+        this.entitlementTypeEqual = tmpEntitlementTypeEqual == -1 ? null : TransactionType.values()[tmpEntitlementTypeEqual];
+        int tmpEntityReferenceEqual = in.readInt();
+        this.entityReferenceEqual = tmpEntityReferenceEqual == -1 ? null : EntityReferenceBy.values()[tmpEntityReferenceEqual];
+        this.isExpiredEqual = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

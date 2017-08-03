@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -113,5 +113,34 @@ public class HomeNetwork extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<HomeNetwork> CREATOR = new Creator<HomeNetwork>() {
+        @Override
+        public HomeNetwork createFromParcel(Parcel source) {
+            return new HomeNetwork(source);
+        }
+
+        @Override
+        public HomeNetwork[] newArray(int size) {
+            return new HomeNetwork[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.externalId);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeValue(this.isActive);
+    }
+
+    public HomeNetwork(Parcel in) {
+        super(in);
+        this.externalId = in.readString();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

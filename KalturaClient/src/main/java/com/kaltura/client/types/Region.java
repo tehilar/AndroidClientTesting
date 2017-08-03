@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -125,5 +126,45 @@ public class Region extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Region> CREATOR = new Creator<Region>() {
+        @Override
+        public Region createFromParcel(Parcel source) {
+            return new Region(source);
+        }
+
+        @Override
+        public Region[] newArray(int size) {
+            return new Region[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.externalId);
+        dest.writeValue(this.isDefault);
+        if(this.linearChannels != null) {
+            dest.writeInt(this.linearChannels.size());
+            dest.writeList(this.linearChannels);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public Region(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.externalId = in.readString();
+        this.isDefault = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int linearChannelsSize = in.readInt();
+        if( linearChannelsSize > -1) {
+            this.linearChannels = new ArrayList<>();
+            in.readList(this.linearChannels, RegionalChannel.class.getClassLoader());
+        }
+    }
 }
 

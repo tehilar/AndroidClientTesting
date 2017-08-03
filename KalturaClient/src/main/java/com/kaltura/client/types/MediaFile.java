@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.StringValueArray;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -233,5 +233,54 @@ public class MediaFile extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<MediaFile> CREATOR = new Creator<MediaFile>() {
+        @Override
+        public MediaFile createFromParcel(Parcel source) {
+            return new MediaFile(source);
+        }
+
+        @Override
+        public MediaFile[] newArray(int size) {
+            return new MediaFile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.assetId);
+        dest.writeValue(this.id);
+        dest.writeString(this.type);
+        dest.writeString(this.url);
+        dest.writeValue(this.duration);
+        dest.writeString(this.externalId);
+        dest.writeString(this.billingType);
+        dest.writeString(this.quality);
+        dest.writeString(this.handlingType);
+        dest.writeString(this.cdnName);
+        dest.writeString(this.cdnCode);
+        dest.writeString(this.altCdnCode);
+        dest.writeParcelable(this.ppvModules, flags);
+        dest.writeString(this.productCode);
+    }
+
+    public MediaFile(Parcel in) {
+        super(in);
+        this.assetId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.type = in.readString();
+        this.url = in.readString();
+        this.duration = (Long)in.readValue(Long.class.getClassLoader());
+        this.externalId = in.readString();
+        this.billingType = in.readString();
+        this.quality = in.readString();
+        this.handlingType = in.readString();
+        this.cdnName = in.readString();
+        this.cdnCode = in.readString();
+        this.altCdnCode = in.readString();
+        this.ppvModules = in.readParcelable(StringValueArray.class.getClassLoader());
+        this.productCode = in.readString();
+    }
 }
 

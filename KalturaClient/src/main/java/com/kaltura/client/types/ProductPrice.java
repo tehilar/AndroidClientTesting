@@ -27,17 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.enums.PurchaseStatus;
+import com.kaltura.client.enums.TransactionType;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.Price;
-import com.kaltura.client.enums.TransactionType;
-import com.kaltura.client.enums.PurchaseStatus;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -115,5 +115,24 @@ public abstract class ProductPrice extends ObjectBase {
         return kparams;
     }
 
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.productId);
+        dest.writeInt(this.productType == null ? -1 : this.productType.ordinal());
+        dest.writeParcelable(this.price, flags);
+        dest.writeInt(this.purchaseStatus == null ? -1 : this.purchaseStatus.ordinal());
+    }
+
+    public ProductPrice(Parcel in) {
+        super(in);
+        this.productId = in.readString();
+        int tmpProductType = in.readInt();
+        this.productType = tmpProductType == -1 ? null : TransactionType.values()[tmpProductType];
+        this.price = in.readParcelable(Price.class.getClassLoader());
+        int tmpPurchaseStatus = in.readInt();
+        this.purchaseStatus = tmpPurchaseStatus == -1 ? null : PurchaseStatus.values()[tmpPurchaseStatus];
+    }
 }
 

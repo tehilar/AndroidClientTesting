@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -99,5 +99,32 @@ public class InboxMessageFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<InboxMessageFilter> CREATOR = new Creator<InboxMessageFilter>() {
+        @Override
+        public InboxMessageFilter createFromParcel(Parcel source) {
+            return new InboxMessageFilter(source);
+        }
+
+        @Override
+        public InboxMessageFilter[] newArray(int size) {
+            return new InboxMessageFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.typeIn);
+        dest.writeValue(this.createdAtGreaterThanOrEqual);
+        dest.writeValue(this.createdAtLessThanOrEqual);
+    }
+
+    public InboxMessageFilter(Parcel in) {
+        super(in);
+        this.typeIn = in.readString();
+        this.createdAtGreaterThanOrEqual = (Long)in.readValue(Long.class.getClassLoader());
+        this.createdAtLessThanOrEqual = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

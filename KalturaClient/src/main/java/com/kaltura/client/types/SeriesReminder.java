@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -99,5 +99,32 @@ public class SeriesReminder extends Reminder {
         return kparams;
     }
 
+
+    public static final Creator<SeriesReminder> CREATOR = new Creator<SeriesReminder>() {
+        @Override
+        public SeriesReminder createFromParcel(Parcel source) {
+            return new SeriesReminder(source);
+        }
+
+        @Override
+        public SeriesReminder[] newArray(int size) {
+            return new SeriesReminder[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.seriesId);
+        dest.writeValue(this.seasonNumber);
+        dest.writeValue(this.epgChannelId);
+    }
+
+    public SeriesReminder(Parcel in) {
+        super(in);
+        this.seriesId = in.readString();
+        this.seasonNumber = (Long)in.readValue(Long.class.getClassLoader());
+        this.epgChannelId = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

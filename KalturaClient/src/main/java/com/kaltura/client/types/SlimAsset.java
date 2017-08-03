@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.AssetType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.AssetType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -90,5 +90,31 @@ public class SlimAsset extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<SlimAsset> CREATOR = new Creator<SlimAsset>() {
+        @Override
+        public SlimAsset createFromParcel(Parcel source) {
+            return new SlimAsset(source);
+        }
+
+        @Override
+        public SlimAsset[] newArray(int size) {
+            return new SlimAsset[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+    }
+
+    public SlimAsset(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : AssetType.values()[tmpType];
+    }
 }
 

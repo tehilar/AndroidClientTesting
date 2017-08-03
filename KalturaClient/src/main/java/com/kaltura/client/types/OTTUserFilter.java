@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +100,32 @@ public class OTTUserFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<OTTUserFilter> CREATOR = new Creator<OTTUserFilter>() {
+        @Override
+        public OTTUserFilter createFromParcel(Parcel source) {
+            return new OTTUserFilter(source);
+        }
+
+        @Override
+        public OTTUserFilter[] newArray(int size) {
+            return new OTTUserFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.usernameEqual);
+        dest.writeString(this.externalIdEqual);
+        dest.writeString(this.idIn);
+    }
+
+    public OTTUserFilter(Parcel in) {
+        super(in);
+        this.usernameEqual = in.readString();
+        this.externalIdEqual = in.readString();
+        this.idIn = in.readString();
+    }
 }
 

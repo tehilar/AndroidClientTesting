@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.types.BuzzScore;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.BuzzScore;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -138,5 +138,38 @@ public class AssetStatistics extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<AssetStatistics> CREATOR = new Creator<AssetStatistics>() {
+        @Override
+        public AssetStatistics createFromParcel(Parcel source) {
+            return new AssetStatistics(source);
+        }
+
+        @Override
+        public AssetStatistics[] newArray(int size) {
+            return new AssetStatistics[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.assetId);
+        dest.writeValue(this.likes);
+        dest.writeValue(this.views);
+        dest.writeValue(this.ratingCount);
+        dest.writeValue(this.rating);
+        dest.writeParcelable(this.buzzScore, flags);
+    }
+
+    public AssetStatistics(Parcel in) {
+        super(in);
+        this.assetId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.likes = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.views = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.ratingCount = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.rating = (Double)in.readValue(Double.class.getClassLoader());
+        this.buzzScore = in.readParcelable(BuzzScore.class.getClassLoader());
+    }
 }
 

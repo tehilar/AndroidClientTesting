@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -77,5 +78,37 @@ public class PaymentGatewayConfiguration extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<PaymentGatewayConfiguration> CREATOR = new Creator<PaymentGatewayConfiguration>() {
+        @Override
+        public PaymentGatewayConfiguration createFromParcel(Parcel source) {
+            return new PaymentGatewayConfiguration(source);
+        }
+
+        @Override
+        public PaymentGatewayConfiguration[] newArray(int size) {
+            return new PaymentGatewayConfiguration[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        if(this.paymentGatewayConfiguration != null) {
+            dest.writeInt(this.paymentGatewayConfiguration.size());
+            dest.writeList(this.paymentGatewayConfiguration);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public PaymentGatewayConfiguration(Parcel in) {
+        super(in);
+        int paymentGatewayConfigurationSize = in.readInt();
+        if( paymentGatewayConfigurationSize > -1) {
+            this.paymentGatewayConfiguration = new ArrayList<>();
+            in.readList(this.paymentGatewayConfiguration, KeyValue.class.getClassLoader());
+        }
+    }
 }
 

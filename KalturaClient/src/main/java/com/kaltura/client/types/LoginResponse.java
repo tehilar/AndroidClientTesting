@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.types.OTTUser;
-import com.kaltura.client.types.LoginSession;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.LoginSession;
+import com.kaltura.client.types.OTTUser;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -90,5 +90,30 @@ public class LoginResponse extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<LoginResponse> CREATOR = new Creator<LoginResponse>() {
+        @Override
+        public LoginResponse createFromParcel(Parcel source) {
+            return new LoginResponse(source);
+        }
+
+        @Override
+        public LoginResponse[] newArray(int size) {
+            return new LoginResponse[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.user, flags);
+        dest.writeParcelable(this.loginSession, flags);
+    }
+
+    public LoginResponse(Parcel in) {
+        super(in);
+        this.user = in.readParcelable(OTTUser.class.getClassLoader());
+        this.loginSession = in.readParcelable(LoginSession.class.getClassLoader());
+    }
 }
 

@@ -27,15 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
-import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -78,5 +80,37 @@ public class MultilingualStringValueArray extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<MultilingualStringValueArray> CREATOR = new Creator<MultilingualStringValueArray>() {
+        @Override
+        public MultilingualStringValueArray createFromParcel(Parcel source) {
+            return new MultilingualStringValueArray(source);
+        }
+
+        @Override
+        public MultilingualStringValueArray[] newArray(int size) {
+            return new MultilingualStringValueArray[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        if(this.objects != null) {
+            dest.writeInt(this.objects.size());
+            dest.writeList(this.objects);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public MultilingualStringValueArray(Parcel in) {
+        super(in);
+        int objectsSize = in.readInt();
+        if( objectsSize > -1) {
+            this.objects = new ArrayList<>();
+            in.readList(this.objects, MultilingualStringValue.class.getClassLoader());
+        }
+    }
 }
 

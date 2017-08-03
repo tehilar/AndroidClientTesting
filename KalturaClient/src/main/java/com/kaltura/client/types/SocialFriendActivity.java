@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.SocialAction;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -101,5 +101,32 @@ public class SocialFriendActivity extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<SocialFriendActivity> CREATOR = new Creator<SocialFriendActivity>() {
+        @Override
+        public SocialFriendActivity createFromParcel(Parcel source) {
+            return new SocialFriendActivity(source);
+        }
+
+        @Override
+        public SocialFriendActivity[] newArray(int size) {
+            return new SocialFriendActivity[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.userFullName);
+        dest.writeString(this.userPictureUrl);
+        dest.writeParcelable(this.socialAction, flags);
+    }
+
+    public SocialFriendActivity(Parcel in) {
+        super(in);
+        this.userFullName = in.readString();
+        this.userPictureUrl = in.readString();
+        this.socialAction = in.readParcelable(SocialAction.class.getClassLoader());
+    }
 }
 

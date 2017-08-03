@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -90,5 +91,39 @@ public class AssetsCount extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<AssetsCount> CREATOR = new Creator<AssetsCount>() {
+        @Override
+        public AssetsCount createFromParcel(Parcel source) {
+            return new AssetsCount(source);
+        }
+
+        @Override
+        public AssetsCount[] newArray(int size) {
+            return new AssetsCount[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.field);
+        if(this.objects != null) {
+            dest.writeInt(this.objects.size());
+            dest.writeList(this.objects);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public AssetsCount(Parcel in) {
+        super(in);
+        this.field = in.readString();
+        int objectsSize = in.readInt();
+        if( objectsSize > -1) {
+            this.objects = new ArrayList<>();
+            in.readList(this.objects, AssetCount.class.getClassLoader());
+        }
+    }
 }
 

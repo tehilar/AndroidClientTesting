@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -88,5 +88,30 @@ public class LicensedUrl extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<LicensedUrl> CREATOR = new Creator<LicensedUrl>() {
+        @Override
+        public LicensedUrl createFromParcel(Parcel source) {
+            return new LicensedUrl(source);
+        }
+
+        @Override
+        public LicensedUrl[] newArray(int size) {
+            return new LicensedUrl[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.mainUrl);
+        dest.writeString(this.altUrl);
+    }
+
+    public LicensedUrl(Parcel in) {
+        super(in);
+        this.mainUrl = in.readString();
+        this.altUrl = in.readString();
+    }
 }
 

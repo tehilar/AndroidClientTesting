@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -99,5 +99,32 @@ public class SubscriptionFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<SubscriptionFilter> CREATOR = new Creator<SubscriptionFilter>() {
+        @Override
+        public SubscriptionFilter createFromParcel(Parcel source) {
+            return new SubscriptionFilter(source);
+        }
+
+        @Override
+        public SubscriptionFilter[] newArray(int size) {
+            return new SubscriptionFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.subscriptionIdIn);
+        dest.writeValue(this.mediaFileIdEqual);
+        dest.writeString(this.externalIdIn);
+    }
+
+    public SubscriptionFilter(Parcel in) {
+        super(in);
+        this.subscriptionIdIn = in.readString();
+        this.mediaFileIdEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.externalIdIn = in.readString();
+    }
 }
 

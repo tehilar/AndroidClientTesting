@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -119,5 +119,36 @@ public class FollowDataBase extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<FollowDataBase> CREATOR = new Creator<FollowDataBase>() {
+        @Override
+        public FollowDataBase createFromParcel(Parcel source) {
+            return new FollowDataBase(source);
+        }
+
+        @Override
+        public FollowDataBase[] newArray(int size) {
+            return new FollowDataBase[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.announcementId);
+        dest.writeValue(this.status);
+        dest.writeString(this.title);
+        dest.writeValue(this.timestamp);
+        dest.writeString(this.followPhrase);
+    }
+
+    public FollowDataBase(Parcel in) {
+        super(in);
+        this.announcementId = (Long)in.readValue(Long.class.getClassLoader());
+        this.status = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.title = in.readString();
+        this.timestamp = (Long)in.readValue(Long.class.getClassLoader());
+        this.followPhrase = in.readString();
+    }
 }
 

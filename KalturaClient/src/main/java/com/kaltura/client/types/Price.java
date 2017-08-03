@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -113,5 +113,34 @@ public class Price extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Price> CREATOR = new Creator<Price>() {
+        @Override
+        public Price createFromParcel(Parcel source) {
+            return new Price(source);
+        }
+
+        @Override
+        public Price[] newArray(int size) {
+            return new Price[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.amount);
+        dest.writeString(this.currency);
+        dest.writeString(this.currencySign);
+        dest.writeValue(this.countryId);
+    }
+
+    public Price(Parcel in) {
+        super(in);
+        this.amount = (Double)in.readValue(Double.class.getClassLoader());
+        this.currency = in.readString();
+        this.currencySign = in.readString();
+        this.countryId = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

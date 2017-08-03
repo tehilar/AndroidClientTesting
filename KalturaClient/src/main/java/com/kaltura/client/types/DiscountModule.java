@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -101,5 +101,32 @@ public class DiscountModule extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<DiscountModule> CREATOR = new Creator<DiscountModule>() {
+        @Override
+        public DiscountModule createFromParcel(Parcel source) {
+            return new DiscountModule(source);
+        }
+
+        @Override
+        public DiscountModule[] newArray(int size) {
+            return new DiscountModule[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.percent);
+        dest.writeValue(this.startDate);
+        dest.writeValue(this.endDate);
+    }
+
+    public DiscountModule(Parcel in) {
+        super(in);
+        this.percent = (Double)in.readValue(Double.class.getClassLoader());
+        this.startDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.endDate = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

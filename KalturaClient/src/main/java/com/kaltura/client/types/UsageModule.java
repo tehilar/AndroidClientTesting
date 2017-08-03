@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -167,5 +167,44 @@ public class UsageModule extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<UsageModule> CREATOR = new Creator<UsageModule>() {
+        @Override
+        public UsageModule createFromParcel(Parcel source) {
+            return new UsageModule(source);
+        }
+
+        @Override
+        public UsageModule[] newArray(int size) {
+            return new UsageModule[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.maxViewsNumber);
+        dest.writeValue(this.viewLifeCycle);
+        dest.writeValue(this.fullLifeCycle);
+        dest.writeValue(this.couponId);
+        dest.writeValue(this.waiverPeriod);
+        dest.writeValue(this.isWaiverEnabled);
+        dest.writeValue(this.isOfflinePlayback);
+    }
+
+    public UsageModule(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.maxViewsNumber = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.viewLifeCycle = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.fullLifeCycle = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.couponId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.waiverPeriod = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.isWaiverEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.isOfflinePlayback = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

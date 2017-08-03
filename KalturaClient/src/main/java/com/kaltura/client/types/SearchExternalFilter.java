@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -102,5 +102,32 @@ public class SearchExternalFilter extends AssetFilter {
         return kparams;
     }
 
+
+    public static final Creator<SearchExternalFilter> CREATOR = new Creator<SearchExternalFilter>() {
+        @Override
+        public SearchExternalFilter createFromParcel(Parcel source) {
+            return new SearchExternalFilter(source);
+        }
+
+        @Override
+        public SearchExternalFilter[] newArray(int size) {
+            return new SearchExternalFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.query);
+        dest.writeValue(this.utcOffsetEqual);
+        dest.writeString(this.typeIn);
+    }
+
+    public SearchExternalFilter(Parcel in) {
+        super(in);
+        this.query = in.readString();
+        this.utcOffsetEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.typeIn = in.readString();
+    }
 }
 

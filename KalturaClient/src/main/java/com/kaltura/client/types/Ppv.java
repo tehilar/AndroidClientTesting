@@ -27,19 +27,20 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.types.CouponsGroup;
+import com.kaltura.client.types.DiscountModule;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.PriceDetails;
-import com.kaltura.client.types.DiscountModule;
-import com.kaltura.client.types.CouponsGroup;
 import com.kaltura.client.types.UsageModule;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -204,5 +205,66 @@ public class Ppv extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Ppv> CREATOR = new Creator<Ppv>() {
+        @Override
+        public Ppv createFromParcel(Parcel source) {
+            return new Ppv(source);
+        }
+
+        @Override
+        public Ppv[] newArray(int size) {
+            return new Ppv[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeParcelable(this.price, flags);
+        if(this.fileTypes != null) {
+            dest.writeInt(this.fileTypes.size());
+            dest.writeList(this.fileTypes);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeParcelable(this.discountModule, flags);
+        dest.writeParcelable(this.couponsGroup, flags);
+        if(this.descriptions != null) {
+            dest.writeInt(this.descriptions.size());
+            dest.writeList(this.descriptions);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.productCode);
+        dest.writeValue(this.isSubscriptionOnly);
+        dest.writeValue(this.firstDeviceLimitation);
+        dest.writeParcelable(this.usageModule, flags);
+    }
+
+    public Ppv(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.name = in.readString();
+        this.price = in.readParcelable(PriceDetails.class.getClassLoader());
+        int fileTypesSize = in.readInt();
+        if( fileTypesSize > -1) {
+            this.fileTypes = new ArrayList<>();
+            in.readList(this.fileTypes, IntegerValue.class.getClassLoader());
+        }
+        this.discountModule = in.readParcelable(DiscountModule.class.getClassLoader());
+        this.couponsGroup = in.readParcelable(CouponsGroup.class.getClassLoader());
+        int descriptionsSize = in.readInt();
+        if( descriptionsSize > -1) {
+            this.descriptions = new ArrayList<>();
+            in.readList(this.descriptions, TranslationToken.class.getClassLoader());
+        }
+        this.productCode = in.readString();
+        this.isSubscriptionOnly = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.firstDeviceLimitation = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.usageModule = in.readParcelable(UsageModule.class.getClassLoader());
+    }
 }
 

@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +101,41 @@ public class Permission extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Permission> CREATOR = new Creator<Permission>() {
+        @Override
+        public Permission createFromParcel(Parcel source) {
+            return new Permission(source);
+        }
+
+        @Override
+        public Permission[] newArray(int size) {
+            return new Permission[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        if(this.permissionItems != null) {
+            dest.writeInt(this.permissionItems.size());
+            dest.writeList(this.permissionItems);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public Permission(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        int permissionItemsSize = in.readInt();
+        if( permissionItemsSize > -1) {
+            this.permissionItems = new ArrayList<>();
+            in.readList(this.permissionItems, PermissionItem.class.getClassLoader());
+        }
+    }
 }
 

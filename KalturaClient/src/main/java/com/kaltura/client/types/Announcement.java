@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.AnnouncementStatus;
-import com.kaltura.client.enums.AnnouncementRecipientsType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.AnnouncementRecipientsType;
+import com.kaltura.client.enums.AnnouncementStatus;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -160,5 +160,44 @@ public class Announcement extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Announcement> CREATOR = new Creator<Announcement>() {
+        @Override
+        public Announcement createFromParcel(Parcel source) {
+            return new Announcement(source);
+        }
+
+        @Override
+        public Announcement[] newArray(int size) {
+            return new Announcement[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.name);
+        dest.writeString(this.message);
+        dest.writeValue(this.enabled);
+        dest.writeValue(this.startTime);
+        dest.writeString(this.timezone);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeInt(this.recipients == null ? -1 : this.recipients.ordinal());
+        dest.writeValue(this.id);
+    }
+
+    public Announcement(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        this.message = in.readString();
+        this.enabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.startTime = (Long)in.readValue(Long.class.getClassLoader());
+        this.timezone = in.readString();
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : AnnouncementStatus.values()[tmpStatus];
+        int tmpRecipients = in.readInt();
+        this.recipients = tmpRecipients == -1 ? null : AnnouncementRecipientsType.values()[tmpRecipients];
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

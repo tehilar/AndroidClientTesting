@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.MetaTagOrderBy;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.MetaTagOrderBy;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -90,5 +90,31 @@ public class DynamicOrderBy extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<DynamicOrderBy> CREATOR = new Creator<DynamicOrderBy>() {
+        @Override
+        public DynamicOrderBy createFromParcel(Parcel source) {
+            return new DynamicOrderBy(source);
+        }
+
+        @Override
+        public DynamicOrderBy[] newArray(int size) {
+            return new DynamicOrderBy[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.name);
+        dest.writeInt(this.orderBy == null ? -1 : this.orderBy.ordinal());
+    }
+
+    public DynamicOrderBy(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        int tmpOrderBy = in.readInt();
+        this.orderBy = tmpOrderBy == -1 ? null : MetaTagOrderBy.values()[tmpOrderBy];
+    }
 }
 

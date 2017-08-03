@@ -27,17 +27,18 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.enums.ExportDataType;
 import com.kaltura.client.enums.ExportType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -191,5 +192,57 @@ public class ExportTask extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<ExportTask> CREATOR = new Creator<ExportTask>() {
+        @Override
+        public ExportTask createFromParcel(Parcel source) {
+            return new ExportTask(source);
+        }
+
+        @Override
+        public ExportTask[] newArray(int size) {
+            return new ExportTask[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.alias);
+        dest.writeString(this.name);
+        dest.writeInt(this.dataType == null ? -1 : this.dataType.ordinal());
+        dest.writeString(this.filter);
+        dest.writeInt(this.exportType == null ? -1 : this.exportType.ordinal());
+        dest.writeValue(this.frequency);
+        dest.writeString(this.notificationUrl);
+        if(this.vodTypes != null) {
+            dest.writeInt(this.vodTypes.size());
+            dest.writeList(this.vodTypes);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.isActive);
+    }
+
+    public ExportTask(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.alias = in.readString();
+        this.name = in.readString();
+        int tmpDataType = in.readInt();
+        this.dataType = tmpDataType == -1 ? null : ExportDataType.values()[tmpDataType];
+        this.filter = in.readString();
+        int tmpExportType = in.readInt();
+        this.exportType = tmpExportType == -1 ? null : ExportType.values()[tmpExportType];
+        this.frequency = (Long)in.readValue(Long.class.getClassLoader());
+        this.notificationUrl = in.readString();
+        int vodTypesSize = in.readInt();
+        if( vodTypesSize > -1) {
+            this.vodTypes = new ArrayList<>();
+            in.readList(this.vodTypes, IntegerValue.class.getClassLoader());
+        }
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

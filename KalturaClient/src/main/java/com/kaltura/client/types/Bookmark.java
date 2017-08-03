@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.BookmarkPlayerData;
-import com.kaltura.client.enums.PositionOwner;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.PositionOwner;
+import com.kaltura.client.types.BookmarkPlayerData;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -123,5 +123,37 @@ public class Bookmark extends SlimAsset {
         return kparams;
     }
 
+
+    public static final Creator<Bookmark> CREATOR = new Creator<Bookmark>() {
+        @Override
+        public Bookmark createFromParcel(Parcel source) {
+            return new Bookmark(source);
+        }
+
+        @Override
+        public Bookmark[] newArray(int size) {
+            return new Bookmark[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.userId);
+        dest.writeValue(this.position);
+        dest.writeInt(this.positionOwner == null ? -1 : this.positionOwner.ordinal());
+        dest.writeValue(this.finishedWatching);
+        dest.writeParcelable(this.playerData, flags);
+    }
+
+    public Bookmark(Parcel in) {
+        super(in);
+        this.userId = in.readString();
+        this.position = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpPositionOwner = in.readInt();
+        this.positionOwner = tmpPositionOwner == -1 ? null : PositionOwner.values()[tmpPositionOwner];
+        this.finishedWatching = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.playerData = in.readParcelable(BookmarkPlayerData.class.getClassLoader());
+    }
 }
 

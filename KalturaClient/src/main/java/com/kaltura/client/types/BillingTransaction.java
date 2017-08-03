@@ -27,18 +27,18 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.enums.BillingAction;
+import com.kaltura.client.enums.BillingItemsType;
+import com.kaltura.client.enums.PaymentMethodType;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.Price;
-import com.kaltura.client.enums.BillingItemsType;
-import com.kaltura.client.enums.BillingAction;
-import com.kaltura.client.enums.PaymentMethodType;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -234,5 +234,59 @@ public class BillingTransaction extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<BillingTransaction> CREATOR = new Creator<BillingTransaction>() {
+        @Override
+        public BillingTransaction createFromParcel(Parcel source) {
+            return new BillingTransaction(source);
+        }
+
+        @Override
+        public BillingTransaction[] newArray(int size) {
+            return new BillingTransaction[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.recieptCode);
+        dest.writeString(this.purchasedItemName);
+        dest.writeString(this.purchasedItemCode);
+        dest.writeInt(this.itemType == null ? -1 : this.itemType.ordinal());
+        dest.writeInt(this.billingAction == null ? -1 : this.billingAction.ordinal());
+        dest.writeParcelable(this.price, flags);
+        dest.writeValue(this.actionDate);
+        dest.writeValue(this.startDate);
+        dest.writeValue(this.endDate);
+        dest.writeInt(this.paymentMethod == null ? -1 : this.paymentMethod.ordinal());
+        dest.writeString(this.paymentMethodExtraDetails);
+        dest.writeValue(this.isRecurring);
+        dest.writeValue(this.billingProviderRef);
+        dest.writeValue(this.purchaseId);
+        dest.writeString(this.remarks);
+    }
+
+    public BillingTransaction(Parcel in) {
+        super(in);
+        this.recieptCode = in.readString();
+        this.purchasedItemName = in.readString();
+        this.purchasedItemCode = in.readString();
+        int tmpItemType = in.readInt();
+        this.itemType = tmpItemType == -1 ? null : BillingItemsType.values()[tmpItemType];
+        int tmpBillingAction = in.readInt();
+        this.billingAction = tmpBillingAction == -1 ? null : BillingAction.values()[tmpBillingAction];
+        this.price = in.readParcelable(Price.class.getClassLoader());
+        this.actionDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.startDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.endDate = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpPaymentMethod = in.readInt();
+        this.paymentMethod = tmpPaymentMethod == -1 ? null : PaymentMethodType.values()[tmpPaymentMethod];
+        this.paymentMethodExtraDetails = in.readString();
+        this.isRecurring = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.billingProviderRef = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.purchaseId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.remarks = in.readString();
+    }
 }
 

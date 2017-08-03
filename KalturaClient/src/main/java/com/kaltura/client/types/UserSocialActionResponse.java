@@ -27,16 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.SocialAction;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -90,5 +91,39 @@ public class UserSocialActionResponse extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<UserSocialActionResponse> CREATOR = new Creator<UserSocialActionResponse>() {
+        @Override
+        public UserSocialActionResponse createFromParcel(Parcel source) {
+            return new UserSocialActionResponse(source);
+        }
+
+        @Override
+        public UserSocialActionResponse[] newArray(int size) {
+            return new UserSocialActionResponse[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.socialAction, flags);
+        if(this.failStatus != null) {
+            dest.writeInt(this.failStatus.size());
+            dest.writeList(this.failStatus);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public UserSocialActionResponse(Parcel in) {
+        super(in);
+        this.socialAction = in.readParcelable(SocialAction.class.getClassLoader());
+        int failStatusSize = in.readInt();
+        if( failStatusSize > -1) {
+            this.failStatus = new ArrayList<>();
+            in.readList(this.failStatus, NetworkActionStatus.class.getClassLoader());
+        }
+    }
 }
 

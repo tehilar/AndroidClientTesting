@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +100,32 @@ public class RegistryResponse extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<RegistryResponse> CREATOR = new Creator<RegistryResponse>() {
+        @Override
+        public RegistryResponse createFromParcel(Parcel source) {
+            return new RegistryResponse(source);
+        }
+
+        @Override
+        public RegistryResponse[] newArray(int size) {
+            return new RegistryResponse[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.announcementId);
+        dest.writeString(this.key);
+        dest.writeString(this.url);
+    }
+
+    public RegistryResponse(Parcel in) {
+        super(in);
+        this.announcementId = (Long)in.readValue(Long.class.getClassLoader());
+        this.key = in.readString();
+        this.url = in.readString();
+    }
 }
 

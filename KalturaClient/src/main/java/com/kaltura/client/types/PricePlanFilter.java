@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -75,5 +75,28 @@ public class PricePlanFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<PricePlanFilter> CREATOR = new Creator<PricePlanFilter>() {
+        @Override
+        public PricePlanFilter createFromParcel(Parcel source) {
+            return new PricePlanFilter(source);
+        }
+
+        @Override
+        public PricePlanFilter[] newArray(int size) {
+            return new PricePlanFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.idIn);
+    }
+
+    public PricePlanFilter(Parcel in) {
+        super(in);
+        this.idIn = in.readString();
+    }
 }
 

@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import java.util.HashMap;
 import java.util.Map;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -124,5 +125,52 @@ public class OSSAdapterProfile extends OSSAdapterBaseProfile {
         return kparams;
     }
 
+
+    public static final Creator<OSSAdapterProfile> CREATOR = new Creator<OSSAdapterProfile>() {
+        @Override
+        public OSSAdapterProfile createFromParcel(Parcel source) {
+            return new OSSAdapterProfile(source);
+        }
+
+        @Override
+        public OSSAdapterProfile[] newArray(int size) {
+            return new OSSAdapterProfile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.isActive);
+        dest.writeString(this.adapterUrl);
+        if(this.ossAdapterSettings != null) {
+            dest.writeInt(this.ossAdapterSettings.size());
+            for (Map.Entry<String, StringValue> entry : this.ossAdapterSettings.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.externalIdentifier);
+        dest.writeString(this.sharedSecret);
+    }
+
+    public OSSAdapterProfile(Parcel in) {
+        super(in);
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.adapterUrl = in.readString();
+        int ossAdapterSettingsSize = in.readInt();
+        if( ossAdapterSettingsSize > -1) {
+            this.ossAdapterSettings = new HashMap<>();
+            for (int i = 0; i < ossAdapterSettingsSize; i++) {
+                String key = in.readString();
+                StringValue value = in.readParcelable(StringValue.class.getClassLoader());
+                this.ossAdapterSettings.put(key, value);
+            }
+        }
+        this.externalIdentifier = in.readString();
+        this.sharedSecret = in.readString();
+    }
 }
 

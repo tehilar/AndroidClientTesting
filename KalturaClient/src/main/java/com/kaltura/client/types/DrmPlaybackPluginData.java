@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.DrmSchemeName;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.DrmSchemeName;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -88,5 +88,31 @@ public class DrmPlaybackPluginData extends PluginData {
         return kparams;
     }
 
+
+    public static final Creator<DrmPlaybackPluginData> CREATOR = new Creator<DrmPlaybackPluginData>() {
+        @Override
+        public DrmPlaybackPluginData createFromParcel(Parcel source) {
+            return new DrmPlaybackPluginData(source);
+        }
+
+        @Override
+        public DrmPlaybackPluginData[] newArray(int size) {
+            return new DrmPlaybackPluginData[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.scheme == null ? -1 : this.scheme.ordinal());
+        dest.writeString(this.licenseURL);
+    }
+
+    public DrmPlaybackPluginData(Parcel in) {
+        super(in);
+        int tmpScheme = in.readInt();
+        this.scheme = tmpScheme == -1 ? null : DrmSchemeName.values()[tmpScheme];
+        this.licenseURL = in.readString();
+    }
 }
 

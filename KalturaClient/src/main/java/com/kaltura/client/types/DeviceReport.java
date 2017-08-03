@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.PushParams;
-import com.kaltura.client.enums.Platform;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.Platform;
+import com.kaltura.client.types.PushParams;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -197,5 +197,49 @@ public class DeviceReport extends Report {
         return kparams;
     }
 
+
+    public static final Creator<DeviceReport> CREATOR = new Creator<DeviceReport>() {
+        @Override
+        public DeviceReport createFromParcel(Parcel source) {
+            return new DeviceReport(source);
+        }
+
+        @Override
+        public DeviceReport[] newArray(int size) {
+            return new DeviceReport[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.partnerId);
+        dest.writeString(this.configurationGroupId);
+        dest.writeString(this.udid);
+        dest.writeParcelable(this.pushParameters, flags);
+        dest.writeString(this.versionNumber);
+        dest.writeInt(this.versionPlatform == null ? -1 : this.versionPlatform.ordinal());
+        dest.writeString(this.versionAppName);
+        dest.writeString(this.lastAccessIP);
+        dest.writeValue(this.lastAccessDate);
+        dest.writeString(this.userAgent);
+        dest.writeString(this.operationSystem);
+    }
+
+    public DeviceReport(Parcel in) {
+        super(in);
+        this.partnerId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.configurationGroupId = in.readString();
+        this.udid = in.readString();
+        this.pushParameters = in.readParcelable(PushParams.class.getClassLoader());
+        this.versionNumber = in.readString();
+        int tmpVersionPlatform = in.readInt();
+        this.versionPlatform = tmpVersionPlatform == -1 ? null : Platform.values()[tmpVersionPlatform];
+        this.versionAppName = in.readString();
+        this.lastAccessIP = in.readString();
+        this.lastAccessDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.userAgent = in.readString();
+        this.operationSystem = in.readString();
+    }
 }
 

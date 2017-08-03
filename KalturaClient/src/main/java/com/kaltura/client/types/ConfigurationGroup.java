@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -144,5 +145,58 @@ public class ConfigurationGroup extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<ConfigurationGroup> CREATOR = new Creator<ConfigurationGroup>() {
+        @Override
+        public ConfigurationGroup createFromParcel(Parcel source) {
+            return new ConfigurationGroup(source);
+        }
+
+        @Override
+        public ConfigurationGroup[] newArray(int size) {
+            return new ConfigurationGroup[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.partnerId);
+        dest.writeValue(this.isDefault);
+        if(this.tags != null) {
+            dest.writeInt(this.tags.size());
+            dest.writeList(this.tags);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.numberOfDevices);
+        if(this.configurationIdentifiers != null) {
+            dest.writeInt(this.configurationIdentifiers.size());
+            dest.writeList(this.configurationIdentifiers);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public ConfigurationGroup(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.name = in.readString();
+        this.partnerId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.isDefault = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int tagsSize = in.readInt();
+        if( tagsSize > -1) {
+            this.tags = new ArrayList<>();
+            in.readList(this.tags, StringValue.class.getClassLoader());
+        }
+        this.numberOfDevices = (Long)in.readValue(Long.class.getClassLoader());
+        int configurationIdentifiersSize = in.readInt();
+        if( configurationIdentifiersSize > -1) {
+            this.configurationIdentifiers = new ArrayList<>();
+            in.readList(this.configurationIdentifiers, ConfigurationIdentifier.class.getClassLoader());
+        }
+    }
 }
 

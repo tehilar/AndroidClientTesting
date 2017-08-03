@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import java.util.HashMap;
 import java.util.Map;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -124,5 +125,52 @@ public class EngagementAdapter extends EngagementAdapterBase {
         return kparams;
     }
 
+
+    public static final Creator<EngagementAdapter> CREATOR = new Creator<EngagementAdapter>() {
+        @Override
+        public EngagementAdapter createFromParcel(Parcel source) {
+            return new EngagementAdapter(source);
+        }
+
+        @Override
+        public EngagementAdapter[] newArray(int size) {
+            return new EngagementAdapter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.isActive);
+        dest.writeString(this.adapterUrl);
+        dest.writeString(this.providerUrl);
+        if(this.engagementAdapterSettings != null) {
+            dest.writeInt(this.engagementAdapterSettings.size());
+            for (Map.Entry<String, StringValue> entry : this.engagementAdapterSettings.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.sharedSecret);
+    }
+
+    public EngagementAdapter(Parcel in) {
+        super(in);
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.adapterUrl = in.readString();
+        this.providerUrl = in.readString();
+        int engagementAdapterSettingsSize = in.readInt();
+        if( engagementAdapterSettingsSize > -1) {
+            this.engagementAdapterSettings = new HashMap<>();
+            for (int i = 0; i < engagementAdapterSettingsSize; i++) {
+                String key = in.readString();
+                StringValue value = in.readParcelable(StringValue.class.getClassLoader());
+                this.engagementAdapterSettings.put(key, value);
+            }
+        }
+        this.sharedSecret = in.readString();
+    }
 }
 

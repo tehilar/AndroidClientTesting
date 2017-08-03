@@ -27,16 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.CouponGroupType;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.CouponGroupType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -163,5 +164,52 @@ public class CouponsGroup extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<CouponsGroup> CREATOR = new Creator<CouponsGroup>() {
+        @Override
+        public CouponsGroup createFromParcel(Parcel source) {
+            return new CouponsGroup(source);
+        }
+
+        @Override
+        public CouponsGroup[] newArray(int size) {
+            return new CouponsGroup[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        if(this.descriptions != null) {
+            dest.writeInt(this.descriptions.size());
+            dest.writeList(this.descriptions);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.startDate);
+        dest.writeValue(this.endDate);
+        dest.writeValue(this.maxUsesNumber);
+        dest.writeValue(this.maxUsesNumberOnRenewableSub);
+        dest.writeInt(this.couponGroupType == null ? -1 : this.couponGroupType.ordinal());
+    }
+
+    public CouponsGroup(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.name = in.readString();
+        int descriptionsSize = in.readInt();
+        if( descriptionsSize > -1) {
+            this.descriptions = new ArrayList<>();
+            in.readList(this.descriptions, TranslationToken.class.getClassLoader());
+        }
+        this.startDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.endDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.maxUsesNumber = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.maxUsesNumberOnRenewableSub = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpCouponGroupType = in.readInt();
+        this.couponGroupType = tmpCouponGroupType == -1 ? null : CouponGroupType.values()[tmpCouponGroupType];
+    }
 }
 

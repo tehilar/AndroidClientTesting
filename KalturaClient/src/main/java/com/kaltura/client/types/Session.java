@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.SessionType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.SessionType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -162,5 +162,43 @@ public class Session extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Session> CREATOR = new Creator<Session>() {
+        @Override
+        public Session createFromParcel(Parcel source) {
+            return new Session(source);
+        }
+
+        @Override
+        public Session[] newArray(int size) {
+            return new Session[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.ks);
+        dest.writeInt(this.sessionType == null ? -1 : this.sessionType.ordinal());
+        dest.writeValue(this.partnerId);
+        dest.writeString(this.userId);
+        dest.writeValue(this.expiry);
+        dest.writeString(this.privileges);
+        dest.writeString(this.udid);
+        dest.writeValue(this.createDate);
+    }
+
+    public Session(Parcel in) {
+        super(in);
+        this.ks = in.readString();
+        int tmpSessionType = in.readInt();
+        this.sessionType = tmpSessionType == -1 ? null : SessionType.values()[tmpSessionType];
+        this.partnerId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.userId = in.readString();
+        this.expiry = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.privileges = in.readString();
+        this.udid = in.readString();
+        this.createDate = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

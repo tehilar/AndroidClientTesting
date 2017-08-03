@@ -50,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
                                                         public void onComplete(Asset result) {
                                                             if(result != null){
                                                                 Intent anotherIntent = new Intent(getBaseContext(), anotherActivity.class);
-                                                                //anotherIntent.putExtra("passAsset", new MyMo);
-                                                                //startActivity();
+                                                                Bundle assetBundle = new Bundle();
+                                                                assetBundle.putParcelable("passAsset", result);
+                                                                anotherIntent.putExtra("passAsset", assetBundle);
+                                                                startActivity(anotherIntent);
                                                             }
                                                         }
                                                     });

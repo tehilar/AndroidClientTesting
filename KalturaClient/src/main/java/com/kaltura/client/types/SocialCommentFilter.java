@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.enums.AssetType;
 import com.kaltura.client.enums.SocialPlatform;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -113,5 +113,36 @@ public class SocialCommentFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<SocialCommentFilter> CREATOR = new Creator<SocialCommentFilter>() {
+        @Override
+        public SocialCommentFilter createFromParcel(Parcel source) {
+            return new SocialCommentFilter(source);
+        }
+
+        @Override
+        public SocialCommentFilter[] newArray(int size) {
+            return new SocialCommentFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.assetIdEqual);
+        dest.writeInt(this.assetTypeEqual == null ? -1 : this.assetTypeEqual.ordinal());
+        dest.writeInt(this.socialPlatformEqual == null ? -1 : this.socialPlatformEqual.ordinal());
+        dest.writeValue(this.createDateGreaterThan);
+    }
+
+    public SocialCommentFilter(Parcel in) {
+        super(in);
+        this.assetIdEqual = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpAssetTypeEqual = in.readInt();
+        this.assetTypeEqual = tmpAssetTypeEqual == -1 ? null : AssetType.values()[tmpAssetTypeEqual];
+        int tmpSocialPlatformEqual = in.readInt();
+        this.socialPlatformEqual = tmpSocialPlatformEqual == -1 ? null : SocialPlatform.values()[tmpSocialPlatformEqual];
+        this.createDateGreaterThan = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

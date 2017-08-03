@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.SocialActionType;
-import com.kaltura.client.enums.AssetType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.AssetType;
+import com.kaltura.client.enums.SocialActionType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -137,5 +137,40 @@ public class SocialAction extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<SocialAction> CREATOR = new Creator<SocialAction>() {
+        @Override
+        public SocialAction createFromParcel(Parcel source) {
+            return new SocialAction(source);
+        }
+
+        @Override
+        public SocialAction[] newArray(int size) {
+            return new SocialAction[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeInt(this.actionType == null ? -1 : this.actionType.ordinal());
+        dest.writeValue(this.time);
+        dest.writeValue(this.assetId);
+        dest.writeInt(this.assetType == null ? -1 : this.assetType.ordinal());
+        dest.writeString(this.url);
+    }
+
+    public SocialAction(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        int tmpActionType = in.readInt();
+        this.actionType = tmpActionType == -1 ? null : SocialActionType.values()[tmpActionType];
+        this.time = (Long)in.readValue(Long.class.getClassLoader());
+        this.assetId = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpAssetType = in.readInt();
+        this.assetType = tmpAssetType == -1 ? null : AssetType.values()[tmpAssetType];
+        this.url = in.readString();
+    }
 }
 

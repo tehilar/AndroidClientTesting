@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.GroupByField;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.GroupByField;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -77,5 +77,29 @@ public class AssetFieldGroupBy extends AssetGroupBy {
         return kparams;
     }
 
+
+    public static final Creator<AssetFieldGroupBy> CREATOR = new Creator<AssetFieldGroupBy>() {
+        @Override
+        public AssetFieldGroupBy createFromParcel(Parcel source) {
+            return new AssetFieldGroupBy(source);
+        }
+
+        @Override
+        public AssetFieldGroupBy[] newArray(int size) {
+            return new AssetFieldGroupBy[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.value == null ? -1 : this.value.ordinal());
+    }
+
+    public AssetFieldGroupBy(Parcel in) {
+        super(in);
+        int tmpValue = in.readInt();
+        this.value = tmpValue == -1 ? null : GroupByField.values()[tmpValue];
+    }
 }
 

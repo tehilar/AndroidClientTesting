@@ -27,17 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.SocialNetwork;
-import com.kaltura.client.enums.SocialActionPrivacy;
-import com.kaltura.client.enums.SocialPrivacy;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.SocialActionPrivacy;
+import com.kaltura.client.enums.SocialNetwork;
+import com.kaltura.client.enums.SocialPrivacy;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -115,5 +115,37 @@ public class ActionPermissionItem extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<ActionPermissionItem> CREATOR = new Creator<ActionPermissionItem>() {
+        @Override
+        public ActionPermissionItem createFromParcel(Parcel source) {
+            return new ActionPermissionItem(source);
+        }
+
+        @Override
+        public ActionPermissionItem[] newArray(int size) {
+            return new ActionPermissionItem[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.network == null ? -1 : this.network.ordinal());
+        dest.writeInt(this.actionPrivacy == null ? -1 : this.actionPrivacy.ordinal());
+        dest.writeInt(this.privacy == null ? -1 : this.privacy.ordinal());
+        dest.writeString(this.action);
+    }
+
+    public ActionPermissionItem(Parcel in) {
+        super(in);
+        int tmpNetwork = in.readInt();
+        this.network = tmpNetwork == -1 ? null : SocialNetwork.values()[tmpNetwork];
+        int tmpActionPrivacy = in.readInt();
+        this.actionPrivacy = tmpActionPrivacy == -1 ? null : SocialActionPrivacy.values()[tmpActionPrivacy];
+        int tmpPrivacy = in.readInt();
+        this.privacy = tmpPrivacy == -1 ? null : SocialPrivacy.values()[tmpPrivacy];
+        this.action = in.readString();
+    }
 }
 

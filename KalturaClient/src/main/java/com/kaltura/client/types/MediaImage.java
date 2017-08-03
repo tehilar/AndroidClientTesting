@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -148,5 +148,40 @@ public class MediaImage extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<MediaImage> CREATOR = new Creator<MediaImage>() {
+        @Override
+        public MediaImage createFromParcel(Parcel source) {
+            return new MediaImage(source);
+        }
+
+        @Override
+        public MediaImage[] newArray(int size) {
+            return new MediaImage[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.ratio);
+        dest.writeValue(this.width);
+        dest.writeValue(this.height);
+        dest.writeString(this.url);
+        dest.writeValue(this.version);
+        dest.writeString(this.id);
+        dest.writeValue(this.isDefault);
+    }
+
+    public MediaImage(Parcel in) {
+        super(in);
+        this.ratio = in.readString();
+        this.width = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.height = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.url = in.readString();
+        this.version = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.id = in.readString();
+        this.isDefault = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

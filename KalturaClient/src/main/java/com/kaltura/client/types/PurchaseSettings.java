@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.PurchaseSettingsType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.PurchaseSettingsType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -77,5 +77,29 @@ public class PurchaseSettings extends Pin {
         return kparams;
     }
 
+
+    public static final Creator<PurchaseSettings> CREATOR = new Creator<PurchaseSettings>() {
+        @Override
+        public PurchaseSettings createFromParcel(Parcel source) {
+            return new PurchaseSettings(source);
+        }
+
+        @Override
+        public PurchaseSettings[] newArray(int size) {
+            return new PurchaseSettings[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.permission == null ? -1 : this.permission.ordinal());
+    }
+
+    public PurchaseSettings(Parcel in) {
+        super(in);
+        int tmpPermission = in.readInt();
+        this.permission = tmpPermission == -1 ? null : PurchaseSettingsType.values()[tmpPermission];
+    }
 }
 

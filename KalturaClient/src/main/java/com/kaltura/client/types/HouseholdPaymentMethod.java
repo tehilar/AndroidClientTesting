@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -134,5 +134,38 @@ public class HouseholdPaymentMethod extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdPaymentMethod> CREATOR = new Creator<HouseholdPaymentMethod>() {
+        @Override
+        public HouseholdPaymentMethod createFromParcel(Parcel source) {
+            return new HouseholdPaymentMethod(source);
+        }
+
+        @Override
+        public HouseholdPaymentMethod[] newArray(int size) {
+            return new HouseholdPaymentMethod[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.externalId);
+        dest.writeValue(this.paymentGatewayId);
+        dest.writeString(this.details);
+        dest.writeValue(this.isDefault);
+        dest.writeValue(this.paymentMethodProfileId);
+    }
+
+    public HouseholdPaymentMethod(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.externalId = in.readString();
+        this.paymentGatewayId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.details = in.readString();
+        this.isDefault = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.paymentMethodProfileId = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

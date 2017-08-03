@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.UserInterestTopic;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -102,5 +102,32 @@ public class UserInterestTopic extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<UserInterestTopic> CREATOR = new Creator<UserInterestTopic>() {
+        @Override
+        public UserInterestTopic createFromParcel(Parcel source) {
+            return new UserInterestTopic(source);
+        }
+
+        @Override
+        public UserInterestTopic[] newArray(int size) {
+            return new UserInterestTopic[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.metaId);
+        dest.writeString(this.value);
+        dest.writeParcelable(this.parentTopic, flags);
+    }
+
+    public UserInterestTopic(Parcel in) {
+        super(in);
+        this.metaId = in.readString();
+        this.value = in.readString();
+        this.parentTopic = in.readParcelable(UserInterestTopic.class.getClassLoader());
+    }
 }
 

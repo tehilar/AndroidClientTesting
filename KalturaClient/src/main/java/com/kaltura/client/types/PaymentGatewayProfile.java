@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import java.util.HashMap;
 import java.util.Map;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -209,5 +210,66 @@ public class PaymentGatewayProfile extends PaymentGatewayBaseProfile {
         return kparams;
     }
 
+
+    public static final Creator<PaymentGatewayProfile> CREATOR = new Creator<PaymentGatewayProfile>() {
+        @Override
+        public PaymentGatewayProfile createFromParcel(Parcel source) {
+            return new PaymentGatewayProfile(source);
+        }
+
+        @Override
+        public PaymentGatewayProfile[] newArray(int size) {
+            return new PaymentGatewayProfile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.isActive);
+        dest.writeString(this.adapterUrl);
+        dest.writeString(this.transactUrl);
+        dest.writeString(this.statusUrl);
+        dest.writeString(this.renewUrl);
+        if(this.paymentGatewaySettings != null) {
+            dest.writeInt(this.paymentGatewaySettings.size());
+            for (Map.Entry<String, StringValue> entry : this.paymentGatewaySettings.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.externalIdentifier);
+        dest.writeValue(this.pendingInterval);
+        dest.writeValue(this.pendingRetries);
+        dest.writeString(this.sharedSecret);
+        dest.writeValue(this.renewIntervalMinutes);
+        dest.writeValue(this.renewStartMinutes);
+    }
+
+    public PaymentGatewayProfile(Parcel in) {
+        super(in);
+        this.isActive = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.adapterUrl = in.readString();
+        this.transactUrl = in.readString();
+        this.statusUrl = in.readString();
+        this.renewUrl = in.readString();
+        int paymentGatewaySettingsSize = in.readInt();
+        if( paymentGatewaySettingsSize > -1) {
+            this.paymentGatewaySettings = new HashMap<>();
+            for (int i = 0; i < paymentGatewaySettingsSize; i++) {
+                String key = in.readString();
+                StringValue value = in.readParcelable(StringValue.class.getClassLoader());
+                this.paymentGatewaySettings.put(key, value);
+            }
+        }
+        this.externalIdentifier = in.readString();
+        this.pendingInterval = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.pendingRetries = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.sharedSecret = in.readString();
+        this.renewIntervalMinutes = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.renewStartMinutes = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

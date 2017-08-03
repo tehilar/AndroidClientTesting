@@ -27,16 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.types.Price;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -126,5 +127,54 @@ public class PriceDetails extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<PriceDetails> CREATOR = new Creator<PriceDetails>() {
+        @Override
+        public PriceDetails createFromParcel(Parcel source) {
+            return new PriceDetails(source);
+        }
+
+        @Override
+        public PriceDetails[] newArray(int size) {
+            return new PriceDetails[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeParcelable(this.price, flags);
+        if(this.multiCurrencyPrice != null) {
+            dest.writeInt(this.multiCurrencyPrice.size());
+            dest.writeList(this.multiCurrencyPrice);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.descriptions != null) {
+            dest.writeInt(this.descriptions.size());
+            dest.writeList(this.descriptions);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public PriceDetails(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.price = in.readParcelable(Price.class.getClassLoader());
+        int multiCurrencyPriceSize = in.readInt();
+        if( multiCurrencyPriceSize > -1) {
+            this.multiCurrencyPrice = new ArrayList<>();
+            in.readList(this.multiCurrencyPrice, Price.class.getClassLoader());
+        }
+        int descriptionsSize = in.readInt();
+        if( descriptionsSize > -1) {
+            this.descriptions = new ArrayList<>();
+            in.readList(this.descriptions, TranslationToken.class.getClassLoader());
+        }
+    }
 }
 

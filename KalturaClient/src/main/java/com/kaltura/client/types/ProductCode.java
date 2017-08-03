@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -89,5 +89,30 @@ public class ProductCode extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<ProductCode> CREATOR = new Creator<ProductCode>() {
+        @Override
+        public ProductCode createFromParcel(Parcel source) {
+            return new ProductCode(source);
+        }
+
+        @Override
+        public ProductCode[] newArray(int size) {
+            return new ProductCode[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.inappProvider);
+        dest.writeString(this.code);
+    }
+
+    public ProductCode(Parcel in) {
+        super(in);
+        this.inappProvider = in.readString();
+        this.code = in.readString();
+    }
 }
 

@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -114,5 +114,34 @@ public class RelatedExternalFilter extends AssetFilter {
         return kparams;
     }
 
+
+    public static final Creator<RelatedExternalFilter> CREATOR = new Creator<RelatedExternalFilter>() {
+        @Override
+        public RelatedExternalFilter createFromParcel(Parcel source) {
+            return new RelatedExternalFilter(source);
+        }
+
+        @Override
+        public RelatedExternalFilter[] newArray(int size) {
+            return new RelatedExternalFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.idEqual);
+        dest.writeString(this.typeIn);
+        dest.writeValue(this.utcOffsetEqual);
+        dest.writeString(this.freeText);
+    }
+
+    public RelatedExternalFilter(Parcel in) {
+        super(in);
+        this.idEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.typeIn = in.readString();
+        this.utcOffsetEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.freeText = in.readString();
+    }
 }
 

@@ -27,18 +27,19 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.types.MultilingualString;
 import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.types.MultilingualString;
-import com.kaltura.client.types.MultilingualString;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -279,5 +280,98 @@ public abstract class Asset extends ObjectBase {
         return kparams;
     }
 
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeValue(this.type);
+        dest.writeString(this.name);
+        dest.writeParcelable(this.multilingualName, flags);
+        dest.writeString(this.description);
+        dest.writeParcelable(this.multilingualDescription, flags);
+        if(this.images != null) {
+            dest.writeInt(this.images.size());
+            dest.writeList(this.images);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.mediaFiles != null) {
+            dest.writeInt(this.mediaFiles.size());
+            dest.writeList(this.mediaFiles);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.metas != null) {
+            dest.writeInt(this.metas.size());
+            for (Map.Entry<String, Value> entry : this.metas.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.tags != null) {
+            dest.writeInt(this.tags.size());
+            for (Map.Entry<String, MultilingualStringValueArray> entry : this.tags.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.startDate);
+        dest.writeValue(this.endDate);
+        dest.writeValue(this.enableCdvr);
+        dest.writeValue(this.enableCatchUp);
+        dest.writeValue(this.enableStartOver);
+        dest.writeValue(this.enableTrickPlay);
+        dest.writeString(this.externalId);
+    }
+
+    public Asset(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.type = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.multilingualName = in.readParcelable(MultilingualString.class.getClassLoader());
+        this.description = in.readString();
+        this.multilingualDescription = in.readParcelable(MultilingualString.class.getClassLoader());
+        int imagesSize = in.readInt();
+        if( imagesSize > -1) {
+            this.images = new ArrayList<>();
+            in.readList(this.images, MediaImage.class.getClassLoader());
+        }
+        int mediaFilesSize = in.readInt();
+        if( mediaFilesSize > -1) {
+            this.mediaFiles = new ArrayList<>();
+            in.readList(this.mediaFiles, MediaFile.class.getClassLoader());
+        }
+        int metasSize = in.readInt();
+        if( metasSize > -1) {
+            this.metas = new HashMap<>();
+            for (int i = 0; i < metasSize; i++) {
+                String key = in.readString();
+                Value value = in.readParcelable(Value.class.getClassLoader());
+                this.metas.put(key, value);
+            }
+        }
+        int tagsSize = in.readInt();
+        if( tagsSize > -1) {
+            this.tags = new HashMap<>();
+            for (int i = 0; i < tagsSize; i++) {
+                String key = in.readString();
+                MultilingualStringValueArray value = in.readParcelable(MultilingualStringValueArray.class.getClassLoader());
+                this.tags.put(key, value);
+            }
+        }
+        this.startDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.endDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.enableCdvr = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.enableCatchUp = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.enableStartOver = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.enableTrickPlay = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.externalId = in.readString();
+    }
 }
 

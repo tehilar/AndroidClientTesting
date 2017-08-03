@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -89,5 +89,30 @@ public class TranslationToken extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<TranslationToken> CREATOR = new Creator<TranslationToken>() {
+        @Override
+        public TranslationToken createFromParcel(Parcel source) {
+            return new TranslationToken(source);
+        }
+
+        @Override
+        public TranslationToken[] newArray(int size) {
+            return new TranslationToken[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.language);
+        dest.writeString(this.value);
+    }
+
+    public TranslationToken(Parcel in) {
+        super(in);
+        this.language = in.readString();
+        this.value = in.readString();
+    }
 }
 

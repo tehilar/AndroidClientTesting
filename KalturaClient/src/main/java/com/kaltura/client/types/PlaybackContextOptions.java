@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.PlaybackContextType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.PlaybackContextType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -113,5 +113,35 @@ public class PlaybackContextOptions extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<PlaybackContextOptions> CREATOR = new Creator<PlaybackContextOptions>() {
+        @Override
+        public PlaybackContextOptions createFromParcel(Parcel source) {
+            return new PlaybackContextOptions(source);
+        }
+
+        @Override
+        public PlaybackContextOptions[] newArray(int size) {
+            return new PlaybackContextOptions[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.mediaProtocol);
+        dest.writeString(this.streamerType);
+        dest.writeString(this.assetFileIds);
+        dest.writeInt(this.context == null ? -1 : this.context.ordinal());
+    }
+
+    public PlaybackContextOptions(Parcel in) {
+        super(in);
+        this.mediaProtocol = in.readString();
+        this.streamerType = in.readString();
+        this.assetFileIds = in.readString();
+        int tmpContext = in.readInt();
+        this.context = tmpContext == -1 ? null : PlaybackContextType.values()[tmpContext];
+    }
 }
 

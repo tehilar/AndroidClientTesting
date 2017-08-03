@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.MultilingualString;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.MultilingualString;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -89,5 +89,30 @@ public class MultilingualStringValue extends Value {
         return kparams;
     }
 
+
+    public static final Creator<MultilingualStringValue> CREATOR = new Creator<MultilingualStringValue>() {
+        @Override
+        public MultilingualStringValue createFromParcel(Parcel source) {
+            return new MultilingualStringValue(source);
+        }
+
+        @Override
+        public MultilingualStringValue[] newArray(int size) {
+            return new MultilingualStringValue[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.value);
+        dest.writeParcelable(this.multilingualValue, flags);
+    }
+
+    public MultilingualStringValue(Parcel in) {
+        super(in);
+        this.value = in.readString();
+        this.multilingualValue = in.readParcelable(MultilingualString.class.getClassLoader());
+    }
 }
 

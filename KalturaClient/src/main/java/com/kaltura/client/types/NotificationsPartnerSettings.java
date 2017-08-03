@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -244,5 +244,56 @@ public class NotificationsPartnerSettings extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<NotificationsPartnerSettings> CREATOR = new Creator<NotificationsPartnerSettings>() {
+        @Override
+        public NotificationsPartnerSettings createFromParcel(Parcel source) {
+            return new NotificationsPartnerSettings(source);
+        }
+
+        @Override
+        public NotificationsPartnerSettings[] newArray(int size) {
+            return new NotificationsPartnerSettings[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.pushNotificationEnabled);
+        dest.writeValue(this.pushSystemAnnouncementsEnabled);
+        dest.writeValue(this.pushStartHour);
+        dest.writeValue(this.pushEndHour);
+        dest.writeValue(this.inboxEnabled);
+        dest.writeValue(this.messageTTLDays);
+        dest.writeValue(this.automaticIssueFollowNotification);
+        dest.writeValue(this.topicExpirationDurationDays);
+        dest.writeValue(this.reminderEnabled);
+        dest.writeValue(this.reminderOffsetSec);
+        dest.writeString(this.pushAdapterUrl);
+        dest.writeString(this.churnMailTemplateName);
+        dest.writeString(this.churnMailSubject);
+        dest.writeString(this.senderEmail);
+        dest.writeString(this.mailSenderName);
+    }
+
+    public NotificationsPartnerSettings(Parcel in) {
+        super(in);
+        this.pushNotificationEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.pushSystemAnnouncementsEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.pushStartHour = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.pushEndHour = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.inboxEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.messageTTLDays = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.automaticIssueFollowNotification = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.topicExpirationDurationDays = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.reminderEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.reminderOffsetSec = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.pushAdapterUrl = in.readString();
+        this.churnMailTemplateName = in.readString();
+        this.churnMailSubject = in.readString();
+        this.senderEmail = in.readString();
+        this.mailSenderName = in.readString();
+    }
 }
 

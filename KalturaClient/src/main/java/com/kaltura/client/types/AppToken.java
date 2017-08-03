@@ -27,17 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.AppTokenHashType;
-import com.kaltura.client.enums.SessionType;
-import com.kaltura.client.enums.AppTokenStatus;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.AppTokenHashType;
+import com.kaltura.client.enums.AppTokenStatus;
+import com.kaltura.client.enums.SessionType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -186,5 +186,49 @@ public class AppToken extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<AppToken> CREATOR = new Creator<AppToken>() {
+        @Override
+        public AppToken createFromParcel(Parcel source) {
+            return new AppToken(source);
+        }
+
+        @Override
+        public AppToken[] newArray(int size) {
+            return new AppToken[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeValue(this.expiry);
+        dest.writeValue(this.partnerId);
+        dest.writeValue(this.sessionDuration);
+        dest.writeInt(this.hashType == null ? -1 : this.hashType.ordinal());
+        dest.writeString(this.sessionPrivileges);
+        dest.writeInt(this.sessionType == null ? -1 : this.sessionType.ordinal());
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeString(this.token);
+        dest.writeString(this.sessionUserId);
+    }
+
+    public AppToken(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.expiry = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.partnerId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.sessionDuration = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpHashType = in.readInt();
+        this.hashType = tmpHashType == -1 ? null : AppTokenHashType.values()[tmpHashType];
+        this.sessionPrivileges = in.readString();
+        int tmpSessionType = in.readInt();
+        this.sessionType = tmpSessionType == -1 ? null : SessionType.values()[tmpSessionType];
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : AppTokenStatus.values()[tmpStatus];
+        this.token = in.readString();
+        this.sessionUserId = in.readString();
+    }
 }
 

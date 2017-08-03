@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.EntityReferenceBy;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.EntityReferenceBy;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -101,5 +101,33 @@ public class TransactionHistoryFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<TransactionHistoryFilter> CREATOR = new Creator<TransactionHistoryFilter>() {
+        @Override
+        public TransactionHistoryFilter createFromParcel(Parcel source) {
+            return new TransactionHistoryFilter(source);
+        }
+
+        @Override
+        public TransactionHistoryFilter[] newArray(int size) {
+            return new TransactionHistoryFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.entityReferenceEqual == null ? -1 : this.entityReferenceEqual.ordinal());
+        dest.writeValue(this.startDateGreaterThanOrEqual);
+        dest.writeValue(this.endDateLessThanOrEqual);
+    }
+
+    public TransactionHistoryFilter(Parcel in) {
+        super(in);
+        int tmpEntityReferenceEqual = in.readInt();
+        this.entityReferenceEqual = tmpEntityReferenceEqual == -1 ? null : EntityReferenceBy.values()[tmpEntityReferenceEqual];
+        this.startDateGreaterThanOrEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.endDateLessThanOrEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

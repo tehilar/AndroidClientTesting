@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.PaymentMethodType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.PaymentMethodType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -221,5 +221,55 @@ public class Entitlement extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Entitlement> CREATOR = new Creator<Entitlement>() {
+        @Override
+        public Entitlement createFromParcel(Parcel source) {
+            return new Entitlement(source);
+        }
+
+        @Override
+        public Entitlement[] newArray(int size) {
+            return new Entitlement[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.entitlementId);
+        dest.writeValue(this.currentUses);
+        dest.writeValue(this.endDate);
+        dest.writeValue(this.currentDate);
+        dest.writeValue(this.lastViewDate);
+        dest.writeValue(this.purchaseDate);
+        dest.writeInt(this.paymentMethod == null ? -1 : this.paymentMethod.ordinal());
+        dest.writeString(this.deviceUdid);
+        dest.writeString(this.deviceName);
+        dest.writeValue(this.isCancelationWindowEnabled);
+        dest.writeValue(this.maxUses);
+        dest.writeString(this.userId);
+        dest.writeValue(this.householdId);
+    }
+
+    public Entitlement(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.entitlementId = in.readString();
+        this.currentUses = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.endDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.currentDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.lastViewDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.purchaseDate = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpPaymentMethod = in.readInt();
+        this.paymentMethod = tmpPaymentMethod == -1 ? null : PaymentMethodType.values()[tmpPaymentMethod];
+        this.deviceUdid = in.readString();
+        this.deviceName = in.readString();
+        this.isCancelationWindowEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.maxUses = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.userId = in.readString();
+        this.householdId = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

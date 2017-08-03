@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.TransactionType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.TransactionType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -101,5 +101,33 @@ public class PurchaseBase extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<PurchaseBase> CREATOR = new Creator<PurchaseBase>() {
+        @Override
+        public PurchaseBase createFromParcel(Parcel source) {
+            return new PurchaseBase(source);
+        }
+
+        @Override
+        public PurchaseBase[] newArray(int size) {
+            return new PurchaseBase[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.productId);
+        dest.writeValue(this.contentId);
+        dest.writeInt(this.productType == null ? -1 : this.productType.ordinal());
+    }
+
+    public PurchaseBase(Parcel in) {
+        super(in);
+        this.productId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.contentId = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpProductType = in.readInt();
+        this.productType = tmpProductType == -1 ? null : TransactionType.values()[tmpProductType];
+    }
 }
 

@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -149,5 +150,49 @@ public class ExternalChannelProfile extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<ExternalChannelProfile> CREATOR = new Creator<ExternalChannelProfile>() {
+        @Override
+        public ExternalChannelProfile createFromParcel(Parcel source) {
+            return new ExternalChannelProfile(source);
+        }
+
+        @Override
+        public ExternalChannelProfile[] newArray(int size) {
+            return new ExternalChannelProfile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.isActive);
+        dest.writeString(this.externalIdentifier);
+        dest.writeString(this.filterExpression);
+        dest.writeValue(this.recommendationEngineId);
+        if(this.enrichments != null) {
+            dest.writeInt(this.enrichments.size());
+            dest.writeList(this.enrichments);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public ExternalChannelProfile(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.externalIdentifier = in.readString();
+        this.filterExpression = in.readString();
+        this.recommendationEngineId = (Integer)in.readValue(Integer.class.getClassLoader());
+        int enrichmentsSize = in.readInt();
+        if( enrichmentsSize > -1) {
+            this.enrichments = new ArrayList<>();
+            in.readList(this.enrichments, ChannelEnrichmentHolder.class.getClassLoader());
+        }
+    }
 }
 

@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -58,5 +58,21 @@ public class TwitterTwit extends SocialNetworkComment {
         return kparams;
     }
 
+
+    public static final Creator<TwitterTwit> CREATOR = new Creator<TwitterTwit>() {
+        @Override
+        public TwitterTwit createFromParcel(Parcel source) {
+            return new TwitterTwit(source);
+        }
+
+        @Override
+        public TwitterTwit[] newArray(int size) {
+            return new TwitterTwit[size];
+        }
+    };
+
+    public TwitterTwit(Parcel in) {
+        super(in);
+    }
 }
 

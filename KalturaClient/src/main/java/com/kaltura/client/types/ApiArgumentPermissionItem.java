@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -99,5 +99,32 @@ public class ApiArgumentPermissionItem extends PermissionItem {
         return kparams;
     }
 
+
+    public static final Creator<ApiArgumentPermissionItem> CREATOR = new Creator<ApiArgumentPermissionItem>() {
+        @Override
+        public ApiArgumentPermissionItem createFromParcel(Parcel source) {
+            return new ApiArgumentPermissionItem(source);
+        }
+
+        @Override
+        public ApiArgumentPermissionItem[] newArray(int size) {
+            return new ApiArgumentPermissionItem[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.service);
+        dest.writeString(this.action);
+        dest.writeString(this.parameter);
+    }
+
+    public ApiArgumentPermissionItem(Parcel in) {
+        super(in);
+        this.service = in.readString();
+        this.action = in.readString();
+        this.parameter = in.readString();
+    }
 }
 

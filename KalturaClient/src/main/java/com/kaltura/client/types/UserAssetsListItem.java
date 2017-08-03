@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.enums.UserAssetsListItemType;
 import com.kaltura.client.enums.UserAssetsListType;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -126,5 +126,38 @@ public class UserAssetsListItem extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<UserAssetsListItem> CREATOR = new Creator<UserAssetsListItem>() {
+        @Override
+        public UserAssetsListItem createFromParcel(Parcel source) {
+            return new UserAssetsListItem(source);
+        }
+
+        @Override
+        public UserAssetsListItem[] newArray(int size) {
+            return new UserAssetsListItem[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeValue(this.orderIndex);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeString(this.userId);
+        dest.writeInt(this.listType == null ? -1 : this.listType.ordinal());
+    }
+
+    public UserAssetsListItem(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.orderIndex = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : UserAssetsListItemType.values()[tmpType];
+        this.userId = in.readString();
+        int tmpListType = in.readInt();
+        this.listType = tmpListType == -1 ? null : UserAssetsListType.values()[tmpListType];
+    }
 }
 

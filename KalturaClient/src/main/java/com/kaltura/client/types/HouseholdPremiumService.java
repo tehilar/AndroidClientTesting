@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -59,5 +59,21 @@ public class HouseholdPremiumService extends PremiumService {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdPremiumService> CREATOR = new Creator<HouseholdPremiumService>() {
+        @Override
+        public HouseholdPremiumService createFromParcel(Parcel source) {
+            return new HouseholdPremiumService(source);
+        }
+
+        @Override
+        public HouseholdPremiumService[] newArray(int size) {
+            return new HouseholdPremiumService[size];
+        }
+    };
+
+    public HouseholdPremiumService(Parcel in) {
+        super(in);
+    }
 }
 

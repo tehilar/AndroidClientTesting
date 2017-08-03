@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -97,5 +97,32 @@ public class AssetFileContext extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<AssetFileContext> CREATOR = new Creator<AssetFileContext>() {
+        @Override
+        public AssetFileContext createFromParcel(Parcel source) {
+            return new AssetFileContext(source);
+        }
+
+        @Override
+        public AssetFileContext[] newArray(int size) {
+            return new AssetFileContext[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.viewLifeCycle);
+        dest.writeString(this.fullLifeCycle);
+        dest.writeValue(this.isOfflinePlayBack);
+    }
+
+    public AssetFileContext(Parcel in) {
+        super(in);
+        this.viewLifeCycle = in.readString();
+        this.fullLifeCycle = in.readString();
+        this.isOfflinePlayBack = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

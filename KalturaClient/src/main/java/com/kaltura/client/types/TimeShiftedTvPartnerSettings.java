@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.QuotaOveragePolicy;
-import com.kaltura.client.enums.ProtectionPolicy;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.ProtectionPolicy;
+import com.kaltura.client.enums.QuotaOveragePolicy;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -323,5 +323,70 @@ public class TimeShiftedTvPartnerSettings extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<TimeShiftedTvPartnerSettings> CREATOR = new Creator<TimeShiftedTvPartnerSettings>() {
+        @Override
+        public TimeShiftedTvPartnerSettings createFromParcel(Parcel source) {
+            return new TimeShiftedTvPartnerSettings(source);
+        }
+
+        @Override
+        public TimeShiftedTvPartnerSettings[] newArray(int size) {
+            return new TimeShiftedTvPartnerSettings[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.catchUpEnabled);
+        dest.writeValue(this.cdvrEnabled);
+        dest.writeValue(this.startOverEnabled);
+        dest.writeValue(this.trickPlayEnabled);
+        dest.writeValue(this.recordingScheduleWindowEnabled);
+        dest.writeValue(this.protectionEnabled);
+        dest.writeValue(this.catchUpBufferLength);
+        dest.writeValue(this.trickPlayBufferLength);
+        dest.writeValue(this.recordingScheduleWindow);
+        dest.writeValue(this.paddingBeforeProgramStarts);
+        dest.writeValue(this.paddingAfterProgramEnds);
+        dest.writeValue(this.protectionPeriod);
+        dest.writeValue(this.protectionQuotaPercentage);
+        dest.writeValue(this.recordingLifetimePeriod);
+        dest.writeValue(this.cleanupNoticePeriod);
+        dest.writeValue(this.seriesRecordingEnabled);
+        dest.writeValue(this.nonEntitledChannelPlaybackEnabled);
+        dest.writeValue(this.nonExistingChannelPlaybackEnabled);
+        dest.writeInt(this.quotaOveragePolicy == null ? -1 : this.quotaOveragePolicy.ordinal());
+        dest.writeInt(this.protectionPolicy == null ? -1 : this.protectionPolicy.ordinal());
+        dest.writeValue(this.recoveryGracePeriod);
+    }
+
+    public TimeShiftedTvPartnerSettings(Parcel in) {
+        super(in);
+        this.catchUpEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.cdvrEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.startOverEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.trickPlayEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.recordingScheduleWindowEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.protectionEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.catchUpBufferLength = (Long)in.readValue(Long.class.getClassLoader());
+        this.trickPlayBufferLength = (Long)in.readValue(Long.class.getClassLoader());
+        this.recordingScheduleWindow = (Long)in.readValue(Long.class.getClassLoader());
+        this.paddingBeforeProgramStarts = (Long)in.readValue(Long.class.getClassLoader());
+        this.paddingAfterProgramEnds = (Long)in.readValue(Long.class.getClassLoader());
+        this.protectionPeriod = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.protectionQuotaPercentage = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.recordingLifetimePeriod = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.cleanupNoticePeriod = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.seriesRecordingEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.nonEntitledChannelPlaybackEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.nonExistingChannelPlaybackEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int tmpQuotaOveragePolicy = in.readInt();
+        this.quotaOveragePolicy = tmpQuotaOveragePolicy == -1 ? null : QuotaOveragePolicy.values()[tmpQuotaOveragePolicy];
+        int tmpProtectionPolicy = in.readInt();
+        this.protectionPolicy = tmpProtectionPolicy == -1 ? null : ProtectionPolicy.values()[tmpProtectionPolicy];
+        this.recoveryGracePeriod = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

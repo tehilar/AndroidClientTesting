@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.Price;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.Price;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -275,5 +276,78 @@ public class PpvPrice extends ProductPrice {
         return kparams;
     }
 
+
+    public static final Creator<PpvPrice> CREATOR = new Creator<PpvPrice>() {
+        @Override
+        public PpvPrice createFromParcel(Parcel source) {
+            return new PpvPrice(source);
+        }
+
+        @Override
+        public PpvPrice[] newArray(int size) {
+            return new PpvPrice[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.fileId);
+        dest.writeString(this.ppvModuleId);
+        dest.writeValue(this.isSubscriptionOnly);
+        dest.writeParcelable(this.fullPrice, flags);
+        dest.writeString(this.subscriptionId);
+        dest.writeString(this.collectionId);
+        dest.writeString(this.prePaidId);
+        if(this.ppvDescriptions != null) {
+            dest.writeInt(this.ppvDescriptions.size());
+            dest.writeList(this.ppvDescriptions);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.purchaseUserId);
+        dest.writeValue(this.purchasedMediaFileId);
+        if(this.relatedMediaFileIds != null) {
+            dest.writeInt(this.relatedMediaFileIds.size());
+            dest.writeList(this.relatedMediaFileIds);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.startDate);
+        dest.writeValue(this.endDate);
+        dest.writeValue(this.discountEndDate);
+        dest.writeString(this.firstDeviceName);
+        dest.writeValue(this.isInCancelationPeriod);
+        dest.writeString(this.ppvProductCode);
+    }
+
+    public PpvPrice(Parcel in) {
+        super(in);
+        this.fileId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.ppvModuleId = in.readString();
+        this.isSubscriptionOnly = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.fullPrice = in.readParcelable(Price.class.getClassLoader());
+        this.subscriptionId = in.readString();
+        this.collectionId = in.readString();
+        this.prePaidId = in.readString();
+        int ppvDescriptionsSize = in.readInt();
+        if( ppvDescriptionsSize > -1) {
+            this.ppvDescriptions = new ArrayList<>();
+            in.readList(this.ppvDescriptions, TranslationToken.class.getClassLoader());
+        }
+        this.purchaseUserId = in.readString();
+        this.purchasedMediaFileId = (Integer)in.readValue(Integer.class.getClassLoader());
+        int relatedMediaFileIdsSize = in.readInt();
+        if( relatedMediaFileIdsSize > -1) {
+            this.relatedMediaFileIds = new ArrayList<>();
+            in.readList(this.relatedMediaFileIds, IntegerValue.class.getClassLoader());
+        }
+        this.startDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.endDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.discountEndDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.firstDeviceName = in.readString();
+        this.isInCancelationPeriod = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.ppvProductCode = in.readString();
+    }
 }
 

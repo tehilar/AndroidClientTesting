@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -153,5 +153,42 @@ public class SearchHistory extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<SearchHistory> CREATOR = new Creator<SearchHistory>() {
+        @Override
+        public SearchHistory createFromParcel(Parcel source) {
+            return new SearchHistory(source);
+        }
+
+        @Override
+        public SearchHistory[] newArray(int size) {
+            return new SearchHistory[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.filter);
+        dest.writeString(this.language);
+        dest.writeValue(this.createdAt);
+        dest.writeString(this.service);
+        dest.writeString(this.action);
+        dest.writeString(this.deviceId);
+    }
+
+    public SearchHistory(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.name = in.readString();
+        this.filter = in.readString();
+        this.language = in.readString();
+        this.createdAt = (Long)in.readValue(Long.class.getClassLoader());
+        this.service = in.readString();
+        this.action = in.readString();
+        this.deviceId = in.readString();
+    }
 }
 

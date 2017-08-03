@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.Map;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -148,5 +149,56 @@ public class RecommendationProfile extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<RecommendationProfile> CREATOR = new Creator<RecommendationProfile>() {
+        @Override
+        public RecommendationProfile createFromParcel(Parcel source) {
+            return new RecommendationProfile(source);
+        }
+
+        @Override
+        public RecommendationProfile[] newArray(int size) {
+            return new RecommendationProfile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.isActive);
+        dest.writeString(this.adapterUrl);
+        if(this.recommendationEngineSettings != null) {
+            dest.writeInt(this.recommendationEngineSettings.size());
+            for (Map.Entry<String, StringValue> entry : this.recommendationEngineSettings.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.externalIdentifier);
+        dest.writeString(this.sharedSecret);
+    }
+
+    public RecommendationProfile(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.adapterUrl = in.readString();
+        int recommendationEngineSettingsSize = in.readInt();
+        if( recommendationEngineSettingsSize > -1) {
+            this.recommendationEngineSettings = new HashMap<>();
+            for (int i = 0; i < recommendationEngineSettingsSize; i++) {
+                String key = in.readString();
+                StringValue value = in.readParcelable(StringValue.class.getClassLoader());
+                this.recommendationEngineSettings.put(key, value);
+            }
+        }
+        this.externalIdentifier = in.readString();
+        this.sharedSecret = in.readString();
+    }
 }
 

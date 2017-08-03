@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -141,5 +141,38 @@ public class Transaction extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Transaction> CREATOR = new Creator<Transaction>() {
+        @Override
+        public Transaction createFromParcel(Parcel source) {
+            return new Transaction(source);
+        }
+
+        @Override
+        public Transaction[] newArray(int size) {
+            return new Transaction[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.paymentGatewayReferenceId);
+        dest.writeString(this.paymentGatewayResponseId);
+        dest.writeString(this.state);
+        dest.writeValue(this.failReasonCode);
+        dest.writeValue(this.createdAt);
+    }
+
+    public Transaction(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.paymentGatewayReferenceId = in.readString();
+        this.paymentGatewayResponseId = in.readString();
+        this.state = in.readString();
+        this.failReasonCode = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.createdAt = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

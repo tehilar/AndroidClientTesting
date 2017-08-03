@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -76,5 +77,25 @@ public abstract class BaseSearchAssetFilter extends AssetFilter {
         return kparams;
     }
 
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        if(this.groupBy != null) {
+            dest.writeInt(this.groupBy.size());
+            dest.writeList(this.groupBy);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public BaseSearchAssetFilter(Parcel in) {
+        super(in);
+        int groupBySize = in.readInt();
+        if( groupBySize > -1) {
+            this.groupBy = new ArrayList<>();
+            in.readList(this.groupBy, AssetGroupBy.class.getClassLoader());
+        }
+    }
 }
 

@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -113,5 +113,34 @@ public class PushMessage extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<PushMessage> CREATOR = new Creator<PushMessage>() {
+        @Override
+        public PushMessage createFromParcel(Parcel source) {
+            return new PushMessage(source);
+        }
+
+        @Override
+        public PushMessage[] newArray(int size) {
+            return new PushMessage[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.message);
+        dest.writeString(this.sound);
+        dest.writeString(this.action);
+        dest.writeString(this.url);
+    }
+
+    public PushMessage(Parcel in) {
+        super(in);
+        this.message = in.readString();
+        this.sound = in.readString();
+        this.action = in.readString();
+        this.url = in.readString();
+    }
 }
 

@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -124,5 +124,36 @@ public class ProgramAsset extends Asset {
         return kparams;
     }
 
+
+    public static final Creator<ProgramAsset> CREATOR = new Creator<ProgramAsset>() {
+        @Override
+        public ProgramAsset createFromParcel(Parcel source) {
+            return new ProgramAsset(source);
+        }
+
+        @Override
+        public ProgramAsset[] newArray(int size) {
+            return new ProgramAsset[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.epgChannelId);
+        dest.writeString(this.epgId);
+        dest.writeValue(this.relatedMediaId);
+        dest.writeString(this.crid);
+        dest.writeValue(this.linearAssetId);
+    }
+
+    public ProgramAsset(Parcel in) {
+        super(in);
+        this.epgChannelId = (Long)in.readValue(Long.class.getClassLoader());
+        this.epgId = in.readString();
+        this.relatedMediaId = (Long)in.readValue(Long.class.getClassLoader());
+        this.crid = in.readString();
+        this.linearAssetId = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

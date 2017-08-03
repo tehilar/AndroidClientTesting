@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.Map;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -160,5 +161,58 @@ public class CDNAdapterProfile extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<CDNAdapterProfile> CREATOR = new Creator<CDNAdapterProfile>() {
+        @Override
+        public CDNAdapterProfile createFromParcel(Parcel source) {
+            return new CDNAdapterProfile(source);
+        }
+
+        @Override
+        public CDNAdapterProfile[] newArray(int size) {
+            return new CDNAdapterProfile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.isActive);
+        dest.writeString(this.adapterUrl);
+        dest.writeString(this.baseUrl);
+        if(this.settings != null) {
+            dest.writeInt(this.settings.size());
+            for (Map.Entry<String, StringValue> entry : this.settings.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.systemName);
+        dest.writeString(this.sharedSecret);
+    }
+
+    public CDNAdapterProfile(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.adapterUrl = in.readString();
+        this.baseUrl = in.readString();
+        int settingsSize = in.readInt();
+        if( settingsSize > -1) {
+            this.settings = new HashMap<>();
+            for (int i = 0; i < settingsSize; i++) {
+                String key = in.readString();
+                StringValue value = in.readParcelable(StringValue.class.getClassLoader());
+                this.settings.put(key, value);
+            }
+        }
+        this.systemName = in.readString();
+        this.sharedSecret = in.readString();
+    }
 }
 

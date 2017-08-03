@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.Platform;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.Platform;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -171,5 +171,45 @@ public class Configurations extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Configurations> CREATOR = new Creator<Configurations>() {
+        @Override
+        public Configurations createFromParcel(Parcel source) {
+            return new Configurations(source);
+        }
+
+        @Override
+        public Configurations[] newArray(int size) {
+            return new Configurations[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeValue(this.partnerId);
+        dest.writeString(this.configurationGroupId);
+        dest.writeString(this.appName);
+        dest.writeString(this.clientVersion);
+        dest.writeInt(this.platform == null ? -1 : this.platform.ordinal());
+        dest.writeString(this.externalPushId);
+        dest.writeValue(this.isForceUpdate);
+        dest.writeString(this.content);
+    }
+
+    public Configurations(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.partnerId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.configurationGroupId = in.readString();
+        this.appName = in.readString();
+        this.clientVersion = in.readString();
+        int tmpPlatform = in.readInt();
+        this.platform = tmpPlatform == -1 ? null : Platform.values()[tmpPlatform];
+        this.externalPushId = in.readString();
+        this.isForceUpdate = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.content = in.readString();
+    }
 }
 

@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.TopicAutomaticIssueNotification;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.TopicAutomaticIssueNotification;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -124,5 +124,37 @@ public class Topic extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Topic> CREATOR = new Creator<Topic>() {
+        @Override
+        public Topic createFromParcel(Parcel source) {
+            return new Topic(source);
+        }
+
+        @Override
+        public Topic[] newArray(int size) {
+            return new Topic[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.subscribersAmount);
+        dest.writeInt(this.automaticIssueNotification == null ? -1 : this.automaticIssueNotification.ordinal());
+        dest.writeValue(this.lastMessageSentDateSec);
+    }
+
+    public Topic(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.name = in.readString();
+        this.subscribersAmount = in.readString();
+        int tmpAutomaticIssueNotification = in.readInt();
+        this.automaticIssueNotification = tmpAutomaticIssueNotification == -1 ? null : TopicAutomaticIssueNotification.values()[tmpAutomaticIssueNotification];
+        this.lastMessageSentDateSec = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

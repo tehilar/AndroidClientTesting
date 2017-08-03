@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -111,5 +111,34 @@ public class PaymentMethodProfile extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<PaymentMethodProfile> CREATOR = new Creator<PaymentMethodProfile>() {
+        @Override
+        public PaymentMethodProfile createFromParcel(Parcel source) {
+            return new PaymentMethodProfile(source);
+        }
+
+        @Override
+        public PaymentMethodProfile[] newArray(int size) {
+            return new PaymentMethodProfile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeValue(this.paymentGatewayId);
+        dest.writeString(this.name);
+        dest.writeValue(this.allowMultiInstance);
+    }
+
+    public PaymentMethodProfile(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.paymentGatewayId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.allowMultiInstance = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

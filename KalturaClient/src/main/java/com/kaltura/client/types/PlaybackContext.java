@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -101,5 +102,59 @@ public class PlaybackContext extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<PlaybackContext> CREATOR = new Creator<PlaybackContext>() {
+        @Override
+        public PlaybackContext createFromParcel(Parcel source) {
+            return new PlaybackContext(source);
+        }
+
+        @Override
+        public PlaybackContext[] newArray(int size) {
+            return new PlaybackContext[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        if(this.sources != null) {
+            dest.writeInt(this.sources.size());
+            dest.writeList(this.sources);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.actions != null) {
+            dest.writeInt(this.actions.size());
+            dest.writeList(this.actions);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.messages != null) {
+            dest.writeInt(this.messages.size());
+            dest.writeList(this.messages);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public PlaybackContext(Parcel in) {
+        super(in);
+        int sourcesSize = in.readInt();
+        if( sourcesSize > -1) {
+            this.sources = new ArrayList<>();
+            in.readList(this.sources, PlaybackSource.class.getClassLoader());
+        }
+        int actionsSize = in.readInt();
+        if( actionsSize > -1) {
+            this.actions = new ArrayList<>();
+            in.readList(this.actions, RuleAction.class.getClassLoader());
+        }
+        int messagesSize = in.readInt();
+        if( messagesSize > -1) {
+            this.messages = new ArrayList<>();
+            in.readList(this.messages, AccessControlMessage.class.getClassLoader());
+        }
+    }
 }
 

@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -76,5 +77,37 @@ public class SocialUserConfig extends SocialConfig {
         return kparams;
     }
 
+
+    public static final Creator<SocialUserConfig> CREATOR = new Creator<SocialUserConfig>() {
+        @Override
+        public SocialUserConfig createFromParcel(Parcel source) {
+            return new SocialUserConfig(source);
+        }
+
+        @Override
+        public SocialUserConfig[] newArray(int size) {
+            return new SocialUserConfig[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        if(this.actionPermissionItems != null) {
+            dest.writeInt(this.actionPermissionItems.size());
+            dest.writeList(this.actionPermissionItems);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public SocialUserConfig(Parcel in) {
+        super(in);
+        int actionPermissionItemsSize = in.readInt();
+        if( actionPermissionItemsSize > -1) {
+            this.actionPermissionItems = new ArrayList<>();
+            in.readList(this.actionPermissionItems, ActionPermissionItem.class.getClassLoader());
+        }
+    }
 }
 

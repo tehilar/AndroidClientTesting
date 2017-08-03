@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.SubscriptionSetType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.SubscriptionSetType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +100,33 @@ public class SubscriptionSetFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<SubscriptionSetFilter> CREATOR = new Creator<SubscriptionSetFilter>() {
+        @Override
+        public SubscriptionSetFilter createFromParcel(Parcel source) {
+            return new SubscriptionSetFilter(source);
+        }
+
+        @Override
+        public SubscriptionSetFilter[] newArray(int size) {
+            return new SubscriptionSetFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.idIn);
+        dest.writeString(this.subscriptionIdContains);
+        dest.writeInt(this.typeEqual == null ? -1 : this.typeEqual.ordinal());
+    }
+
+    public SubscriptionSetFilter(Parcel in) {
+        super(in);
+        this.idIn = in.readString();
+        this.subscriptionIdContains = in.readString();
+        int tmpTypeEqual = in.readInt();
+        this.typeEqual = tmpTypeEqual == -1 ? null : SubscriptionSetType.values()[tmpTypeEqual];
+    }
 }
 

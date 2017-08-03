@@ -27,12 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import java.util.List;
+import android.os.Parcel;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -90,6 +93,32 @@ public class ListResponse<T> extends ObjectBase {
         Params kparams = super.toParams();
         kparams.add("objectType", "KalturaListResponse");
         return kparams;
+    }
+
+    public static final Creator<ListResponse> CREATOR = new Creator<ListResponse>() {
+        @Override
+        public ListResponse createFromParcel(Parcel source) {
+            return new ListResponse(source);
+        }
+
+        @Override
+        public ListResponse[] newArray(int size) {
+            return new ListResponse[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.totalCount);
+        dest.writeList(this.objects);
+    }
+
+    protected ListResponse(Parcel in) {
+        super(in);
+        this.totalCount = in.readInt();
+        this.objects = new ArrayList<T>();
+        in.readList(this.objects, null);
     }
 
 }

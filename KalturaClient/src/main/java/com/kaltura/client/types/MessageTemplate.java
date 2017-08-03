@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.MessageTemplateType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.MessageTemplateType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -138,5 +138,39 @@ public class MessageTemplate extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<MessageTemplate> CREATOR = new Creator<MessageTemplate>() {
+        @Override
+        public MessageTemplate createFromParcel(Parcel source) {
+            return new MessageTemplate(source);
+        }
+
+        @Override
+        public MessageTemplate[] newArray(int size) {
+            return new MessageTemplate[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.message);
+        dest.writeString(this.dateFormat);
+        dest.writeInt(this.messageType == null ? -1 : this.messageType.ordinal());
+        dest.writeString(this.sound);
+        dest.writeString(this.action);
+        dest.writeString(this.url);
+    }
+
+    public MessageTemplate(Parcel in) {
+        super(in);
+        this.message = in.readString();
+        this.dateFormat = in.readString();
+        int tmpMessageType = in.readInt();
+        this.messageType = tmpMessageType == -1 ? null : MessageTemplateType.values()[tmpMessageType];
+        this.sound = in.readString();
+        this.action = in.readString();
+        this.url = in.readString();
+    }
 }
 

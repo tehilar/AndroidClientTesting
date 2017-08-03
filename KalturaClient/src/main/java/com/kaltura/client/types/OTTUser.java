@@ -27,17 +27,18 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.OTTUserType;
 import com.kaltura.client.enums.HouseholdSuspensionState;
 import com.kaltura.client.enums.UserState;
+import com.kaltura.client.types.OTTUserType;
+import com.kaltura.client.utils.GsonParser;
+import java.util.HashMap;
 import java.util.Map;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -232,5 +233,72 @@ public class OTTUser extends BaseOTTUser {
         return kparams;
     }
 
+
+    public static final Creator<OTTUser> CREATOR = new Creator<OTTUser>() {
+        @Override
+        public OTTUser createFromParcel(Parcel source) {
+            return new OTTUser(source);
+        }
+
+        @Override
+        public OTTUser[] newArray(int size) {
+            return new OTTUser[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.householdId);
+        dest.writeString(this.email);
+        dest.writeString(this.address);
+        dest.writeString(this.city);
+        dest.writeValue(this.countryId);
+        dest.writeString(this.zip);
+        dest.writeString(this.phone);
+        dest.writeString(this.affiliateCode);
+        dest.writeString(this.externalId);
+        dest.writeParcelable(this.userType, flags);
+        if(this.dynamicData != null) {
+            dest.writeInt(this.dynamicData.size());
+            for (Map.Entry<String, StringValue> entry : this.dynamicData.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeValue(this.isHouseholdMaster);
+        dest.writeInt(this.suspensionState == null ? -1 : this.suspensionState.ordinal());
+        dest.writeInt(this.userState == null ? -1 : this.userState.ordinal());
+    }
+
+    public OTTUser(Parcel in) {
+        super(in);
+        this.householdId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.email = in.readString();
+        this.address = in.readString();
+        this.city = in.readString();
+        this.countryId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.zip = in.readString();
+        this.phone = in.readString();
+        this.affiliateCode = in.readString();
+        this.externalId = in.readString();
+        this.userType = in.readParcelable(OTTUserType.class.getClassLoader());
+        int dynamicDataSize = in.readInt();
+        if( dynamicDataSize > -1) {
+            this.dynamicData = new HashMap<>();
+            for (int i = 0; i < dynamicDataSize; i++) {
+                String key = in.readString();
+                StringValue value = in.readParcelable(StringValue.class.getClassLoader());
+                this.dynamicData.put(key, value);
+            }
+        }
+        this.isHouseholdMaster = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int tmpSuspensionState = in.readInt();
+        this.suspensionState = tmpSuspensionState == -1 ? null : HouseholdSuspensionState.values()[tmpSuspensionState];
+        int tmpUserState = in.readInt();
+        this.userState = tmpUserState == -1 ? null : UserState.values()[tmpUserState];
+    }
 }
 

@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.TransactionAdapterStatus;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.TransactionAdapterStatus;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -125,5 +125,37 @@ public class TransactionStatus extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<TransactionStatus> CREATOR = new Creator<TransactionStatus>() {
+        @Override
+        public TransactionStatus createFromParcel(Parcel source) {
+            return new TransactionStatus(source);
+        }
+
+        @Override
+        public TransactionStatus[] newArray(int size) {
+            return new TransactionStatus[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.adapterTransactionStatus == null ? -1 : this.adapterTransactionStatus.ordinal());
+        dest.writeString(this.externalId);
+        dest.writeString(this.externalStatus);
+        dest.writeString(this.externalMessage);
+        dest.writeValue(this.failReason);
+    }
+
+    public TransactionStatus(Parcel in) {
+        super(in);
+        int tmpAdapterTransactionStatus = in.readInt();
+        this.adapterTransactionStatus = tmpAdapterTransactionStatus == -1 ? null : TransactionAdapterStatus.values()[tmpAdapterTransactionStatus];
+        this.externalId = in.readString();
+        this.externalStatus = in.readString();
+        this.externalMessage = in.readString();
+        this.failReason = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

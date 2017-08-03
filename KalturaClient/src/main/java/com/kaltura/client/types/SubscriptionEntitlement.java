@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -145,5 +145,40 @@ public class SubscriptionEntitlement extends Entitlement {
         return kparams;
     }
 
+
+    public static final Creator<SubscriptionEntitlement> CREATOR = new Creator<SubscriptionEntitlement>() {
+        @Override
+        public SubscriptionEntitlement createFromParcel(Parcel source) {
+            return new SubscriptionEntitlement(source);
+        }
+
+        @Override
+        public SubscriptionEntitlement[] newArray(int size) {
+            return new SubscriptionEntitlement[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.nextRenewalDate);
+        dest.writeValue(this.isRenewableForPurchase);
+        dest.writeValue(this.isRenewable);
+        dest.writeValue(this.isInGracePeriod);
+        dest.writeValue(this.paymentGatewayId);
+        dest.writeValue(this.paymentMethodId);
+        dest.writeValue(this.scheduledSubscriptionId);
+    }
+
+    public SubscriptionEntitlement(Parcel in) {
+        super(in);
+        this.nextRenewalDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.isRenewableForPurchase = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.isRenewable = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.isInGracePeriod = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.paymentGatewayId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.paymentMethodId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.scheduledSubscriptionId = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

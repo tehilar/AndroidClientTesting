@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.ScheduledRecordingAssetType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.ScheduledRecordingAssetType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -112,5 +112,35 @@ public class ScheduledRecordingProgramFilter extends AssetFilter {
         return kparams;
     }
 
+
+    public static final Creator<ScheduledRecordingProgramFilter> CREATOR = new Creator<ScheduledRecordingProgramFilter>() {
+        @Override
+        public ScheduledRecordingProgramFilter createFromParcel(Parcel source) {
+            return new ScheduledRecordingProgramFilter(source);
+        }
+
+        @Override
+        public ScheduledRecordingProgramFilter[] newArray(int size) {
+            return new ScheduledRecordingProgramFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.recordingTypeEqual == null ? -1 : this.recordingTypeEqual.ordinal());
+        dest.writeString(this.channelsIn);
+        dest.writeValue(this.startDateGreaterThanOrNull);
+        dest.writeValue(this.endDateLessThanOrNull);
+    }
+
+    public ScheduledRecordingProgramFilter(Parcel in) {
+        super(in);
+        int tmpRecordingTypeEqual = in.readInt();
+        this.recordingTypeEqual = tmpRecordingTypeEqual == -1 ? null : ScheduledRecordingAssetType.values()[tmpRecordingTypeEqual];
+        this.channelsIn = in.readString();
+        this.startDateGreaterThanOrNull = (Long)in.readValue(Long.class.getClassLoader());
+        this.endDateLessThanOrNull = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

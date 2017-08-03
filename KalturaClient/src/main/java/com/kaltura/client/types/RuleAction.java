@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.RuleActionType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.RuleActionType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -77,5 +77,29 @@ public class RuleAction extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<RuleAction> CREATOR = new Creator<RuleAction>() {
+        @Override
+        public RuleAction createFromParcel(Parcel source) {
+            return new RuleAction(source);
+        }
+
+        @Override
+        public RuleAction[] newArray(int size) {
+            return new RuleAction[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+    }
+
+    public RuleAction(Parcel in) {
+        super(in);
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : RuleActionType.values()[tmpType];
+    }
 }
 

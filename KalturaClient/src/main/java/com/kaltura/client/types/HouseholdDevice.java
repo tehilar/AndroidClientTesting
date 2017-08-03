@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.DeviceStatus;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.DeviceStatus;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -148,5 +148,41 @@ public class HouseholdDevice extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<HouseholdDevice> CREATOR = new Creator<HouseholdDevice>() {
+        @Override
+        public HouseholdDevice createFromParcel(Parcel source) {
+            return new HouseholdDevice(source);
+        }
+
+        @Override
+        public HouseholdDevice[] newArray(int size) {
+            return new HouseholdDevice[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.householdId);
+        dest.writeString(this.udid);
+        dest.writeString(this.name);
+        dest.writeValue(this.brandId);
+        dest.writeValue(this.activatedOn);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeValue(this.deviceFamilyId);
+    }
+
+    public HouseholdDevice(Parcel in) {
+        super(in);
+        this.householdId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.udid = in.readString();
+        this.name = in.readString();
+        this.brandId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.activatedOn = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : DeviceStatus.values()[tmpStatus];
+        this.deviceFamilyId = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

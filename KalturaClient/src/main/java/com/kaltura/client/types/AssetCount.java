@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -103,5 +104,41 @@ public class AssetCount extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<AssetCount> CREATOR = new Creator<AssetCount>() {
+        @Override
+        public AssetCount createFromParcel(Parcel source) {
+            return new AssetCount(source);
+        }
+
+        @Override
+        public AssetCount[] newArray(int size) {
+            return new AssetCount[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.value);
+        dest.writeValue(this.count);
+        if(this.subs != null) {
+            dest.writeInt(this.subs.size());
+            dest.writeList(this.subs);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public AssetCount(Parcel in) {
+        super(in);
+        this.value = in.readString();
+        this.count = (Integer)in.readValue(Integer.class.getClassLoader());
+        int subsSize = in.readInt();
+        if( subsSize > -1) {
+            this.subs = new ArrayList<>();
+            in.readList(this.subs, AssetsCount.class.getClassLoader());
+        }
+    }
 }
 

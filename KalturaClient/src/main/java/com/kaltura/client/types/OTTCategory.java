@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -137,5 +138,65 @@ public class OTTCategory extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<OTTCategory> CREATOR = new Creator<OTTCategory>() {
+        @Override
+        public OTTCategory createFromParcel(Parcel source) {
+            return new OTTCategory(source);
+        }
+
+        @Override
+        public OTTCategory[] newArray(int size) {
+            return new OTTCategory[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeValue(this.parentCategoryId);
+        if(this.childCategories != null) {
+            dest.writeInt(this.childCategories.size());
+            dest.writeList(this.childCategories);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.channels != null) {
+            dest.writeInt(this.channels.size());
+            dest.writeList(this.channels);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.images != null) {
+            dest.writeInt(this.images.size());
+            dest.writeList(this.images);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public OTTCategory(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.parentCategoryId = (Long)in.readValue(Long.class.getClassLoader());
+        int childCategoriesSize = in.readInt();
+        if( childCategoriesSize > -1) {
+            this.childCategories = new ArrayList<>();
+            in.readList(this.childCategories, OTTCategory.class.getClassLoader());
+        }
+        int channelsSize = in.readInt();
+        if( channelsSize > -1) {
+            this.channels = new ArrayList<>();
+            in.readList(this.channels, Channel.class.getClassLoader());
+        }
+        int imagesSize = in.readInt();
+        if( imagesSize > -1) {
+            this.images = new ArrayList<>();
+            in.readList(this.images, MediaImage.class.getClassLoader());
+        }
+    }
 }
 

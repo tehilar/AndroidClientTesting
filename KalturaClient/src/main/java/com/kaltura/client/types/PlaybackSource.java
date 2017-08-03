@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.AdsPolicy;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.AdsPolicy;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -127,5 +128,46 @@ public class PlaybackSource extends MediaFile {
         return kparams;
     }
 
+
+    public static final Creator<PlaybackSource> CREATOR = new Creator<PlaybackSource>() {
+        @Override
+        public PlaybackSource createFromParcel(Parcel source) {
+            return new PlaybackSource(source);
+        }
+
+        @Override
+        public PlaybackSource[] newArray(int size) {
+            return new PlaybackSource[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.format);
+        dest.writeString(this.protocols);
+        if(this.drm != null) {
+            dest.writeInt(this.drm.size());
+            dest.writeList(this.drm);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeInt(this.adsPolicy == null ? -1 : this.adsPolicy.ordinal());
+        dest.writeString(this.adsParam);
+    }
+
+    public PlaybackSource(Parcel in) {
+        super(in);
+        this.format = in.readString();
+        this.protocols = in.readString();
+        int drmSize = in.readInt();
+        if( drmSize > -1) {
+            this.drm = new ArrayList<>();
+            in.readList(this.drm, DrmPlaybackPluginData.class.getClassLoader());
+        }
+        int tmpAdsPolicy = in.readInt();
+        this.adsPolicy = tmpAdsPolicy == -1 ? null : AdsPolicy.values()[tmpAdsPolicy];
+        this.adsParam = in.readString();
+    }
 }
 

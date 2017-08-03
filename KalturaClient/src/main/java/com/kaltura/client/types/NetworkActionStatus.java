@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.SocialStatus;
-import com.kaltura.client.enums.SocialNetwork;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.SocialNetwork;
+import com.kaltura.client.enums.SocialStatus;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -90,5 +90,32 @@ public class NetworkActionStatus extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<NetworkActionStatus> CREATOR = new Creator<NetworkActionStatus>() {
+        @Override
+        public NetworkActionStatus createFromParcel(Parcel source) {
+            return new NetworkActionStatus(source);
+        }
+
+        @Override
+        public NetworkActionStatus[] newArray(int size) {
+            return new NetworkActionStatus[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeInt(this.network == null ? -1 : this.network.ordinal());
+    }
+
+    public NetworkActionStatus(Parcel in) {
+        super(in);
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : SocialStatus.values()[tmpStatus];
+        int tmpNetwork = in.readInt();
+        this.network = tmpNetwork == -1 ? null : SocialNetwork.values()[tmpNetwork];
+    }
 }
 

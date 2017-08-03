@@ -27,16 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.RecordingType;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.RecordingType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -172,5 +173,54 @@ public class SeriesRecording extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<SeriesRecording> CREATOR = new Creator<SeriesRecording>() {
+        @Override
+        public SeriesRecording createFromParcel(Parcel source) {
+            return new SeriesRecording(source);
+        }
+
+        @Override
+        public SeriesRecording[] newArray(int size) {
+            return new SeriesRecording[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeValue(this.epgId);
+        dest.writeValue(this.channelId);
+        dest.writeString(this.seriesId);
+        dest.writeValue(this.seasonNumber);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeValue(this.createDate);
+        dest.writeValue(this.updateDate);
+        if(this.excludedSeasons != null) {
+            dest.writeInt(this.excludedSeasons.size());
+            dest.writeList(this.excludedSeasons);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public SeriesRecording(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.epgId = (Long)in.readValue(Long.class.getClassLoader());
+        this.channelId = (Long)in.readValue(Long.class.getClassLoader());
+        this.seriesId = in.readString();
+        this.seasonNumber = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : RecordingType.values()[tmpType];
+        this.createDate = (Long)in.readValue(Long.class.getClassLoader());
+        this.updateDate = (Long)in.readValue(Long.class.getClassLoader());
+        int excludedSeasonsSize = in.readInt();
+        if( excludedSeasonsSize > -1) {
+            this.excludedSeasons = new ArrayList<>();
+            in.readList(this.excludedSeasons, IntegerValue.class.getClassLoader());
+        }
+    }
 }
 

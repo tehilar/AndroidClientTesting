@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.enums.InboxMessageStatus;
 import com.kaltura.client.enums.InboxMessageType;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -135,5 +135,40 @@ public class InboxMessage extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<InboxMessage> CREATOR = new Creator<InboxMessage>() {
+        @Override
+        public InboxMessage createFromParcel(Parcel source) {
+            return new InboxMessage(source);
+        }
+
+        @Override
+        public InboxMessage[] newArray(int size) {
+            return new InboxMessage[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.message);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeValue(this.createdAt);
+        dest.writeString(this.url);
+    }
+
+    public InboxMessage(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.message = in.readString();
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : InboxMessageStatus.values()[tmpStatus];
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : InboxMessageType.values()[tmpType];
+        this.createdAt = (Long)in.readValue(Long.class.getClassLoader());
+        this.url = in.readString();
+    }
 }
 

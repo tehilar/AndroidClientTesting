@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.enums.AssetType;
 import com.kaltura.client.enums.MetaFieldName;
 import com.kaltura.client.enums.MetaType;
-import com.kaltura.client.enums.AssetType;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -127,5 +127,40 @@ public class MetaFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<MetaFilter> CREATOR = new Creator<MetaFilter>() {
+        @Override
+        public MetaFilter createFromParcel(Parcel source) {
+            return new MetaFilter(source);
+        }
+
+        @Override
+        public MetaFilter[] newArray(int size) {
+            return new MetaFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.fieldNameEqual == null ? -1 : this.fieldNameEqual.ordinal());
+        dest.writeInt(this.fieldNameNotEqual == null ? -1 : this.fieldNameNotEqual.ordinal());
+        dest.writeInt(this.typeEqual == null ? -1 : this.typeEqual.ordinal());
+        dest.writeInt(this.assetTypeEqual == null ? -1 : this.assetTypeEqual.ordinal());
+        dest.writeString(this.featuresIn);
+    }
+
+    public MetaFilter(Parcel in) {
+        super(in);
+        int tmpFieldNameEqual = in.readInt();
+        this.fieldNameEqual = tmpFieldNameEqual == -1 ? null : MetaFieldName.values()[tmpFieldNameEqual];
+        int tmpFieldNameNotEqual = in.readInt();
+        this.fieldNameNotEqual = tmpFieldNameNotEqual == -1 ? null : MetaFieldName.values()[tmpFieldNameNotEqual];
+        int tmpTypeEqual = in.readInt();
+        this.typeEqual = tmpTypeEqual == -1 ? null : MetaType.values()[tmpTypeEqual];
+        int tmpAssetTypeEqual = in.readInt();
+        this.assetTypeEqual = tmpAssetTypeEqual == -1 ? null : AssetType.values()[tmpAssetTypeEqual];
+        this.featuresIn = in.readString();
+    }
 }
 

@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -58,5 +58,21 @@ public class AccessControlBlockAction extends RuleAction {
         return kparams;
     }
 
+
+    public static final Creator<AccessControlBlockAction> CREATOR = new Creator<AccessControlBlockAction>() {
+        @Override
+        public AccessControlBlockAction createFromParcel(Parcel source) {
+            return new AccessControlBlockAction(source);
+        }
+
+        @Override
+        public AccessControlBlockAction[] newArray(int size) {
+            return new AccessControlBlockAction[size];
+        }
+    };
+
+    public AccessControlBlockAction(Parcel in) {
+        super(in);
+    }
 }
 

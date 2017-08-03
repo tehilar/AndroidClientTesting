@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -100,5 +100,32 @@ public class CountryFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<CountryFilter> CREATOR = new Creator<CountryFilter>() {
+        @Override
+        public CountryFilter createFromParcel(Parcel source) {
+            return new CountryFilter(source);
+        }
+
+        @Override
+        public CountryFilter[] newArray(int size) {
+            return new CountryFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.idIn);
+        dest.writeString(this.ipEqual);
+        dest.writeValue(this.ipEqualCurrent);
+    }
+
+    public CountryFilter(Parcel in) {
+        super(in);
+        this.idIn = in.readString();
+        this.ipEqual = in.readString();
+        this.ipEqualCurrent = (Boolean)in.readValue(Boolean.class.getClassLoader());
+    }
 }
 

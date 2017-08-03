@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -89,5 +90,39 @@ public class ItemPrice extends ProductPrice {
         return kparams;
     }
 
+
+    public static final Creator<ItemPrice> CREATOR = new Creator<ItemPrice>() {
+        @Override
+        public ItemPrice createFromParcel(Parcel source) {
+            return new ItemPrice(source);
+        }
+
+        @Override
+        public ItemPrice[] newArray(int size) {
+            return new ItemPrice[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.fileId);
+        if(this.ppvPriceDetails != null) {
+            dest.writeInt(this.ppvPriceDetails.size());
+            dest.writeList(this.ppvPriceDetails);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public ItemPrice(Parcel in) {
+        super(in);
+        this.fileId = (Integer)in.readValue(Integer.class.getClassLoader());
+        int ppvPriceDetailsSize = in.readInt();
+        if( ppvPriceDetailsSize > -1) {
+            this.ppvPriceDetails = new ArrayList<>();
+            in.readList(this.ppvPriceDetails, PPVItemPriceDetails.class.getClassLoader());
+        }
+    }
 }
 

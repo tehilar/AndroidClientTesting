@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -76,5 +76,28 @@ public class StringValue extends Value {
         return kparams;
     }
 
+
+    public static final Creator<StringValue> CREATOR = new Creator<StringValue>() {
+        @Override
+        public StringValue createFromParcel(Parcel source) {
+            return new StringValue(source);
+        }
+
+        @Override
+        public StringValue[] newArray(int size) {
+            return new StringValue[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.value);
+    }
+
+    public StringValue(Parcel in) {
+        super(in);
+        this.value = in.readString();
+    }
 }
 

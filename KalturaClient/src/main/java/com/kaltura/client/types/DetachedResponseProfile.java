@@ -27,15 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.RelatedObjectFilter;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.RelatedObjectFilter;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -102,5 +103,41 @@ public class DetachedResponseProfile extends BaseResponseProfile {
         return kparams;
     }
 
+
+    public static final Creator<DetachedResponseProfile> CREATOR = new Creator<DetachedResponseProfile>() {
+        @Override
+        public DetachedResponseProfile createFromParcel(Parcel source) {
+            return new DetachedResponseProfile(source);
+        }
+
+        @Override
+        public DetachedResponseProfile[] newArray(int size) {
+            return new DetachedResponseProfile[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.name);
+        dest.writeParcelable(this.filter, flags);
+        if(this.relatedProfiles != null) {
+            dest.writeInt(this.relatedProfiles.size());
+            dest.writeList(this.relatedProfiles);
+        } else {
+            dest.writeInt(-1);
+        }
+    }
+
+    public DetachedResponseProfile(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        this.filter = in.readParcelable(RelatedObjectFilter.class.getClassLoader());
+        int relatedProfilesSize = in.readInt();
+        if( relatedProfilesSize > -1) {
+            this.relatedProfiles = new ArrayList<>();
+            in.readList(this.relatedProfiles, DetachedResponseProfile.class.getClassLoader());
+        }
+    }
 }
 

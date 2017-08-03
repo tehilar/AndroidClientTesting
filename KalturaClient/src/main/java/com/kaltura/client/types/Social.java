@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -183,5 +183,34 @@ public abstract class Social extends ObjectBase {
         return kparams;
     }
 
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.firstName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.email);
+        dest.writeString(this.gender);
+        dest.writeString(this.userId);
+        dest.writeString(this.birthday);
+        dest.writeString(this.status);
+        dest.writeString(this.pictureUrl);
+    }
+
+    public Social(Parcel in) {
+        super(in);
+        this.id = in.readString();
+        this.name = in.readString();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.email = in.readString();
+        this.gender = in.readString();
+        this.userId = in.readString();
+        this.birthday = in.readString();
+        this.status = in.readString();
+        this.pictureUrl = in.readString();
+    }
 }
 

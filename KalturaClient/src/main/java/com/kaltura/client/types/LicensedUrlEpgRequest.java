@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.StreamType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.StreamType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -88,5 +88,31 @@ public class LicensedUrlEpgRequest extends LicensedUrlMediaRequest {
         return kparams;
     }
 
+
+    public static final Creator<LicensedUrlEpgRequest> CREATOR = new Creator<LicensedUrlEpgRequest>() {
+        @Override
+        public LicensedUrlEpgRequest createFromParcel(Parcel source) {
+            return new LicensedUrlEpgRequest(source);
+        }
+
+        @Override
+        public LicensedUrlEpgRequest[] newArray(int size) {
+            return new LicensedUrlEpgRequest[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.streamType == null ? -1 : this.streamType.ordinal());
+        dest.writeValue(this.startDate);
+    }
+
+    public LicensedUrlEpgRequest(Parcel in) {
+        super(in);
+        int tmpStreamType = in.readInt();
+        this.streamType = tmpStreamType == -1 ? null : StreamType.values()[tmpStreamType];
+        this.startDate = (Long)in.readValue(Long.class.getClassLoader());
+    }
 }
 

@@ -27,16 +27,16 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.HouseholdState;
-import com.kaltura.client.enums.HouseholdRestriction;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.HouseholdRestriction;
+import com.kaltura.client.enums.HouseholdState;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -224,5 +224,56 @@ public class Household extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Household> CREATOR = new Creator<Household>() {
+        @Override
+        public Household createFromParcel(Parcel source) {
+            return new Household(source);
+        }
+
+        @Override
+        public Household[] newArray(int size) {
+            return new Household[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeString(this.externalId);
+        dest.writeValue(this.householdLimitationsId);
+        dest.writeValue(this.devicesLimit);
+        dest.writeValue(this.usersLimit);
+        dest.writeValue(this.concurrentLimit);
+        dest.writeValue(this.regionId);
+        dest.writeInt(this.state == null ? -1 : this.state.ordinal());
+        dest.writeValue(this.isFrequencyEnabled);
+        dest.writeValue(this.frequencyNextDeviceAction);
+        dest.writeValue(this.frequencyNextUserAction);
+        dest.writeInt(this.restriction == null ? -1 : this.restriction.ordinal());
+    }
+
+    public Household(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.description = in.readString();
+        this.externalId = in.readString();
+        this.householdLimitationsId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.devicesLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.usersLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.concurrentLimit = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.regionId = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpState = in.readInt();
+        this.state = tmpState == -1 ? null : HouseholdState.values()[tmpState];
+        this.isFrequencyEnabled = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.frequencyNextDeviceAction = (Long)in.readValue(Long.class.getClassLoader());
+        this.frequencyNextUserAction = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpRestriction = in.readInt();
+        this.restriction = tmpRestriction == -1 ? null : HouseholdRestriction.values()[tmpRestriction];
+    }
 }
 

@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -59,5 +59,21 @@ public class SessionInfo extends Session {
         return kparams;
     }
 
+
+    public static final Creator<SessionInfo> CREATOR = new Creator<SessionInfo>() {
+        @Override
+        public SessionInfo createFromParcel(Parcel source) {
+            return new SessionInfo(source);
+        }
+
+        @Override
+        public SessionInfo[] newArray(int size) {
+            return new SessionInfo[size];
+        }
+    };
+
+    public SessionInfo(Parcel in) {
+        super(in);
+    }
 }
 

@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -88,5 +88,30 @@ public class UserAssetRuleFilter extends Filter {
         return kparams;
     }
 
+
+    public static final Creator<UserAssetRuleFilter> CREATOR = new Creator<UserAssetRuleFilter>() {
+        @Override
+        public UserAssetRuleFilter createFromParcel(Parcel source) {
+            return new UserAssetRuleFilter(source);
+        }
+
+        @Override
+        public UserAssetRuleFilter[] newArray(int size) {
+            return new UserAssetRuleFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.assetIdEqual);
+        dest.writeValue(this.assetTypeEqual);
+    }
+
+    public UserAssetRuleFilter(Parcel in) {
+        super(in);
+        this.assetIdEqual = (Long)in.readValue(Long.class.getClassLoader());
+        this.assetTypeEqual = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

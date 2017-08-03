@@ -27,13 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.RecordingType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -45,6 +46,8 @@ public class RecordingAsset extends ProgramAsset {
 
 	/**  Recording identifier  */
     private String recordingId;
+	/**  Recording Type: single/season/series  */
+    private RecordingType recordingType;
 
     // recordingId:
     public String getRecordingId(){
@@ -52,6 +55,14 @@ public class RecordingAsset extends ProgramAsset {
     }
     public void setRecordingId(String recordingId){
         this.recordingId = recordingId;
+    }
+
+    // recordingType:
+    public RecordingType getRecordingType(){
+        return this.recordingType;
+    }
+    public void setRecordingType(RecordingType recordingType){
+        this.recordingType = recordingType;
     }
 
 
@@ -66,6 +77,7 @@ public class RecordingAsset extends ProgramAsset {
 
         // set members values:
         recordingId = GsonParser.parseString(jsonObject.get("recordingId"));
+        recordingType = RecordingType.get(GsonParser.parseString(jsonObject.get("recordingType")));
 
     }
 
@@ -73,8 +85,35 @@ public class RecordingAsset extends ProgramAsset {
         Params kparams = super.toParams();
         kparams.add("objectType", "KalturaRecordingAsset");
         kparams.add("recordingId", this.recordingId);
+        kparams.add("recordingType", this.recordingType);
         return kparams;
     }
 
+
+    public static final Creator<RecordingAsset> CREATOR = new Creator<RecordingAsset>() {
+        @Override
+        public RecordingAsset createFromParcel(Parcel source) {
+            return new RecordingAsset(source);
+        }
+
+        @Override
+        public RecordingAsset[] newArray(int size) {
+            return new RecordingAsset[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.recordingId);
+        dest.writeInt(this.recordingType == null ? -1 : this.recordingType.ordinal());
+    }
+
+    public RecordingAsset(Parcel in) {
+        super(in);
+        this.recordingId = in.readString();
+        int tmpRecordingType = in.readInt();
+        this.recordingType = tmpRecordingType == -1 ? null : RecordingType.values()[tmpRecordingType];
+    }
 }
 

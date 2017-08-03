@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -92,5 +92,30 @@ public class FilterPager extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<FilterPager> CREATOR = new Creator<FilterPager>() {
+        @Override
+        public FilterPager createFromParcel(Parcel source) {
+            return new FilterPager(source);
+        }
+
+        @Override
+        public FilterPager[] newArray(int size) {
+            return new FilterPager[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.pageSize);
+        dest.writeValue(this.pageIndex);
+    }
+
+    public FilterPager(Parcel in) {
+        super(in);
+        this.pageSize = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.pageIndex = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

@@ -27,17 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.enums.AssetType;
 import com.kaltura.client.enums.MetaFieldName;
 import com.kaltura.client.enums.MetaType;
-import com.kaltura.client.enums.AssetType;
-import com.google.gson.JsonObject;
-
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -164,5 +164,45 @@ public class Meta extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Meta> CREATOR = new Creator<Meta>() {
+        @Override
+        public Meta createFromParcel(Parcel source) {
+            return new Meta(source);
+        }
+
+        @Override
+        public Meta[] newArray(int size) {
+            return new Meta[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.name);
+        dest.writeInt(this.fieldName == null ? -1 : this.fieldName.ordinal());
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeInt(this.assetType == null ? -1 : this.assetType.ordinal());
+        dest.writeString(this.features);
+        dest.writeString(this.id);
+        dest.writeString(this.parentId);
+        dest.writeValue(this.partnerId);
+    }
+
+    public Meta(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        int tmpFieldName = in.readInt();
+        this.fieldName = tmpFieldName == -1 ? null : MetaFieldName.values()[tmpFieldName];
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : MetaType.values()[tmpType];
+        int tmpAssetType = in.readInt();
+        this.assetType = tmpAssetType == -1 ? null : AssetType.values()[tmpAssetType];
+        this.features = in.readString();
+        this.id = in.readString();
+        this.parentId = in.readString();
+        this.partnerId = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

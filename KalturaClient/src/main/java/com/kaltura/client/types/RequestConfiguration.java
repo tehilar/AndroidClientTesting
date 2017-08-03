@@ -27,14 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.BaseResponseProfile;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -52,6 +53,8 @@ public class RequestConfiguration extends ObjectBase {
     private String language;
 	/**  Kaltura API session  */
     private String ks;
+	/**  Kaltura response profile object  */
+    private BaseResponseProfile responseProfile;
 
     // partnerId:
     public Integer getPartnerId(){
@@ -85,6 +88,14 @@ public class RequestConfiguration extends ObjectBase {
         this.ks = ks;
     }
 
+    // responseProfile:
+    public BaseResponseProfile getResponseProfile(){
+        return this.responseProfile;
+    }
+    public void setResponseProfile(BaseResponseProfile responseProfile){
+        this.responseProfile = responseProfile;
+    }
+
 
     public RequestConfiguration() {
        super();
@@ -100,6 +111,7 @@ public class RequestConfiguration extends ObjectBase {
         userId = GsonParser.parseInt(jsonObject.get("userId"));
         language = GsonParser.parseString(jsonObject.get("language"));
         ks = GsonParser.parseString(jsonObject.get("ks"));
+        responseProfile = GsonParser.parseObject(jsonObject.getAsJsonObject("responseProfile"), BaseResponseProfile.class);
 
     }
 
@@ -110,8 +122,40 @@ public class RequestConfiguration extends ObjectBase {
         kparams.add("userId", this.userId);
         kparams.add("language", this.language);
         kparams.add("ks", this.ks);
+        kparams.add("responseProfile", this.responseProfile);
         return kparams;
     }
 
+
+    public static final Creator<RequestConfiguration> CREATOR = new Creator<RequestConfiguration>() {
+        @Override
+        public RequestConfiguration createFromParcel(Parcel source) {
+            return new RequestConfiguration(source);
+        }
+
+        @Override
+        public RequestConfiguration[] newArray(int size) {
+            return new RequestConfiguration[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.partnerId);
+        dest.writeValue(this.userId);
+        dest.writeString(this.language);
+        dest.writeString(this.ks);
+        dest.writeParcelable(this.responseProfile, flags);
+    }
+
+    public RequestConfiguration(Parcel in) {
+        super(in);
+        this.partnerId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.userId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.language = in.readString();
+        this.ks = in.readString();
+        this.responseProfile = in.readParcelable(BaseResponseProfile.class.getClassLoader());
+    }
 }
 

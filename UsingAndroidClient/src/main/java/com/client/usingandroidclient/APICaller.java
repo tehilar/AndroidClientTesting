@@ -54,11 +54,11 @@ public class APICaller {
 
                         assertTrue(Looper.myLooper() == Looper.getMainLooper());
 
-                        if(onCompletion != null){
+                        if (onCompletion != null) {
                             OTTUser user = null;
                             APIException error = null;
-                            if(result.results.get(0) instanceof  APIException){
-                                error = ((APIException)result.results.get(0));
+                            if (result.results.get(0) instanceof APIException) {
+                                error = ((APIException) result.results.get(0));
                             } else {
                                 try {
                                     LoginResponse loginResponse = (LoginResponse) result.results.get(0);
@@ -92,36 +92,20 @@ public class APICaller {
                                 public void onComplete(Asset result) {
                                     Assert.assertTrue(Looper.myLooper() == Looper.getMainLooper());
 
-                                    Response<Asset> response = (Response<Asset>) AndroidAPIRequestsExecutor.getBackExecutor().execute(AssetService.get("258656", AssetReferenceType.MEDIA).build(client));
-                                    Assert.assertTrue(Looper.myLooper() == Looper.getMainLooper());
+                                    APIOkRequestsExecutor.getExecutor().queue(
+                                            AssetService.get("258656", AssetReferenceType.MEDIA).setCompletion(
+                                                    new OnCompletion<Response<Asset>>() {
+                                                        @Override
+                                                        public void onComplete(Response<Asset> result) {
+                                                            Response<Asset> response = (Response<Asset>) AndroidAPIRequestsExecutor.getBackExecutor().execute(AssetService.get("258656", AssetReferenceType.MEDIA).build(client));
+                                                            Assert.assertTrue(Looper.myLooper() != Looper.getMainLooper());
+                                                        }
+                                                    }).build(client));
                                 }
                             });
-
-                            AndroidAPIRequestsExecutor.getExecutor().queue(AssetService.get("258656", AssetReferenceType.MEDIA)
-                                    .setCompletion(new OnCompletion<Response<Asset>>() {
-                                        @Override
-                                        public void onComplete(Response<Asset> result) {
-                                            Assert.assertTrue(Looper.myLooper() == Looper.getMainLooper());
-                                        }
-                                    }).build(client));
-
-
                         }
                     }
                 }).build(client));
-
-               /*
-
-
-                setCompletion(new OnCompletion<LoginResponse>() {
-            public void onComplete(LoginResponse response, APIException error) {
-                if(error==null && response!=null){
-                    SessionManager.get().updateSession(response.getUser().getId(),
-                            response.getLoginSession().getKs(),
-                            response.getLoginSession().);
-                }
-            }
-        }))*/
     }
 
     public static void getAsset(final Client client, String assetId, final OnCompletion<Asset> completion) {

@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -59,5 +59,21 @@ public class SubscriptionSwitchSet extends SubscriptionSet {
         return kparams;
     }
 
+
+    public static final Creator<SubscriptionSwitchSet> CREATOR = new Creator<SubscriptionSwitchSet>() {
+        @Override
+        public SubscriptionSwitchSet createFromParcel(Parcel source) {
+            return new SubscriptionSwitchSet(source);
+        }
+
+        @Override
+        public SubscriptionSwitchSet[] newArray(int size) {
+            return new SubscriptionSwitchSet[size];
+        }
+    };
+
+    public SubscriptionSwitchSet(Parcel in) {
+        super(in);
+    }
 }
 

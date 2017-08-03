@@ -27,13 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import java.io.Serializable;
-import java.util.Map;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
 import com.kaltura.client.utils.response.ResponseType;
+
+import java.util.Map;
 
 /**
  * Ancestor class for all of the generated classes in the com.kaltura.client.types package.
@@ -42,7 +44,7 @@ import com.kaltura.client.utils.response.ResponseType;
  *
  */
 @SuppressWarnings("serial")
-public class ObjectBase implements Serializable, ResponseType {
+public class ObjectBase implements Parcelable, ResponseType {
     @SuppressWarnings("rawtypes")
 	protected Map<String, ListResponse> relatedObjects;
 
@@ -69,5 +71,29 @@ public class ObjectBase implements Serializable, ResponseType {
 	public Params toParams() {
 		return new Params();
 	}
-	
+
+    public static final Creator<ObjectBase> CREATOR = new Creator<ObjectBase>() {
+        @Override
+        public ObjectBase createFromParcel(Parcel in) {
+            return new ObjectBase(in);
+        }
+
+        @Override
+        public ObjectBase[] newArray(int size) {
+            return new ObjectBase[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+    }
+
+    protected ObjectBase(Parcel in) {
+    }
+
 }

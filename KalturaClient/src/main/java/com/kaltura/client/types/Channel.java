@@ -27,15 +27,17 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.AssetOrderBy;
-import java.util.List;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.AssetOrderBy;
+import com.kaltura.client.types.AssetGroupBy;
+import com.kaltura.client.utils.GsonParser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -57,6 +59,8 @@ public class Channel extends BaseChannel {
     private Boolean isActive;
 	/**  Channel order  */
     private AssetOrderBy order;
+	/**  Channel group by  */
+    private AssetGroupBy groupBy;
 
     // description:
     public String getDescription(){
@@ -106,6 +110,14 @@ public class Channel extends BaseChannel {
         this.order = order;
     }
 
+    // groupBy:
+    public AssetGroupBy getGroupBy(){
+        return this.groupBy;
+    }
+    public void setGroupBy(AssetGroupBy groupBy){
+        this.groupBy = groupBy;
+    }
+
 
     public Channel() {
        super();
@@ -123,6 +135,7 @@ public class Channel extends BaseChannel {
         filterExpression = GsonParser.parseString(jsonObject.get("filterExpression"));
         isActive = GsonParser.parseBoolean(jsonObject.get("isActive"));
         order = AssetOrderBy.get(GsonParser.parseString(jsonObject.get("order")));
+        groupBy = GsonParser.parseObject(jsonObject.getAsJsonObject("groupBy"), AssetGroupBy.class);
 
     }
 
@@ -135,8 +148,63 @@ public class Channel extends BaseChannel {
         kparams.add("filterExpression", this.filterExpression);
         kparams.add("isActive", this.isActive);
         kparams.add("order", this.order);
+        kparams.add("groupBy", this.groupBy);
         return kparams;
     }
 
+
+    public static final Creator<Channel> CREATOR = new Creator<Channel>() {
+        @Override
+        public Channel createFromParcel(Parcel source) {
+            return new Channel(source);
+        }
+
+        @Override
+        public Channel[] newArray(int size) {
+            return new Channel[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.description);
+        if(this.images != null) {
+            dest.writeInt(this.images.size());
+            dest.writeList(this.images);
+        } else {
+            dest.writeInt(-1);
+        }
+        if(this.assetTypes != null) {
+            dest.writeInt(this.assetTypes.size());
+            dest.writeList(this.assetTypes);
+        } else {
+            dest.writeInt(-1);
+        }
+        dest.writeString(this.filterExpression);
+        dest.writeValue(this.isActive);
+        dest.writeInt(this.order == null ? -1 : this.order.ordinal());
+        dest.writeParcelable(this.groupBy, flags);
+    }
+
+    public Channel(Parcel in) {
+        super(in);
+        this.description = in.readString();
+        int imagesSize = in.readInt();
+        if( imagesSize > -1) {
+            this.images = new ArrayList<>();
+            in.readList(this.images, MediaImage.class.getClassLoader());
+        }
+        int assetTypesSize = in.readInt();
+        if( assetTypesSize > -1) {
+            this.assetTypes = new ArrayList<>();
+            in.readList(this.assetTypes, IntegerValue.class.getClassLoader());
+        }
+        this.filterExpression = in.readString();
+        this.isActive = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        int tmpOrder = in.readInt();
+        this.order = tmpOrder == -1 ? null : AssetOrderBy.values()[tmpOrder];
+        this.groupBy = in.readParcelable(AssetGroupBy.class.getClassLoader());
+    }
 }
 

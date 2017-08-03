@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -171,5 +171,44 @@ public class MediaAsset extends Asset {
         return kparams;
     }
 
+
+    public static final Creator<MediaAsset> CREATOR = new Creator<MediaAsset>() {
+        @Override
+        public MediaAsset createFromParcel(Parcel source) {
+            return new MediaAsset(source);
+        }
+
+        @Override
+        public MediaAsset[] newArray(int size) {
+            return new MediaAsset[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.externalIds);
+        dest.writeValue(this.catchUpBuffer);
+        dest.writeValue(this.trickPlayBuffer);
+        dest.writeValue(this.enableRecordingPlaybackNonEntitledChannel);
+        dest.writeString(this.typeDescription);
+        dest.writeString(this.entryId);
+        dest.writeString(this.deviceRule);
+        dest.writeString(this.geoBlockRule);
+        dest.writeString(this.watchPermissionRule);
+    }
+
+    public MediaAsset(Parcel in) {
+        super(in);
+        this.externalIds = in.readString();
+        this.catchUpBuffer = (Long)in.readValue(Long.class.getClassLoader());
+        this.trickPlayBuffer = (Long)in.readValue(Long.class.getClassLoader());
+        this.enableRecordingPlaybackNonEntitledChannel = (Boolean)in.readValue(Boolean.class.getClassLoader());
+        this.typeDescription = in.readString();
+        this.entryId = in.readString();
+        this.deviceRule = in.readString();
+        this.geoBlockRule = in.readString();
+        this.watchPermissionRule = in.readString();
+    }
 }
 

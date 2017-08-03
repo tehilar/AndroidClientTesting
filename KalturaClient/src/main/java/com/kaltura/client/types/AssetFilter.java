@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.DynamicOrderBy;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.types.DynamicOrderBy;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -76,5 +76,28 @@ public class AssetFilter extends PersistedFilter {
         return kparams;
     }
 
+
+    public static final Creator<AssetFilter> CREATOR = new Creator<AssetFilter>() {
+        @Override
+        public AssetFilter createFromParcel(Parcel source) {
+            return new AssetFilter(source);
+        }
+
+        @Override
+        public AssetFilter[] newArray(int size) {
+            return new AssetFilter[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.dynamicOrderBy, flags);
+    }
+
+    public AssetFilter(Parcel in) {
+        super(in);
+        this.dynamicOrderBy = in.readParcelable(DynamicOrderBy.class.getClassLoader());
+    }
 }
 

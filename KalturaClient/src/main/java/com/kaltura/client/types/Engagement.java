@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.EngagementType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.EngagementType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -172,5 +172,45 @@ public class Engagement extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Engagement> CREATOR = new Creator<Engagement>() {
+        @Override
+        public Engagement createFromParcel(Parcel source) {
+            return new Engagement(source);
+        }
+
+        @Override
+        public Engagement[] newArray(int size) {
+            return new Engagement[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeValue(this.totalNumberOfRecipients);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeValue(this.adapterId);
+        dest.writeString(this.adapterDynamicData);
+        dest.writeValue(this.intervalSeconds);
+        dest.writeString(this.userList);
+        dest.writeValue(this.sendTimeInSeconds);
+        dest.writeValue(this.couponGroupId);
+    }
+
+    public Engagement(Parcel in) {
+        super(in);
+        this.id = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.totalNumberOfRecipients = (Integer)in.readValue(Integer.class.getClassLoader());
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : EngagementType.values()[tmpType];
+        this.adapterId = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.adapterDynamicData = in.readString();
+        this.intervalSeconds = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.userList = in.readString();
+        this.sendTimeInSeconds = (Long)in.readValue(Long.class.getClassLoader());
+        this.couponGroupId = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

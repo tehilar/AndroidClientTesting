@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.RuleType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.RuleType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -114,5 +114,35 @@ public class UserAssetRule extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<UserAssetRule> CREATOR = new Creator<UserAssetRule>() {
+        @Override
+        public UserAssetRule createFromParcel(Parcel source) {
+            return new UserAssetRule(source);
+        }
+
+        @Override
+        public UserAssetRule[] newArray(int size) {
+            return new UserAssetRule[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeInt(this.ruleType == null ? -1 : this.ruleType.ordinal());
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+    }
+
+    public UserAssetRule(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpRuleType = in.readInt();
+        this.ruleType = tmpRuleType == -1 ? null : RuleType.values()[tmpRuleType];
+        this.name = in.readString();
+        this.description = in.readString();
+    }
 }
 

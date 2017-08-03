@@ -27,15 +27,15 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.enums.CompensationType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.CompensationType;
+import com.kaltura.client.types.ObjectBase;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -147,5 +147,41 @@ public class Compensation extends ObjectBase {
         return kparams;
     }
 
+
+    public static final Creator<Compensation> CREATOR = new Creator<Compensation>() {
+        @Override
+        public Compensation createFromParcel(Parcel source) {
+            return new Compensation(source);
+        }
+
+        @Override
+        public Compensation[] newArray(int size) {
+            return new Compensation[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeValue(this.id);
+        dest.writeValue(this.subscriptionId);
+        dest.writeInt(this.compensationType == null ? -1 : this.compensationType.ordinal());
+        dest.writeValue(this.amount);
+        dest.writeValue(this.totalRenewalIterations);
+        dest.writeValue(this.appliedRenewalIterations);
+        dest.writeValue(this.purchaseId);
+    }
+
+    public Compensation(Parcel in) {
+        super(in);
+        this.id = (Long)in.readValue(Long.class.getClassLoader());
+        this.subscriptionId = (Long)in.readValue(Long.class.getClassLoader());
+        int tmpCompensationType = in.readInt();
+        this.compensationType = tmpCompensationType == -1 ? null : CompensationType.values()[tmpCompensationType];
+        this.amount = (Double)in.readValue(Double.class.getClassLoader());
+        this.totalRenewalIterations = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.appliedRenewalIterations = (Integer)in.readValue(Integer.class.getClassLoader());
+        this.purchaseId = (Integer)in.readValue(Integer.class.getClassLoader());
+    }
 }
 

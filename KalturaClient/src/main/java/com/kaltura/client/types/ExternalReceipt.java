@@ -27,13 +27,13 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
+import android.os.Parcel;
+import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
-import com.google.gson.JsonObject;
-
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -89,5 +89,30 @@ public class ExternalReceipt extends PurchaseBase {
         return kparams;
     }
 
+
+    public static final Creator<ExternalReceipt> CREATOR = new Creator<ExternalReceipt>() {
+        @Override
+        public ExternalReceipt createFromParcel(Parcel source) {
+            return new ExternalReceipt(source);
+        }
+
+        @Override
+        public ExternalReceipt[] newArray(int size) {
+            return new ExternalReceipt[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.receiptId);
+        dest.writeString(this.paymentGatewayName);
+    }
+
+    public ExternalReceipt(Parcel in) {
+        super(in);
+        this.receiptId = in.readString();
+        this.paymentGatewayName = in.readString();
+    }
 }
 

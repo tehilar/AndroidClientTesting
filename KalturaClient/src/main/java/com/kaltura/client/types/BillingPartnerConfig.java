@@ -27,14 +27,14 @@
 // ===================================================================================================
 package com.kaltura.client.types;
 
-import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.enums.PartnerConfigurationType;
+import android.os.Parcel;
 import com.google.gson.JsonObject;
-
+import com.kaltura.client.Params;
+import com.kaltura.client.enums.PartnerConfigurationType;
+import com.kaltura.client.utils.GsonParser;
 
 /**
- * This class was generated using clients-generator\exec.php
+ * This class was generated using exec.php
  * against an XML schema provided by Kaltura.
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -89,5 +89,31 @@ public class BillingPartnerConfig extends PartnerConfiguration {
         return kparams;
     }
 
+
+    public static final Creator<BillingPartnerConfig> CREATOR = new Creator<BillingPartnerConfig>() {
+        @Override
+        public BillingPartnerConfig createFromParcel(Parcel source) {
+            return new BillingPartnerConfig(source);
+        }
+
+        @Override
+        public BillingPartnerConfig[] newArray(int size) {
+            return new BillingPartnerConfig[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.value);
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+    }
+
+    public BillingPartnerConfig(Parcel in) {
+        super(in);
+        this.value = in.readString();
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : PartnerConfigurationType.values()[tmpType];
+    }
 }
 
