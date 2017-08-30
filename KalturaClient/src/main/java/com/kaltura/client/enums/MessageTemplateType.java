@@ -34,41 +34,41 @@ package com.kaltura.client.enums;
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
 public enum MessageTemplateType implements EnumAsInt {
-    SERIES(0),
-    REMINDER(1),
-    CHURN(2),
-    SERIESREMINDER(3),
-    INTERESTVOD(4),
-    INTERESTEPG(5);
+	SERIES(0),
+	REMINDER(1),
+	CHURN(2),
+	SERIESREMINDER(3),
+	INTERESTVOD(4),
+	INTERESTEPG(5);
 
-    private int value;
+	private int value;
 
-    MessageTemplateType(int value) {
-        this.value = value;
-    }
+	MessageTemplateType(int value) {
+		this.value = value;
+	}
 
-    @Override
-    public int getValue() {
-        return this.value;
-    }
+	@Override
+	public int getValue() {
+		return this.value;
+	}
 
-    public void setValue(int value) {
-        this.value = value;
-    }
+	public void setValue(int value) {
+		this.value = value;
+	}
 
-    public static MessageTemplateType get(Integer value) {
-        if(value == null)
-        {
-        	return null;
-        }
-        
-        // goes over MessageTemplateType defined values and compare the inner value with the given one:
-        for(MessageTemplateType item: values()) {
-            if(item.getValue() == value) {
-                return item;
-            }
-        }
-        // in case the requested value was not found in the enum values, we return the first item as default.
-        return MessageTemplateType.values().length > 0 ? MessageTemplateType.values()[0]: null;
+	public static MessageTemplateType get(Integer value) {
+		if(value == null)
+		{
+			return null;
+		}
+		
+		// goes over MessageTemplateType defined values and compare the inner value with the given one:
+		for(MessageTemplateType item: values()) {
+			if(item.getValue() == value) {
+				return item;
+			}
+		}
+		// in case the requested value was not found in the enum values, we return the first item as default.
+		return MessageTemplateType.values().length > 0 ? MessageTemplateType.values()[0]: null;
    }
 }

@@ -30,7 +30,7 @@ package com.kaltura.client.types;
 import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -41,23 +41,27 @@ import com.kaltura.client.utils.GsonParser;
 
 /**  Houshold premium service  */
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(HouseholdPremiumService.Tokenizer.class)
 public class HouseholdPremiumService extends PremiumService {
+	
+	public interface Tokenizer extends PremiumService.Tokenizer {
+	}
 
 
 
-    public HouseholdPremiumService() {
-       super();
-    }
+	public HouseholdPremiumService() {
+		super();
+	}
 
-    public HouseholdPremiumService(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
-    }
+	public HouseholdPremiumService(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaHouseholdPremiumService");
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaHouseholdPremiumService");
+		return kparams;
+	}
 
 
     public static final Creator<HouseholdPremiumService> CREATOR = new Creator<HouseholdPremiumService>() {

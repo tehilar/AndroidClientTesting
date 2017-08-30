@@ -34,37 +34,37 @@ package com.kaltura.client.enums;
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
 public enum QuotaOveragePolicy implements EnumAsString {
-    STOPATQUOTA("StopAtQuota"),
-    FIFOAUTODELETE("FIFOAutoDelete");
+	STOPATQUOTA("StopAtQuota"),
+	FIFOAUTODELETE("FIFOAutoDelete");
 
-    private String value;
+	private String value;
 
-    QuotaOveragePolicy(String value) {
-        this.value = value;
-    }
+	QuotaOveragePolicy(String value) {
+		this.value = value;
+	}
 
-    @Override
-    public String getValue() {
-        return this.value;
-    }
+	@Override
+	public String getValue() {
+		return this.value;
+	}
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    public static QuotaOveragePolicy get(String value) {
-        if(value == null)
-        {
-        	return null;
-        }
-        
-        // goes over QuotaOveragePolicy defined values and compare the inner value with the given one:
-        for(QuotaOveragePolicy item: values()) {
-            if(item.getValue().equals(value)) {
-                return item;
-            }
-        }
-        // in case the requested value was not found in the enum values, we return the first item as default.
-        return QuotaOveragePolicy.values().length > 0 ? QuotaOveragePolicy.values()[0]: null;
+	public static QuotaOveragePolicy get(String value) {
+		if(value == null)
+		{
+			return null;
+		}
+		
+		// goes over QuotaOveragePolicy defined values and compare the inner value with the given one:
+		for(QuotaOveragePolicy item: values()) {
+			if(item.getValue().equals(value)) {
+				return item;
+			}
+		}
+		// in case the requested value was not found in the enum values, we return the first item as default.
+		return QuotaOveragePolicy.values().length > 0 ? QuotaOveragePolicy.values()[0]: null;
    }
 }

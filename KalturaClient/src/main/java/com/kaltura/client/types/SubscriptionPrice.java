@@ -30,7 +30,7 @@ package com.kaltura.client.types;
 import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -41,23 +41,27 @@ import com.kaltura.client.utils.GsonParser;
 
 /**  Subscription price details  */
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(SubscriptionPrice.Tokenizer.class)
 public class SubscriptionPrice extends ProductPrice {
+	
+	public interface Tokenizer extends ProductPrice.Tokenizer {
+	}
 
 
 
-    public SubscriptionPrice() {
-       super();
-    }
+	public SubscriptionPrice() {
+		super();
+	}
 
-    public SubscriptionPrice(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
-    }
+	public SubscriptionPrice(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaSubscriptionPrice");
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaSubscriptionPrice");
+		return kparams;
+	}
 
 
     public static final Creator<SubscriptionPrice> CREATOR = new Creator<SubscriptionPrice>() {

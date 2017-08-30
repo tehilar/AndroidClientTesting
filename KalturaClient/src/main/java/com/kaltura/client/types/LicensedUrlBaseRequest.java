@@ -32,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.types.ObjectBase;
 import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -41,40 +42,49 @@ import com.kaltura.client.utils.GsonParser;
  */
 
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(LicensedUrlBaseRequest.Tokenizer.class)
 public class LicensedUrlBaseRequest extends ObjectBase {
+	
+	public interface Tokenizer extends ObjectBase.Tokenizer {
+		String assetId();
+	}
 
 	/**  Asset identifier  */
-    private String assetId;
+	private String assetId;
 
-    // assetId:
-    public String getAssetId(){
-        return this.assetId;
-    }
-    public void setAssetId(String assetId){
-        this.assetId = assetId;
-    }
+	// assetId:
+	public String getAssetId(){
+		return this.assetId;
+	}
+	public void setAssetId(String assetId){
+		this.assetId = assetId;
+	}
+
+	public void assetId(String multirequestToken){
+		setToken("assetId", multirequestToken);
+	}
 
 
-    public LicensedUrlBaseRequest() {
-       super();
-    }
+	public LicensedUrlBaseRequest() {
+		super();
+	}
 
-    public LicensedUrlBaseRequest(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
+	public LicensedUrlBaseRequest(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
 
-        if(jsonObject == null) return;
+		if(jsonObject == null) return;
 
-        // set members values:
-        assetId = GsonParser.parseString(jsonObject.get("assetId"));
+		// set members values:
+		assetId = GsonParser.parseString(jsonObject.get("assetId"));
 
-    }
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaLicensedUrlBaseRequest");
-        kparams.add("assetId", this.assetId);
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaLicensedUrlBaseRequest");
+		kparams.add("assetId", this.assetId);
+		return kparams;
+	}
 
 
     public static final Creator<LicensedUrlBaseRequest> CREATOR = new Creator<LicensedUrlBaseRequest>() {

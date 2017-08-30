@@ -1,11 +1,14 @@
 package com.kaltura.client.utils;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import com.kaltura.client.enums.AppTokenHashType;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by tehilarozin on 21/08/2016.
@@ -14,13 +17,17 @@ public class EncryptionUtils {
 
     public static final int BLOCK_SIZE = 16;
 
-    public static byte[] encryptSHA1(String str) throws Exception {
-        return encryptSHA1(str.getBytes());
+    public static byte[] encryptSHA(String shaType, String str) throws Exception {
+        return encryptSHA(shaType, str.getBytes());
     }
 
-    public static byte[] encryptSHA1(byte[] data) throws Exception {
+    public static byte[] encryptSHA1(String str) throws Exception {
+        return encryptSHA("SHA1", str.getBytes());
+    }
+
+    public static byte[] encryptSHA(String shaType, byte[] data) throws Exception {
         try {
-            MessageDigest algorithm = MessageDigest.getInstance("SHA1");
+            MessageDigest algorithm = MessageDigest.getInstance(shaType);
             algorithm.reset();
             algorithm.update(data);
             byte infoSignature[] = algorithm.digest();
@@ -104,5 +111,9 @@ public class EncryptionUtils {
         }
 
         return sb.toString();
+    }
+
+    public static byte[] encryptSHA1(byte[] bytes) throws Exception{
+        return encryptSHA("SHA1", bytes);
     }
 }

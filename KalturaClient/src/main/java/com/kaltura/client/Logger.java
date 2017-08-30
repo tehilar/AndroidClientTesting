@@ -27,16 +27,38 @@
 // ===================================================================================================
 package com.kaltura.client;
 
-import com.kaltura.client.LoggerAndroid;
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 abstract public class Logger implements ILogger
 {
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({})
+	@interface LogLevel{
+		int All = 0;
+		int Verbose = 1;
+		int Debug = 2;
+		int Info = 3;
+		int Warning = 4;
+		int Error = 5;
+		int Assert = 6;
+		int Fatal = 7;
+	}
+
+	protected @LogLevel int logLevel = LogLevel.All;
+
 	// Creation & retrieval methods:
 	public static Logger getLogger(String name)
 	{
 		return LoggerAndroid.getLogger(name);
 	}
-	
+
+	public void logLevel(int logLevel) {
+		this.logLevel = logLevel;
+	}
+
 	public static Logger getLogger(Class<?> clazz)
 	{
 		return getLogger(clazz.getName());

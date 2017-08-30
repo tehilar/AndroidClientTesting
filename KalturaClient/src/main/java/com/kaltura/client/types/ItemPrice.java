@@ -31,6 +31,8 @@ import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
+import com.kaltura.client.utils.request.RequestBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,52 +45,62 @@ import java.util.List;
 
 /**  PPV price details  */
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(ItemPrice.Tokenizer.class)
 public class ItemPrice extends ProductPrice {
+	
+	public interface Tokenizer extends ProductPrice.Tokenizer {
+		String fileId();
+		RequestBuilder.ListTokenizer<PPVItemPriceDetails.Tokenizer> ppvPriceDetails();
+	}
 
 	/**  Media file identifier  */
-    private Integer fileId;
+	private Integer fileId;
 	/**  PPV price details  */
-    private List<PPVItemPriceDetails> ppvPriceDetails;
+	private List<PPVItemPriceDetails> ppvPriceDetails;
 
-    // fileId:
-    public Integer getFileId(){
-        return this.fileId;
-    }
-    public void setFileId(Integer fileId){
-        this.fileId = fileId;
-    }
+	// fileId:
+	public Integer getFileId(){
+		return this.fileId;
+	}
+	public void setFileId(Integer fileId){
+		this.fileId = fileId;
+	}
 
-    // ppvPriceDetails:
-    public List<PPVItemPriceDetails> getPpvPriceDetails(){
-        return this.ppvPriceDetails;
-    }
-    public void setPpvPriceDetails(List<PPVItemPriceDetails> ppvPriceDetails){
-        this.ppvPriceDetails = ppvPriceDetails;
-    }
+	public void fileId(String multirequestToken){
+		setToken("fileId", multirequestToken);
+	}
+
+	// ppvPriceDetails:
+	public List<PPVItemPriceDetails> getPpvPriceDetails(){
+		return this.ppvPriceDetails;
+	}
+	public void setPpvPriceDetails(List<PPVItemPriceDetails> ppvPriceDetails){
+		this.ppvPriceDetails = ppvPriceDetails;
+	}
 
 
-    public ItemPrice() {
-       super();
-    }
+	public ItemPrice() {
+		super();
+	}
 
-    public ItemPrice(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
+	public ItemPrice(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
 
-        if(jsonObject == null) return;
+		if(jsonObject == null) return;
 
-        // set members values:
-        fileId = GsonParser.parseInt(jsonObject.get("fileId"));
-        ppvPriceDetails = GsonParser.parseArray(jsonObject.getAsJsonArray("ppvPriceDetails"), PPVItemPriceDetails.class);
+		// set members values:
+		fileId = GsonParser.parseInt(jsonObject.get("fileId"));
+		ppvPriceDetails = GsonParser.parseArray(jsonObject.getAsJsonArray("ppvPriceDetails"), PPVItemPriceDetails.class);
 
-    }
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaItemPrice");
-        kparams.add("fileId", this.fileId);
-        kparams.add("ppvPriceDetails", this.ppvPriceDetails);
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaItemPrice");
+		kparams.add("fileId", this.fileId);
+		kparams.add("ppvPriceDetails", this.ppvPriceDetails);
+		return kparams;
+	}
 
 
     public static final Creator<ItemPrice> CREATOR = new Creator<ItemPrice>() {

@@ -31,6 +31,7 @@ import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -42,41 +43,50 @@ import com.kaltura.client.utils.GsonParser;
 /**  Group by a tag or meta - according to the name that appears in the system
   (similar to KSQL)  */
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(AssetMetaOrTagGroupBy.Tokenizer.class)
 public class AssetMetaOrTagGroupBy extends AssetGroupBy {
+	
+	public interface Tokenizer extends AssetGroupBy.Tokenizer {
+		String value();
+	}
 
 	/**  Group by a tag or meta - according to the name that appears in the system
 	  (similar to KSQL)  */
-    private String value;
+	private String value;
 
-    // value:
-    public String getValue(){
-        return this.value;
-    }
-    public void setValue(String value){
-        this.value = value;
-    }
+	// value:
+	public String getValue(){
+		return this.value;
+	}
+	public void setValue(String value){
+		this.value = value;
+	}
+
+	public void value(String multirequestToken){
+		setToken("value", multirequestToken);
+	}
 
 
-    public AssetMetaOrTagGroupBy() {
-       super();
-    }
+	public AssetMetaOrTagGroupBy() {
+		super();
+	}
 
-    public AssetMetaOrTagGroupBy(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
+	public AssetMetaOrTagGroupBy(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
 
-        if(jsonObject == null) return;
+		if(jsonObject == null) return;
 
-        // set members values:
-        value = GsonParser.parseString(jsonObject.get("value"));
+		// set members values:
+		value = GsonParser.parseString(jsonObject.get("value"));
 
-    }
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaAssetMetaOrTagGroupBy");
-        kparams.add("value", this.value);
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaAssetMetaOrTagGroupBy");
+		kparams.add("value", this.value);
+		return kparams;
+	}
 
 
     public static final Creator<AssetMetaOrTagGroupBy> CREATOR = new Creator<AssetMetaOrTagGroupBy>() {

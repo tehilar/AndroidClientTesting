@@ -33,38 +33,38 @@ package com.kaltura.client.enums;
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
-public enum SessionType implements EnumAsInt {
-    USER(0),
-    ADMIN(2);
+public enum SessionType implements EnumAsString {
+	USER("USER"),
+	ADMIN("ADMIN");
 
-    private int value;
+	private String value;
 
-    SessionType(int value) {
-        this.value = value;
-    }
+	SessionType(String value) {
+		this.value = value;
+	}
 
-    @Override
-    public int getValue() {
-        return this.value;
-    }
+	@Override
+	public String getValue() {
+		return this.value;
+	}
 
-    public void setValue(int value) {
-        this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    public static SessionType get(Integer value) {
-        if(value == null)
-        {
-        	return null;
-        }
-        
-        // goes over SessionType defined values and compare the inner value with the given one:
-        for(SessionType item: values()) {
-            if(item.getValue() == value) {
-                return item;
-            }
-        }
-        // in case the requested value was not found in the enum values, we return the first item as default.
-        return SessionType.values().length > 0 ? SessionType.values()[0]: null;
+	public static SessionType get(Integer value) {
+		if(value == null)
+		{
+			return null;
+		}
+		
+		// goes over SessionType defined values and compare the inner value with the given one:
+		for(SessionType item: values()) {
+			if(item.getValue().equals(value)) {
+				return item;
+			}
+		}
+		// in case the requested value was not found in the enum values, we return the first item as default.
+		return SessionType.values().length > 0 ? SessionType.values()[0]: null;
    }
 }

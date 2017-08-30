@@ -34,37 +34,37 @@ package com.kaltura.client.enums;
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
 public enum SubscriptionSetOrderBy implements EnumAsString {
-    NAME_ASC("NAME_ASC"),
-    NAME_DESC("NAME_DESC");
+	NAME_ASC("NAME_ASC"),
+	NAME_DESC("NAME_DESC");
 
-    private String value;
+	private String value;
 
-    SubscriptionSetOrderBy(String value) {
-        this.value = value;
-    }
+	SubscriptionSetOrderBy(String value) {
+		this.value = value;
+	}
 
-    @Override
-    public String getValue() {
-        return this.value;
-    }
+	@Override
+	public String getValue() {
+		return this.value;
+	}
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    public static SubscriptionSetOrderBy get(String value) {
-        if(value == null)
-        {
-        	return null;
-        }
-        
-        // goes over SubscriptionSetOrderBy defined values and compare the inner value with the given one:
-        for(SubscriptionSetOrderBy item: values()) {
-            if(item.getValue().equals(value)) {
-                return item;
-            }
-        }
-        // in case the requested value was not found in the enum values, we return the first item as default.
-        return SubscriptionSetOrderBy.values().length > 0 ? SubscriptionSetOrderBy.values()[0]: null;
+	public static SubscriptionSetOrderBy get(String value) {
+		if(value == null)
+		{
+			return null;
+		}
+		
+		// goes over SubscriptionSetOrderBy defined values and compare the inner value with the given one:
+		for(SubscriptionSetOrderBy item: values()) {
+			if(item.getValue().equals(value)) {
+				return item;
+			}
+		}
+		// in case the requested value was not found in the enum values, we return the first item as default.
+		return SubscriptionSetOrderBy.values().length > 0 ? SubscriptionSetOrderBy.values()[0]: null;
    }
 }

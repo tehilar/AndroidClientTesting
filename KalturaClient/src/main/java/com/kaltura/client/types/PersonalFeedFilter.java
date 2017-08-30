@@ -30,7 +30,7 @@ package com.kaltura.client.types;
 import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -40,23 +40,27 @@ import com.kaltura.client.utils.GsonParser;
  */
 
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(PersonalFeedFilter.Tokenizer.class)
 public class PersonalFeedFilter extends Filter {
+	
+	public interface Tokenizer extends Filter.Tokenizer {
+	}
 
 
 
-    public PersonalFeedFilter() {
-       super();
-    }
+	public PersonalFeedFilter() {
+		super();
+	}
 
-    public PersonalFeedFilter(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
-    }
+	public PersonalFeedFilter(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaPersonalFeedFilter");
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaPersonalFeedFilter");
+		return kparams;
+	}
 
 
     public static final Creator<PersonalFeedFilter> CREATOR = new Creator<PersonalFeedFilter>() {

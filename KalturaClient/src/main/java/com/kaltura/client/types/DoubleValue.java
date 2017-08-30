@@ -31,6 +31,7 @@ import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -41,40 +42,49 @@ import com.kaltura.client.utils.GsonParser;
 
 /**  A string representation to return an array of doubles  */
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(DoubleValue.Tokenizer.class)
 public class DoubleValue extends Value {
+	
+	public interface Tokenizer extends Value.Tokenizer {
+		String value();
+	}
 
 	/**  Value  */
-    private Double value;
+	private Double value;
 
-    // value:
-    public Double getValue(){
-        return this.value;
-    }
-    public void setValue(Double value){
-        this.value = value;
-    }
+	// value:
+	public Double getValue(){
+		return this.value;
+	}
+	public void setValue(Double value){
+		this.value = value;
+	}
+
+	public void value(String multirequestToken){
+		setToken("value", multirequestToken);
+	}
 
 
-    public DoubleValue() {
-       super();
-    }
+	public DoubleValue() {
+		super();
+	}
 
-    public DoubleValue(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
+	public DoubleValue(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
 
-        if(jsonObject == null) return;
+		if(jsonObject == null) return;
 
-        // set members values:
-        value = GsonParser.parseDouble(jsonObject.get("value"));
+		// set members values:
+		value = GsonParser.parseDouble(jsonObject.get("value"));
 
-    }
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaDoubleValue");
-        kparams.add("value", this.value);
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaDoubleValue");
+		kparams.add("value", this.value);
+		return kparams;
+	}
 
 
     public static final Creator<DoubleValue> CREATOR = new Creator<DoubleValue>() {

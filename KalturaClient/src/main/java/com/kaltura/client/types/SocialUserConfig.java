@@ -31,6 +31,8 @@ import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
+import com.kaltura.client.utils.request.RequestBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,40 +44,45 @@ import java.util.List;
  */
 
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(SocialUserConfig.Tokenizer.class)
 public class SocialUserConfig extends SocialConfig {
+	
+	public interface Tokenizer extends SocialConfig.Tokenizer {
+		RequestBuilder.ListTokenizer<ActionPermissionItem.Tokenizer> actionPermissionItems();
+	}
 
 	/**  List of action permission items  */
-    private List<ActionPermissionItem> actionPermissionItems;
+	private List<ActionPermissionItem> actionPermissionItems;
 
-    // actionPermissionItems:
-    public List<ActionPermissionItem> getActionPermissionItems(){
-        return this.actionPermissionItems;
-    }
-    public void setActionPermissionItems(List<ActionPermissionItem> actionPermissionItems){
-        this.actionPermissionItems = actionPermissionItems;
-    }
+	// actionPermissionItems:
+	public List<ActionPermissionItem> getActionPermissionItems(){
+		return this.actionPermissionItems;
+	}
+	public void setActionPermissionItems(List<ActionPermissionItem> actionPermissionItems){
+		this.actionPermissionItems = actionPermissionItems;
+	}
 
 
-    public SocialUserConfig() {
-       super();
-    }
+	public SocialUserConfig() {
+		super();
+	}
 
-    public SocialUserConfig(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
+	public SocialUserConfig(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
 
-        if(jsonObject == null) return;
+		if(jsonObject == null) return;
 
-        // set members values:
-        actionPermissionItems = GsonParser.parseArray(jsonObject.getAsJsonArray("actionPermissionItems"), ActionPermissionItem.class);
+		// set members values:
+		actionPermissionItems = GsonParser.parseArray(jsonObject.getAsJsonArray("actionPermissionItems"), ActionPermissionItem.class);
 
-    }
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaSocialUserConfig");
-        kparams.add("actionPermissionItems", this.actionPermissionItems);
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaSocialUserConfig");
+		kparams.add("actionPermissionItems", this.actionPermissionItems);
+		return kparams;
+	}
 
 
     public static final Creator<SocialUserConfig> CREATOR = new Creator<SocialUserConfig>() {

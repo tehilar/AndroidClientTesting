@@ -31,6 +31,7 @@ import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -40,40 +41,49 @@ import com.kaltura.client.utils.GsonParser;
  */
 
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(AssetReminder.Tokenizer.class)
 public class AssetReminder extends Reminder {
+	
+	public interface Tokenizer extends Reminder.Tokenizer {
+		String assetId();
+	}
 
 	/**  Asset id  */
-    private Long assetId;
+	private Long assetId;
 
-    // assetId:
-    public Long getAssetId(){
-        return this.assetId;
-    }
-    public void setAssetId(Long assetId){
-        this.assetId = assetId;
-    }
+	// assetId:
+	public Long getAssetId(){
+		return this.assetId;
+	}
+	public void setAssetId(Long assetId){
+		this.assetId = assetId;
+	}
+
+	public void assetId(String multirequestToken){
+		setToken("assetId", multirequestToken);
+	}
 
 
-    public AssetReminder() {
-       super();
-    }
+	public AssetReminder() {
+		super();
+	}
 
-    public AssetReminder(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
+	public AssetReminder(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
 
-        if(jsonObject == null) return;
+		if(jsonObject == null) return;
 
-        // set members values:
-        assetId = GsonParser.parseLong(jsonObject.get("assetId"));
+		// set members values:
+		assetId = GsonParser.parseLong(jsonObject.get("assetId"));
 
-    }
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaAssetReminder");
-        kparams.add("assetId", this.assetId);
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaAssetReminder");
+		kparams.add("assetId", this.assetId);
+		return kparams;
+	}
 
 
     public static final Creator<AssetReminder> CREATOR = new Creator<AssetReminder>() {

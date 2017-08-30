@@ -204,7 +204,7 @@ public class APIOkRequestsExecutor implements RequestQueue {
     @SuppressWarnings("rawtypes")
 	private String queue(final Request request, final RequestElement action) {
 
-        logger.debug("request [" + action.getUrl() + "]:\n" + action.getBody());
+        //logger.debug("request [" + action.getUrl() + "]:\n" + action.getBody());
         
         try {
             Call call = getOkClient(action.config()).newCall(request);
@@ -336,7 +336,7 @@ public class APIOkRequestsExecutor implements RequestQueue {
                 logger.error("failed to retrieve the response body!");
             }
 
-            logger.debug("response body:\n" + responseString);
+            //logger.debug("response body:\n" + responseString);
 
             return new ExecutedRequest().requestId(requestId).response(responseString).code(response.code()).success(responseString != null);
         }

@@ -31,7 +31,7 @@ import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
 import com.kaltura.client.types.ObjectBase;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -42,23 +42,27 @@ import com.kaltura.client.utils.GsonParser;
 
 /**  Partner  base configuration  */
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(PartnerConfiguration.Tokenizer.class)
 public abstract class PartnerConfiguration extends ObjectBase {
+	
+	public interface Tokenizer extends ObjectBase.Tokenizer {
+	}
 
 
 
-    public PartnerConfiguration() {
-       super();
-    }
+	public PartnerConfiguration() {
+		super();
+	}
 
-    public PartnerConfiguration(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
-    }
+	public PartnerConfiguration(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaPartnerConfiguration");
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaPartnerConfiguration");
+		return kparams;
+	}
 
 
     public PartnerConfiguration(Parcel in) {

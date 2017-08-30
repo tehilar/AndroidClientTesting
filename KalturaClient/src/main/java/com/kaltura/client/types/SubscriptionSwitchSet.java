@@ -30,7 +30,7 @@ package com.kaltura.client.types;
 import android.os.Parcel;
 import com.google.gson.JsonObject;
 import com.kaltura.client.Params;
-import com.kaltura.client.utils.GsonParser;
+import com.kaltura.client.utils.request.MultiRequestBuilder;
 
 /**
  * This class was generated using exec.php
@@ -41,23 +41,27 @@ import com.kaltura.client.utils.GsonParser;
 
 /**  Subscription details  */
 @SuppressWarnings("serial")
+@MultiRequestBuilder.Tokenizer(SubscriptionSwitchSet.Tokenizer.class)
 public class SubscriptionSwitchSet extends SubscriptionSet {
+	
+	public interface Tokenizer extends SubscriptionSet.Tokenizer {
+	}
 
 
 
-    public SubscriptionSwitchSet() {
-       super();
-    }
+	public SubscriptionSwitchSet() {
+		super();
+	}
 
-    public SubscriptionSwitchSet(JsonObject jsonObject) throws APIException {
-        super(jsonObject);
-    }
+	public SubscriptionSwitchSet(JsonObject jsonObject) throws APIException {
+		super(jsonObject);
+	}
 
-    public Params toParams() {
-        Params kparams = super.toParams();
-        kparams.add("objectType", "KalturaSubscriptionSwitchSet");
-        return kparams;
-    }
+	public Params toParams() {
+		Params kparams = super.toParams();
+		kparams.add("objectType", "KalturaSubscriptionSwitchSet");
+		return kparams;
+	}
 
 
     public static final Creator<SubscriptionSwitchSet> CREATOR = new Creator<SubscriptionSwitchSet>() {

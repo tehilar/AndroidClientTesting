@@ -2,6 +2,7 @@ package com.client.usingandroidclient;
 
 import com.kaltura.client.Client;
 import com.kaltura.client.Configuration;
+import com.kaltura.client.types.AppToken;
 
 /**
  * Created by tehila.rozin on 7/27/17.
@@ -12,7 +13,7 @@ public class SessionManager {
     Client client;
 
     private static SessionManager self;
-    private String refreshToken;
+    private AppToken appToken;
 
     public static SessionManager get(){
         if(self == null){
@@ -29,10 +30,10 @@ public class SessionManager {
         client.setPartnerId(198);
     }
 
-    public void updateSession(String userId, String ks, String refreshToken){
+    public void updateSession(String userId, String ks, AppToken appToken){
         client.setUserId(Integer.valueOf(userId));
         client.setKs(ks);
-        this.refreshToken = refreshToken;
+        this.appToken = appToken;
     }
 
     public Client getClient() {

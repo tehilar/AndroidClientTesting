@@ -216,7 +216,7 @@ public class ClientBase implements Serializable {
 		Integer expiryInt = (int)(System.currentTimeMillis() / 1000) + expiry;
 		String expStr = expiryInt.toString();
 		fields.add(FIELD_EXPIRY,  expStr);
-		fields.add(FIELD_TYPE, Integer.toString(type.getValue()));
+		fields.add(FIELD_TYPE, type.getValue());
 		fields.add(FIELD_USER, userId);
 		
 		// build fields string
